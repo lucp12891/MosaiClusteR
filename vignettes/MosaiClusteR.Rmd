@@ -1,0 +1,427 @@
+---
+title: "MosaiClusteR: an umbrella framework for multi-source and multi-omics clustering"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{MosaiClusteR: an umbrella framework for multi-source and multi-omics clustering}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE,
+                      message = FALSE, fig.width = 7, fig.height = 4.5)
+set.seed(1)
+```
+
+# What MosaiClusteR is for
+
+Modern studies rarely describe their samples with a single table. A cohort may be
+profiled by several assays at once — transcriptomics, proteomics, metabolomics,
+methylation, microbiome — or a set of objects may be described by several
+heterogeneous data sources. **MosaiClusteR** is a framework for discovering the
+sample structure that these sources *agree* on: it takes a collection of data
+matrices measured over the **same objects** and returns an integrated clustering.
+
+The package is deliberately a **catalogue, not a single algorithm**. Multi-source
+clustering can be approached in many ways, and no one method is best across all
+data regimes, so MosaiClusteR gathers a broad set of methods behind **one
+consistent interface** and adds everything you need to *choose between them*:
+preprocessing, cluster-number selection, agreement metrics, visual comparison,
+cluster characterisation, and — for omics — pathway and gene-set interpretation.
+
+The methods are organised into five integration **paradigms**:
+
+| Paradigm | Idea | Examples in this package |
+|---|---|---|
+| **Direct** | Concatenate the sources, cluster once | `ADC`, `ADEC` |
+| **Similarity-based** | Combine per-source object similarities | `WeightedClust`, `WonM`, `SNF`, `NEMO` |
+| **Graph-based** | Partition a graph built from many clusterings | `EnsembleClustering`, `HBGF`, `ClusteringAggregation` |
+| **Voting / consensus** | Let many partitions vote on co-membership | `CEC`, `CVAA`, `ConsensusClustering`, `EvidenceAccumulation`, `LinkBasedClustering`, the ABC family |
+| **Hierarchy-based** | Merge per-source hierarchies | `HierarchicalEnsembleClustering`, `EHC` |
+| **Factor / low-rank** | Cluster a shared latent representation | `intNMF`, `spectral_clustering`, `LUCID` |
+
+```{r setup}
+library(MosaiClusteR)
+```
+
+# The data model
+
+Every method in MosaiClusteR speaks the same language.
+
+* **Input** is a `List` of numeric matrices, one per source, all measured over the
+  **same objects in the same order**. The convention is **objects in rows**,
+  features in columns (`n` objects x `m_k` features for source `k`). Sources may
+  have different numbers of features; they only need to share the objects.
+* **Output** is a small list with two standard components: `DistM` (an
+  object-by-object dissimilarity, `n x n`) and `Clust` (a fitted hierarchical
+  clustering). Some methods additionally return a `$cluster` label vector.
+* Methods that work from a precomputed dissimilarity accept `type = "dist"`;
+  otherwise `type = "data"` (the default) starts from the raw matrices.
+
+Because the interface is uniform, swapping one method for another is a one-line
+change, and the evaluation / visualisation tools work with any of them.
+
+The package ships a small toy data set — two sources over 60 shared objects with
+three planted groups — used throughout this vignette.
+
+```{r data}
+data(mosaic_toy)
+L     <- mosaic_toy$List      # a list of two matrices, objects in rows
+truth <- mosaic_toy$truth     # the known group of each object (for illustration)
+S     <- length(L)            # number of sources
+K     <- 3                    # number of groups
+vapply(L, dim, integer(2))    # 60 objects x (120, 150) features
+```
+
+You can also simulate structured multi-source data with `mosaic_sim()`:
+
+```{r sim, eval = FALSE}
+sim <- mosaic_sim(n = 90, g = 3, seed = 1)   # n objects, g groups
+str(sim$List, max.level = 1)
+```
+
+# A first end-to-end analysis
+
+A typical analysis moves through four layers: **preprocess -> baseline ->
+integrate -> evaluate**.
+
+## Layer 1 - Preprocess
+
+Make heterogeneous sources comparable and turn a source into a dissimilarity.
+
+```{r preprocess}
+Xn <- Normalization(L[[1]], method = "Quantile")   # optional per-source scaling
+D1 <- Distance(L[[1]], distmeasure = "euclidean")   # object-by-object distance
+round(as.matrix(D1)[1:4, 1:4], 2)
+```
+
+`Distance()` supports many measures — `"euclidean"`, `"manhattan"`,
+`"tanimoto"`/`"jaccard"` (for binary fingerprints), and correlation-based
+distances among them — and `Normalization()` offers quantile, standardisation and
+range scaling. Binary sources (e.g. molecular fingerprints, presence/absence)
+are handled by choosing an appropriate `distmeasure`.
+
+## Layer 2 - Single-source baselines
+
+Cluster each source on its own to see what it recovers in isolation. Weak or
+*disagreeing* baselines are exactly what motivates integration.
+
+```{r baseline}
+b1 <- Cluster(L[[1]], distmeasure = "euclidean", normalize = FALSE, nrclusters = 3)
+b2 <- Cluster(L[[2]], distmeasure = "euclidean", normalize = FALSE, nrclusters = 3)
+c(source1 = cluster_agreement(mosaic_labels(b1, 3), truth)[["ARI"]],
+  source2 = cluster_agreement(mosaic_labels(b2, 3), truth)[["ARI"]])
+```
+
+## Layer 3 - Integrate, and Layer 4 - Evaluate
+
+The whole point of the uniform interface is that you can run *many* integration
+methods with almost identical calls and score them the same way. Here we run one
+method from each paradigm and compare how well each recovers the planted groups
+with the Adjusted Rand Index (`cluster_agreement()` also returns NMI, Jaccard and
+purity). `mosaic_labels(fit, k)` cuts any fitted result into `k` clusters.
+
+```{r integrate}
+DM <- rep("euclidean", S); NM <- rep(FALSE, S); ME <- rep(list(NULL), S)
+
+methods <- list(
+  "ADC (direct)"           = function() mosaic_labels(
+      ADC(L, distmeasure = "euclidean", normalize = FALSE), K),
+  "WeightedClust (simil.)" = function() mosaic_labels(
+      WeightedClust(L, type = "data", distmeasure = DM, normalize = NM,
+                    method = ME, weight = seq(1, 0, -0.25)), K),
+  "WonM (similarity)"      = function() mosaic_labels(
+      WonM(L, type = "data", distmeasure = DM, normalize = NM, method = ME,
+           nrclusters = rep(list(2:6), S), linkage = rep("ward", S)), K),
+  "SNF (graph fusion)"     = function() mosaic_labels(
+      SNF(L, type = "data", distmeasure = DM, normalize = NM, method = ME,
+          NN = 20, T = 20), K),
+  "NEMO (neighbourhood)"   = function() NEMO(L, k = K, NN = 20)$cluster,
+  "CEC (consensus)"        = function() mosaic_labels(
+      CEC(L, distmeasure = DM, normalize = NM, method = ME,
+          r = vapply(L, ncol, 1L) %/% 2L, nrclusters = as.list(rep(K, S)),
+          linkage = rep("ward", S)), K),
+  "intNMF (factor)"        = function() intNMF(L, k = K, nstart = 4)$cluster,
+  "Data nuggets"           = function() nugget_cluster(
+      do.call(cbind, L), k = K, max_nuggets = 40)$cluster,
+  "ABC (voting)"           = function() mosaic_labels(
+      M_ABCpp(L, numsim = 60, NC = K), K)
+)
+
+ari <- vapply(methods, function(f)
+  tryCatch(round(cluster_agreement(f(), truth)[["ARI"]], 2),
+           error = function(e) NA_real_), numeric(1))
+sort(ari, decreasing = TRUE)
+```
+
+On this toy set most methods recover the planted structure; on real data they
+diverge, which is why running several and comparing them is the recommended
+workflow rather than trusting a single algorithm.
+
+# The method catalogue
+
+This section describes each integration method, grouped by paradigm. All take the
+same `List` input; the calls below are complete and ready to adapt.
+
+## Direct integration
+
+The sources are combined into one representation and clustered once.
+
+* **`ADC`** — Aggregated Data Clustering: concatenate the sources (after optional
+  per-source normalisation), form a single distance and one hierarchy.
+* **`ADEC`** — Aggregated Data Ensemble Clustering: repeatedly subsample /
+  reduce the concatenated data and aggregate the resulting partitions.
+
+```{r direct, eval = FALSE}
+ADC(L, distmeasure = "euclidean", normalize = FALSE)
+ADEC(L, distmeasure = DM, normalize = NM, method = ME, nrclusters = 3, t = 10)
+```
+
+## Similarity-based integration
+
+Each source contributes an object-by-object similarity; the similarities are
+combined before clustering.
+
+* **`WeightedClust`** — convex (weighted) combination of per-source distances
+  over a grid of weights; good when you want to control each source's influence.
+* **`WonM`** — Weighting on Membership: consensus co-membership accumulated over
+  many cut heights, so no single `k` has to be fixed up front.
+* **`SNF`** — Similarity Network Fusion: iteratively cross-diffuses per-source
+  similarity networks into a single fused network (needs `SNFtool`).
+* **`NEMO`** — NEighborhood based Multi-Omics clustering: averages neighbourhood
+  affinities across sources and tolerates partially missing samples.
+
+```{r simil, eval = FALSE}
+WeightedClust(L, type = "data", distmeasure = DM, normalize = NM, method = ME,
+              weight = seq(1, 0, -0.25))
+WonM(L, type = "data", distmeasure = DM, normalize = NM, method = ME,
+     nrclusters = rep(list(2:6), S), linkage = rep("ward", S))
+SNF(L, type = "data", distmeasure = DM, normalize = NM, method = ME, NN = 20, T = 20)
+NEMO(L, k = K, NN = 20)$cluster
+```
+
+## Graph-based integration
+
+Many base clusterings are encoded as a graph (of objects and/or clusters) that is
+then partitioned.
+
+* **`EnsembleClustering`** — CSPA / HGPA / MCLA hyper-graph consensus.
+* **`HBGF`** — Hybrid Bipartite Graph Formulation over objects and clusters.
+* **`ClusteringAggregation`** — aggregate many partitions by a distance between
+  clusterings.
+
+```{r graph, eval = FALSE}
+HBGF(L, type = "data", distmeasure = DM, normalize = NM, method = ME, nrclusters = 3)
+ClusteringAggregation(L, type = "data", distmeasure = DM, normalize = NM,
+                      method = ME, nrclusters = 3)
+# EnsembleClustering() / EHC() call an external graph-partitioning executable
+# (e.g. METIS); install it and pass its path via 'executable' to use them.
+```
+
+## Voting / consensus integration
+
+Many partitions "vote" on whether each pair of objects belongs together; a
+consensus co-membership is then clustered.
+
+* **`CEC`** — (Consensus) Ensemble Clustering by incidence accumulation across
+  sources and cut points; weight-aware.
+* **`CVAA`** — Cumulative Voting Adjusted Aggregation, aligning partitions to a
+  reference before merging.
+* **`ConsensusClustering`** — iterative (probabilistic) voting consensus.
+* **`EvidenceAccumulation`** — co-association matrix across partitions.
+* **`LinkBasedClustering`** — refines the co-association with link-based
+  similarity (CTS / SRS / ASRS).
+* **The ABC family** — `M_ABCpp`, `M_ABCdist` and the deep-learning variant
+  `M_ABCdeep` build a consensus by repeatedly bootstrapping objects and feature
+  bundles per source; `M_ABCdist.WC` fuses per-source distances with an
+  optimally weighted combination.
+
+```{r voting, eval = FALSE}
+CEC(L, distmeasure = DM, normalize = NM, method = ME,
+    r = vapply(L, ncol, 1L) %/% 2L, nrclusters = as.list(rep(K, S)),
+    linkage = rep("ward", S))
+ConsensusClustering(L, type = "data", distmeasure = DM, normalize = NM,
+                    method = ME, nrclusters = 3)
+EvidenceAccumulation(L, type = "data", distmeasure = DM, normalize = NM,
+                     method = ME, nrclusters = 3)
+LinkBasedClustering(L, type = "data", distmeasure = DM, normalize = NM,
+                    method = ME, nrclusters = 3, linkBasedMethod = "SRS")
+M_ABCpp(L, numsim = 200, NC = 3)                 # co-clustering consensus
+M_ABCdist(L, numsim = 200, NC = 3)               # distance-accumulating variant
+M_ABCdeep(L, numsim = 200, NC = 3, ae_epochs = 60)   # autoencoder embedding
+```
+
+## Hierarchy-based integration
+
+Per-source hierarchies are merged into a single dendrogram.
+
+* **`HierarchicalEnsembleClustering`** — combine per-source hierarchical
+  clusterings into a consensus hierarchy.
+* **`EHC`** — Ensemble Hierarchical Clustering (uses an external partitioner).
+
+```{r hier, eval = FALSE}
+HierarchicalEnsembleClustering(L, type = "data", distmeasure = DM,
+                               normalize = NM, method = ME)
+```
+
+## Factor, low-rank and spectral methods
+
+Cluster a shared latent representation of the sources.
+
+* **`intNMF`** — integrative non-negative matrix factorisation: a shared basis
+  plus per-source coefficients; cluster the shared factors.
+* **`spectral_clustering`** — spectral clustering of an affinity matrix (build one
+  from a fused similarity, e.g. via `SimilarityMeasure()` or `SNF()`).
+* **`LUCID`** — a wrapper for latent-cluster models that *use an outcome*
+  (supervised integration); supply exposures `G`, omics `Z` and outcome `Y`.
+
+```{r factor, eval = FALSE}
+intNMF(L, k = K, nstart = 8)$cluster
+spectral_clustering(affinity = as.matrix(exp(-as.matrix(D1))), k = K)
+LUCID(G = exposures, Z = L, Y = outcome, K = 3)   # supervised; needs 'LUCIDus'
+```
+
+# Feature weighting and data nuggets
+
+Not all features are equally informative. Several methods can weight features by
+their importance, and MosaiClusteR provides a robust, big-data-friendly weighting
+based on **data nuggets** — a compression of the objects into weighted
+representatives that resists outliers and scales to large `n`.
+
+```{r nuggets}
+dn <- create_data_nuggets(L[[1]], max_nuggets = 25)   # compress objects
+dn
+w  <- nugget_feature_weights(dn, type = "between")    # feature importance
+head(sort(w, decreasing = TRUE))
+```
+
+Data nuggets can also be clustered directly, and used as the feature weighting in
+the ABC family (`weighting = "nugget"`):
+
+```{r nuggets2, eval = FALSE}
+nugget_cluster(do.call(cbind, L), k = K, max_nuggets = 40)$cluster  # cluster nuggets
+Wkmeans(dn, k = K); Whclust(dn, k = K)                              # weighted k-means / hclust
+M_ABCpp(L, numsim = 200, NC = 3, weighting = c("nugget", "nugget")) # nugget-weighted
+```
+
+# Choosing the number of clusters
+
+`SelectnrClusters()` scores a range of `k` (silhouette / gap-style criteria) so
+you do not have to guess. `ChooseCluster()` helps pick a cut of a fitted tree.
+
+```{r selectk}
+sel <- SelectnrClusters(L, type = "data", distmeasure = DM, normalize = NM,
+                        method = ME, nrclusters = 2:6)
+sel$Optimal_Nr_of_CLusters
+```
+
+# Evaluating and comparing clusterings
+
+| Function | Purpose |
+|---|---|
+| `cluster_agreement(a, b)` | ARI, NMI, Jaccard, purity between two labellings |
+| `compare_clusterings(D1, D2, NC)` | agreement between two integrated results |
+| `mosaic_labels(fit, k)` | cut any fitted result into `k` labels |
+| `CompareSilCluster`, `CompareSvsM` | silhouette-based comparison of solutions |
+| `DetermineWeight_SilClust`, `DetermineWeight_SimClust` | data-driven source weights |
+
+```{r evaluate}
+fit_a <- ADC(L, distmeasure = "euclidean", normalize = FALSE)
+fit_b <- SNF(L, type = "data", distmeasure = DM, normalize = NM, method = ME)
+compare_clusterings(fit_a$DistM, fit_b$DistM, NC = 3)$ARI
+cluster_agreement(mosaic_labels(fit_b, 3), truth)
+```
+
+# Visualising results
+
+MosaiClusteR includes a plotting suite for inspecting and comparing solutions.
+A fitted result carries a hierarchy you can draw directly:
+
+```{r dendro, fig.height = 4}
+fit <- SNF(L, type = "data", distmeasure = DM, normalize = NM, method = ME)
+hc  <- stats::as.hclust(fit$Clust)
+plot(hc, labels = FALSE, main = "SNF consensus", xlab = "", sub = "")
+stats::rect.hclust(hc, k = 3, border = 2:4)
+```
+
+Other visualisations (all take fitted results or label vectors):
+
+| Function | Shows |
+|---|---|
+| `ComparePlot` | several solutions aligned side-by-side (needs `circlize`, `plotrix`) |
+| `ClusterPlot`, `Cyclogram` | a single solution as a coloured tree / cyclogram |
+| `SimilarityHeatmap`, `HeatmapPlot` | object-by-object similarity / feature heatmaps |
+| `ProfilePlot`, `ContFeaturesPlot`, `BinFeaturesPlot_*` | per-cluster feature profiles |
+| `BoxPlotDistance` | within- vs between-cluster distances |
+| `ColorPalette`, `ColorsNames`, `ClusterCols`, `LabelCols` | consistent colour helpers |
+
+```{r viz, eval = FALSE}
+ComparePlot(list("ADC" = fit_a, "SNF" = fit_b), nrclusters = 3)
+SimilarityHeatmap(fit_b$DistM)
+ProfilePlot(L[[1]], mosaic_labels(fit_b, 3))
+```
+
+# Characterising and tracking clusters
+
+Once you have clusters, describe *why* they differ and follow them across
+solutions.
+
+| Function | Purpose |
+|---|---|
+| `CharacteristicFeatures`, `FeatSelection` | features that define each cluster |
+| `FeaturesOfCluster` | the driving features of one cluster |
+| `FindCluster`, `FindElement` | locate a cluster / object in a result |
+| `TrackCluster` | follow a cluster across several solutions |
+| `ReorderToReference` | align labels of one solution to a reference (Gale-Shapley) |
+| `SharedComps`, `SimilarityMeasure` | shared members / similarity between solutions |
+
+```{r charac, eval = FALSE}
+CharacteristicFeatures(L, mosaic_labels(fit_b, 3))
+ReorderToReference(reference = truth, tocompare = mosaic_labels(fit_a, 3))
+```
+
+# Biological interpretation (omics)
+
+For omics data, MosaiClusteR connects clusters to genes and pathways. These
+functions rely on Bioconductor packages (`limma`, `MLP`, `biomaRt`,
+`org.Hs.eg.db`, ...), declared under *Suggests*; install them to enable this
+layer. All examples here are illustrative.
+
+| Function | Purpose |
+|---|---|
+| `DiffGenes`, `DiffGenesSelection`, `FindGenes` | differential features per cluster |
+| `PathwayAnalysis`, `Pathways`, `PathwaysIter`, `PathwaysSelection` | pathway enrichment per cluster |
+| `PreparePathway`, `PlotPathways` | prepare / visualise pathway results |
+| `Geneset.intersect`, `SharedGenesPathsFeat`, `SharedSelection*` | shared genes / pathways across solutions |
+
+```{r bio, eval = FALSE}
+dg <- DiffGenes(L, mosaic_labels(fit_b, 3), geneexpr = L[[1]])
+pa <- PathwayAnalysis(L, mosaic_labels(fit_b, 3), geneexpr = L[[1]])
+PlotPathways(pa)
+```
+
+# Putting it together
+
+A complete, reproducible analysis is short because every step shares the
+interface:
+
+```{r together, eval = FALSE}
+L    <- my_sources                                   # list of matrices, objects in rows
+k    <- SelectnrClusters(L, type = "data", distmeasure = rep("euclidean", length(L)),
+                         normalize = rep(FALSE, length(L)),
+                         method = rep(list(NULL), length(L)),
+                         nrclusters = 2:8)$Optimal_Nr_of_CLusters
+fit  <- SNF(L, type = "data", distmeasure = rep("euclidean", length(L)),
+            normalize = rep(FALSE, length(L)), method = rep(list(NULL), length(L)))
+lab  <- mosaic_labels(fit, k)
+CharacteristicFeatures(L, lab)                        # what defines the clusters
+```
+
+Swap `SNF` for any other method above to compare paradigms on your own data.
+
+```{r session, echo = FALSE}
+sessionInfo()
+```
