@@ -47,7 +47,7 @@ Multi‑omics and other multi‑source studies measure the *same objects* (patie
 
 ```r
 # install.packages("remotes")
-remotes::install_github("bosangir/MosaiClusteR")
+remotes::install_github("lucp12891/MosaiClusteR")
 ```
 
 MosaiClusteR ships C++ kernels for the M‑ABC family, so a C/C++ toolchain is
@@ -318,7 +318,7 @@ in the companion manuscript.
             Amaratunga, Dhammika and Shkedy, Ziv},
   year   = {2026},
   note   = {R package version 0.1.0},
-  url    = {https://github.com/bosangir/MosaiClusteR}
+  url    = {https://github.com/lucp12891/MosaiClusteR}
 }
 ```
 
