@@ -3,7 +3,7 @@ Type: Package
 Title: An Umbrella Framework for Multi-Source and Multi-Omics Clustering
 Version: 0.1.0
 Authors@R: c(
-    person("Bernard Isekah", "Osang'ir", email = "b.osangir@gmail.com",
+    person("Bernard Isekah", "Osang'ir", email = "bernard.osangir@sckcen.be",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5557-3602")),
     person("Marijke", "Van Moerbeke", role = "aut"),
     person("Ziv", "Shkedy", role = "ctb"),
@@ -74,7 +74,7 @@ RdMacros: Rdpack
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://github.com/bosangir/MosaiClusteR
-BugReports: https://github.com/bosangir/MosaiClusteR/issues
+URL: https://github.com/lucp12891/MosaiClusteR
+BugReports: https://github.com/lucp12891/MosaiClusteR/issues
 NeedsCompilation: yes
 RoxygenNote: 7.3.2

@@ -144,66 +144,67 @@ and every layer speaks the same `List → {DistM, Clust}` language.
 
 ## Method catalogue
 
-> **Legend** —  ✅ implemented & tested in this package · † requires an external
-> graph‑partitioning executable (METIS) or MATLAB, not bundled · 🔭 interoperable
-> with / on the roadmap via a reference package. All implemented methods share the
-> `List → {DistM, Clust}` contract and take the same objects‑in‑rows input.
+> **Legend** — a named function is implemented in this package · † requires an
+> external graph‑partitioning executable (METIS) or MATLAB, not bundled · "—"
+> marks methods interoperable with, or on the roadmap via, a reference package.
+> All methods share the `List → {DistM, Clust}` contract and take the same
+> objects‑in‑rows input.
 
 ### 1 · Direct clustering — *combine first, then cluster*
 
 | Method | Function | What it does | When it’s useful | Ref |
 |---|---|---|---|---|
-| **ADC** — Aggregated Data Clustering | `ADC` ✅ | Concatenate all tiles `[D₁│…│Dₗ]`, one distance, one hierarchy | Simplest baseline; when modalities are commensurate and you want a transparent reference | Fodeh 2013 |
-| **ADEC** — Aggregated Data *Ensemble* Clustering | `ADEC` ✅ | ADC + resampling of features / cut‑points → co‑clustering matrix | When ADC is unstable and you want a robustness layer | Fodeh 2013 |
+| **ADC** — Aggregated Data Clustering | `ADC` | Concatenate all tiles `[D₁│…│Dₗ]`, one distance, one hierarchy | Simplest baseline; when modalities are commensurate and you want a transparent reference | Fodeh 2013 |
+| **ADEC** — Aggregated Data *Ensemble* Clustering | `ADEC` | ADC + resampling of features / cut‑points → co‑clustering matrix | When ADC is unstable and you want a robustness layer | Fodeh 2013 |
 
 ### 2 · Similarity‑based — *fuse object‑by‑object similarity*
 
 | Method | Function | What it does | When it’s useful | Ref |
 |---|---|---|---|---|
-| **Weighted Clustering** | `WeightedClust` ✅ | Convex combination `Σ wₖ Dₖ` over a weight grid | When you want to *tune and inspect* the trade‑off between sources | Perualila‑Tan 2016 |
-| **SNF** — Similarity Network Fusion | `SNF` ✅ | Cross‑diffuse per‑source similarity networks to one fused network | Noisy, complementary, genomic‑scale sources; the multi‑omics workhorse | Wang 2014 |
-| **WonM** — Weighting on Membership | `WonM` ✅ | Consensus co‑membership across many cut‑points *k* | When you don’t want to commit to a single *k* | — |
-| **NEMO** — Neighborhood‑based Multi‑Omics | `NEMO` ✅ | Locally‑scaled kNN affinities averaged over the omics measuring each pair → spectral clustering | When samples are **missing some modalities** (no imputation needed) | Rappoport 2019 |
-| **Spectral clustering** | `spectral_clustering` ✅ | Normalised‑Laplacian embedding + k‑means on any affinity | Final clusterer for fused/similarity matrices (SNF, NEMO, Spectrum) | Ng 2002 |
-| **ab‑SNF** | 🔭 | SNF with association/variance feature weights | When a few features carry the signal and should drive the network | Zhang 2022 |
-| **CIMLR / rMKL‑LPP** | 🔭 | Multi‑kernel similarity learning | Many heterogeneous kernels; learn their weights | Zhang 2022 |
+| **Weighted Clustering** | `WeightedClust` | Convex combination `Σ wₖ Dₖ` over a weight grid | When you want to *tune and inspect* the trade‑off between sources | Perualila‑Tan 2016 |
+| **SNF** — Similarity Network Fusion | `SNF` | Cross‑diffuse per‑source similarity networks to one fused network | Noisy, complementary, genomic‑scale sources; the multi‑omics workhorse | Wang 2014 |
+| **WonM** — Weighting on Membership | `WonM` | Consensus co‑membership across many cut‑points *k* | When you don’t want to commit to a single *k* | — |
+| **NEMO** — Neighborhood‑based Multi‑Omics | `NEMO` | Locally‑scaled kNN affinities averaged over the omics measuring each pair → spectral clustering | When samples are **missing some modalities** (no imputation needed) | Rappoport 2019 |
+| **Spectral clustering** | `spectral_clustering` | Normalised‑Laplacian embedding + k‑means on any affinity | Final clusterer for fused/similarity matrices (SNF, NEMO, Spectrum) | Ng 2002 |
+| **ab‑SNF** | — | SNF with association/variance feature weights | When a few features carry the signal and should drive the network | Zhang 2022 |
+| **CIMLR / rMKL‑LPP** | — | Multi‑kernel similarity learning | Many heterogeneous kernels; learn their weights | Zhang 2022 |
 
 ### 3 · Graph‑based — *partition an ensemble (hyper)graph*
 
 | Method | Function | What it does | When it’s useful | Ref |
 |---|---|---|---|---|
-| **CSPA / HGPA / MCLA** | `EnsembleClustering` ✅† | Cluster‑ensemble via (hyper)graph partitioning | Combining many base partitions into one robust consensus | Strehl 2002 |
-| **HBGF** — Hybrid Bipartite Graph Formulation | `HBGF` ✅ | Partition an object↔cluster bipartite graph (SVD + k‑means) | Ensembles where objects and clusters co‑embed naturally | Fern 2004 |
-| **Clustering Aggregation** (Balls/Agglo/Furthest) | `ClusteringAggregation` ✅ | Minimise pairwise disagreement cost | When you have several partitions and want the “median” one | Gionis 2007 |
+| **CSPA / HGPA / MCLA** | `EnsembleClustering` † | Cluster‑ensemble via (hyper)graph partitioning | Combining many base partitions into one robust consensus | Strehl 2002 |
+| **HBGF** — Hybrid Bipartite Graph Formulation | `HBGF` | Partition an object↔cluster bipartite graph (SVD + k‑means) | Ensembles where objects and clusters co‑embed naturally | Fern 2004 |
+| **Clustering Aggregation** (Balls/Agglo/Furthest) | `ClusteringAggregation` | Minimise pairwise disagreement cost | When you have several partitions and want the “median” one | Gionis 2007 |
 
 ### 4 · Voting‑based consensus — *let partitions vote*
 
 | Method | Function | What it does | When it’s useful | Ref |
 |---|---|---|---|---|
-| **M‑ABC** — Multi‑source Aggregating Bundles of Clusters | `M_ABCpp` ✅ | Per‑source bootstrap of *feature bundles* → consensus co‑clustering dissimilarity | High‑dimensional sources, where signal hides in feature subsets; robust by design; supports **data‑nugget weighting** | Amaratunga 2008 |
-| **M‑ABCdist** | `M_ABCdist` ✅ | M‑ABC that accumulates *distances* (keeps geometry) then fuses | When you want continuous dissimilarities rather than co‑clustering counts | Amaratunga 2008 |
-| **M‑ABCdeep** — deep‑learning ABC | `M_ABCdeep` / `ABCdeep.SingleInMultiple` ✅ | M‑ABC whose base clustering is a neural autoencoder embedding + latent clustering; self‑contained R network, no Python/torch | Nonlinear/complex per‑source structure; when a learned embedding beats a raw distance | Amaratunga 2008 |
-| **CEC** — (Consensus) Ensemble Clustering | `CEC` ✅ | Incidence accumulation across sources & cut‑points | A solid, weight‑aware consensus baseline | Fodeh 2013 |
-| **CVAA / W‑CVAA** | `CVAA` ✅ | Cumulative voting aggregation (and weighted) | Aligning and merging many partitions by voting | Saeed 2012/2014 |
-| **IVC / IPVC / IPC** | `ConsensusClustering` ✅ | Iterative (probabilistic) voting consensus | Iteratively refine a consensus labelling | Nguyen 2007 |
-| **EA** — Evidence Accumulation | `EvidenceAccumulation` ✅ | Co‑association matrix across partitions (SL / SL‑agnes / MST) | Classic, parameter‑light consensus | Fred 2005 |
-| **CTS / SRS / ASRS** | `LinkBasedClustering` ✅ | Link‑based cluster ensembles (CTS/SRS pure‑R; ASRS needs MATLAB) | When pairwise *link* similarity refines the consensus | Iam‑On 2010 |
+| **M‑ABC** — Multi‑source Aggregating Bundles of Clusters | `M_ABCpp` | Per‑source bootstrap of *feature bundles* → consensus co‑clustering dissimilarity | High‑dimensional sources, where signal hides in feature subsets; robust by design; supports **data‑nugget weighting** | Amaratunga 2008 |
+| **M‑ABCdist** | `M_ABCdist` | M‑ABC that accumulates *distances* (keeps geometry) then fuses | When you want continuous dissimilarities rather than co‑clustering counts | Amaratunga 2008 |
+| **M‑ABCdeep** — deep‑learning ABC | `M_ABCdeep` / `ABCdeep.SingleInMultiple` | M‑ABC whose base clustering is a neural autoencoder embedding + latent clustering; self‑contained R network, no Python/torch | Nonlinear/complex per‑source structure; when a learned embedding beats a raw distance | Amaratunga 2008 |
+| **CEC** — (Consensus) Ensemble Clustering | `CEC` | Incidence accumulation across sources & cut‑points | A solid, weight‑aware consensus baseline | Fodeh 2013 |
+| **CVAA / W‑CVAA** | `CVAA` | Cumulative voting aggregation (and weighted) | Aligning and merging many partitions by voting | Saeed 2012/2014 |
+| **IVC / IPVC / IPC** | `ConsensusClustering` | Iterative (probabilistic) voting consensus | Iteratively refine a consensus labelling | Nguyen 2007 |
+| **EA** — Evidence Accumulation | `EvidenceAccumulation` | Co‑association matrix across partitions (SL / SL‑agnes / MST) | Classic, parameter‑light consensus | Fred 2005 |
+| **CTS / SRS / ASRS** | `LinkBasedClustering` | Link‑based cluster ensembles (CTS/SRS pure‑R; ASRS needs MATLAB) | When pairwise *link* similarity refines the consensus | Iam‑On 2010 |
 
 ### 5 · Hierarchy‑based — *consense the trees themselves*
 
 | Method | Function | What it does | When it’s useful | Ref |
 |---|---|---|---|---|
-| **HEC** — Hierarchical Ensemble Clustering | `HierarchicalEnsembleClustering` ✅ | Aggregate cophenetic distances → closest ultrametric (Floyd–Warshall) | When the *dendrogram structure* across sources is the object of interest | Zheng 2014 |
-| **EHC** — Ensemble for Hierarchical Clustering | `EHC` ✅† | Graph aggregation of dendrogram association strengths | Graph‑flavoured hierarchical consensus | Hossain 2012 |
+| **HEC** — Hierarchical Ensemble Clustering | `HierarchicalEnsembleClustering` | Aggregate cophenetic distances → closest ultrametric (Floyd–Warshall) | When the *dendrogram structure* across sources is the object of interest | Zheng 2014 |
+| **EHC** — Ensemble for Hierarchical Clustering | `EHC` † | Graph aggregation of dendrogram association strengths | Graph‑flavoured hierarchical consensus | Hossain 2012 |
 
 ### 6 · Model‑based & factor integration
 
 | Method | Function | What it does | When it’s useful | Ref |
 |---|---|---|---|---|
-| **intNMF** — integrative NMF | `intNMF` ✅ | Shared non‑negative basis `W` + per‑omic `Hₖ`; consensus clustering of `W` | Low‑rank, parts‑based integration; non‑negative data | Chalise 2017 |
-| **LUCID** | `LUCID` ✅‡ | Latent clusters jointly from exposures, omics **and** an outcome (quasi‑mediation, EM) | Supervised subtyping where an outcome should shape the clusters | Zhao 2024 |
-| **iCluster / iClusterPlus / iClusterBayes** | 🔭 | Joint latent‑variable integration, mixed data types, feature selection | Zhang 2022 |
-| **moCluster / MOFA / JIVE** | 🔭 | Low‑rank / factor decomposition of shared + individual variation | Zhang 2022 |
+| **intNMF** — integrative NMF | `intNMF` | Shared non‑negative basis `W` + per‑omic `Hₖ`; consensus clustering of `W` | Low‑rank, parts‑based integration; non‑negative data | Chalise 2017 |
+| **LUCID** | `LUCID` ‡ | Latent clusters jointly from exposures, omics **and** an outcome (quasi‑mediation, EM) | Supervised subtyping where an outcome should shape the clusters | Zhao 2024 |
+| **iCluster / iClusterPlus / iClusterBayes** | — | Joint latent‑variable integration, mixed data types, feature selection | Zhang 2022 |
+| **moCluster / MOFA / JIVE** | — | Low‑rank / factor decomposition of shared + individual variation | Zhang 2022 |
 
 ‡ `LUCID` wraps the **LUCIDus** package (a *Suggests* dependency).
 
@@ -211,8 +212,8 @@ and every layer speaks the same `List → {DistM, Clust}` language.
 
 | Tool | Function | Role |
 |---|---|---|
-| **Data nuggets** | `create_data_nuggets`, `nugget_feature_weights` ✅ | Compress N observations into M weighted representatives; derive robust **feature weights** for M‑ABC |
-| **Data‑nugget clustering** | `nugget_cluster`, `Wkmeans`, `Whclust` ✅ | Cluster the compressed representatives directly (weighted k‑means / weighted Ward), then map back to objects — Big‑Data clustering | 
+| **Data nuggets** | `create_data_nuggets`, `nugget_feature_weights` | Compress N observations into M weighted representatives; derive robust **feature weights** for M‑ABC |
+| **Data‑nugget clustering** | `nugget_cluster`, `Wkmeans`, `Whclust` | Cluster the compressed representatives directly (weighted k‑means / weighted Ward), then map back to objects — Big‑Data clustering | 
 
 ---
 
@@ -314,7 +315,8 @@ in the companion manuscript.
 @Manual{MosaiClusteR2026,
   title  = {MosaiClusteR: An Umbrella Framework for Multi-Source and
             Multi-Omics Clustering},
-  author = {Osang'ir, Bernard Isekah and Moerbeek, Van Marijke and Claesen, Jurgen and Gupta, Surya and Cabrera, Javier and
+  author = {Osang'ir, Bernard Isekah and Van Moerbeke, Marijke and
+            Claesen, Jürgen and Gupta, Surya and Cabrera, Javier and
             Amaratunga, Dhammika and Shkedy, Ziv},
   year   = {2026},
   note   = {R package version 0.1.0},

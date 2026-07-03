@@ -1,0 +1,16 @@
+bibentry(
+  bibtype = "Manual",
+  key     = "MosaiClusteR2026",
+  title   = "MosaiClusteR: An Umbrella Framework for Multi-Source and Multi-Omics Clustering",
+  author  = c(
+    person("Bernard Isekah", "Osang'ir"),
+    person("Marijke", "Van Moerbeke"),
+    person("Jürgen", "Claesen"),
+    person("Surya", "Gupta"),
+    person("Javier", "Cabrera"),
+    person("Dhammika", "Amaratunga"),
+    person("Ziv", "Shkedy")),
+  year    = "2026",
+  note    = "R package version 0.1.0",
+  url     = "https://github.com/lucp12891/MosaiClusteR"
+)
