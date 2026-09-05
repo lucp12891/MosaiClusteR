@@ -328,7 +328,8 @@ in the companion manuscript.
 
 ## References
 
-- Amaratunga, Cabrera & Shkedy (2008). *Exploration and Analysis of DNA Microarray and Other High‑Dimensional Data.* Wiley.
+- Amaratunga D, Cabrera J, Kovtun V. Microarray learning with ABC. Biostatistics. 2008 Jan 1;9(1):128-36.
+- Amaratunga, D., Cabrera, J., & Shkedy, Z. (2014). Exploration and analysis of DNA microarray and other high dimensional data. Hoboken, NJ: Wiley.
 - Cherasia, Cabrera, Fernholz & Fernholz (2023). *Data Nuggets in Supervised Learning.* In *Robust and Multivariate Statistical Methods*, Springer, 429–449.
 - Wang et al. (2014). *Similarity Network Fusion…* **Nature Methods** 11:333–337.
 - Perualila‑Tan et al. (2016). *Weighted similarity‑based clustering…*
