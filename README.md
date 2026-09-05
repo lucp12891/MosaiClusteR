@@ -46,6 +46,8 @@ Multi‑omics and other multi‑source studies measure the *same objects* (patie
 ## Installation
 
 ```r
+install.packages("MosaiClusteR") # from CRAN or
+
 # install.packages("remotes")
 remotes::install_github("lucp12891/MosaiClusteR")
 ```
