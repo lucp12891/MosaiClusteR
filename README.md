@@ -318,10 +318,10 @@ in the companion manuscript.
   title  = {MosaiClusteR: An Umbrella Framework for Multi-Source and
             Multi-Omics Clustering},
   author = {Osang'ir, Bernard Isekah and Van Moerbeke, Marijke and
-            Claesen, Jürgen and Gupta, Surya and Cabrera, Javier and
-            Amaratunga, Dhammika and Shkedy, Ziv},
+            Gupta, Surya and Cabrera, Javier and Amaratunga, Dhammika
+            and Shkedy, Ziv and Claesen, Jürgen},
   year   = {2026},
-  note   = {R package version 0.1.0},
+  note   = {R package version 0.1.1},
   url    = {https://github.com/lucp12891/MosaiClusteR}
 }
 ```
