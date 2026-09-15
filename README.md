@@ -81,8 +81,12 @@ L     <- mosaic_toy$List               # a list of matrices, objects in rows
 truth <- mosaic_toy$truth
 
 ## ---- Integrate: every method shares one interface — swap to change paradigm
-fit <- SNF(L, type = "data", distmeasure = c("euclidean", "euclidean"),
-           normalize = c(FALSE, FALSE), method = list(NULL, NULL))
+fit <- SNF(L,
+           type = "data",
+           distmeasure = c("euclidean", "euclidean"),
+           normalize = c(FALSE, FALSE),
+           method = list(NULL, NULL)
+)
 
 labels <- mosaic_labels(fit, k = 3)    # pull a flat partition from any fitted result
 cluster_agreement(labels, truth)       # ARI / NMI / Jaccard / purity vs ground truth
