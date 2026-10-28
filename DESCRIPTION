@@ -1,7 +1,7 @@
 Package: MosaiClusteR
 Type: Package
 Title: An Umbrella Framework for Multi-Source and Multi-Omics Clustering
-Version: 0.1.5
+Version: 0.1.4
 Authors@R: c(
     person("Bernard Isekah", "Osang'ir", email = "b.osangir@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5557-3602")),
@@ -14,12 +14,11 @@ Description: An umbrella framework ("MoSaIC:" Multi-Omics Similarity Aggregation
     consistent list-of-matrices interface. It spans five integration
     paradigms - direct, similarity-based, graph-based, voting-based consensus,
     and hierarchy-based - and bundles a complete downstream workflow for
-    method comparison and evaluation. The package features the multi-source
-    the ability to compare many algorithms on the same footing, a data-nugget
-    based feature-weighting scheme as a robust, big-data-friendly alternative to
-    variance weighting, and a downstream suite for cluster characterisation,
-    visualisation and biological interpretation.
-License: CC BY-SA 4.0
+    method comparison and evaluation. It supports comparing many algorithms on
+    the same footing, a data-nugget based feature-weighting scheme as an
+    alternative to variance weighting, and a downstream suite for cluster
+    characterisation, visualisation and biological interpretation.
+License: GPL-3
 Encoding: UTF-8
 LazyData: false
 Depends: R (>= 4.0)

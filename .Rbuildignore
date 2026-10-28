@@ -2,7 +2,9 @@
 ^\.Rproj\.user$
 ^data-raw$
 ^\.git$
+^\.github$
 ^\.gitignore$
+^\.gitattributes$
 ^LICENSE\.md$
 ^manuscript$
 ^references$

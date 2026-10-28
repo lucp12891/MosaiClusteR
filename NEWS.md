@@ -1,56 +1,62 @@
-# MosaiClusteR 0.1.5
+# MosaiClusteR 0.1.4
 
-* The example dataset `mosaic_toy` is bundled in `data/` and used by the
-  examples and tests, so `R CMD check` (and the r-universe builds) no longer
-  fail with "object 'mosaic_toy' not found".
+Third public release. It consolidates the development carried out after 0.1.1,
+which had not previously been published.
 
-* **`CharacteristicFeatures()` bug fix.** When called with `binData` (the common
-  case, as in the documented example) an inner loop index overwrote the cluster
-  index, so only the first cluster's characteristic features were returned, and
-  a `datanames` mis-index left the per-source result list unnamed. Both are
-  fixed: features are now computed and named for every cluster.
-* **`plot_pathways(style = "circular")`.** New radial (sunburst-style) bar plot
-  that groups the enriched terms by cluster around a central hub. Bar length
-  encodes \eqn{-\log_{10}} p and colour encodes the cluster; each term is a
-  single-line radial label that stays legible as the number of terms grows.
-  Complements the existing `"dotplot"` and `"lollipop"` styles.
-* **`enriched_features()`** - new helper that turns [CharacteristicFeatures()]
-  output into a per-cluster list of compact `term`/`pvalue`/`Count` tables
-  (keeping the significant, enriched features and tidying their names), ready to
-  hand straight to `plot_pathways()`.
-* `plot_pathways(style = "circular")` gained `cluster_cols` to supply an explicit
-  per-cluster palette (e.g. to match the colours used by `Cyclogram()`), and
-  `wrap` to control radial label wrapping.
-* `FeaturesOfCluster()` and `BinFeaturesPlot_SingleData()` gained `cexB`, `cexR`
-  and `cexN` arguments to control the object, feature and name label sizes;
-  `Cyclogram()` now defaults to a larger `cex.labels`.
-
-# MosaiClusteR 0.1.2
-
-* `Distance(distmeasure = "euclidean")` now computes a **true Euclidean**
-  distance (via `stats::dist`). Previously it routed to `FD::gowdis` (Gower),
-  which returned `NaN` when a feature was constant across the selected objects,
-  producing NA distance matrices. Gower is still available via
-  `distmeasure = "gower"`.
-* `ComparePlot()` (and `Cyclogram()`) now build a default colour palette when
-  `cols` is not supplied. Previously the default `cols = NULL` caused an error
-  ("number of items to replace is not a multiple of replacement length") from
-  `ColorsNames()`, so a palette had to be passed explicitly.
-* `ComparePlot()` now checks up front that all results describe the **same
-  objects** and raises a clear message otherwise, instead of a cryptic
-  "missing value where TRUE/FALSE needed" error. (Results from different data
-  sets / sample sizes cannot be compared.)
-
-# MosaiClusteR 0.1.1
+## Breaking change
 
 * **`M_ABCpp()` renamed to `M_ABC()`.** The multi-source Aggregating Bundles of
   Clusters function is now `M_ABC()`; its arguments, behaviour and return value
   are unchanged. Update any calls from `M_ABCpp(...)` to `M_ABC(...)`.
-* Metadata and documentation: the "MoSaIC" name now expands to *Multi-Omics
-  Similarity Aggregation and Integrative Clustering in R*, the package licence is
-  **CC BY-SA 4.0**, and the four-layer framework overview in the README is now a
-  scalable SVG figure (`man/figures/framework.svg`) that reads on both light and
-  dark backgrounds.
+
+## New features
+
+* The example dataset `mosaic_toy` is bundled in `data/` and used by the
+  examples and tests, so `R CMD check` (and the r-universe builds) no longer
+  fail with "object 'mosaic_toy' not found".
+* **`plot_pathways(style = "circular")`.** A radial (sunburst-style) bar plot
+  that groups the enriched terms by cluster around a central hub. Bar length
+  encodes \eqn{-\log_{10}} p and colour encodes the cluster; each term is a
+  single-line radial label that stays legible as the number of terms grows.
+  Complements the existing `"dotplot"` and `"lollipop"` styles. It also gained
+  `cluster_cols` (an explicit per-cluster palette, e.g. to match `Cyclogram()`)
+  and `wrap` (radial label wrapping).
+* **`enriched_features()`.** A helper that turns `CharacteristicFeatures()`
+  output into a per-cluster list of compact `term`/`pvalue`/`Count` tables,
+  ready to hand straight to `plot_pathways()`.
+* `FeaturesOfCluster()` and `BinFeaturesPlot_SingleData()` gained `cexB`, `cexR`
+  and `cexN` arguments for the object, feature and name label sizes; `Cyclogram()`
+  now defaults to a larger `cex.labels`.
+
+## Bug fixes
+
+* **`CharacteristicFeatures()`.** When called with `binData` (the common case,
+  as in the documented example) an inner loop index overwrote the cluster index,
+  so only the first cluster's characteristic features were returned, and a
+  `datanames` mis-index left the per-source result list unnamed. Both are fixed:
+  features are now computed and named for every cluster.
+* **`Distance(distmeasure = "euclidean")`** now computes a true Euclidean
+  distance (via `stats::dist`). Previously it routed to `FD::gowdis` (Gower),
+  which returned `NaN` when a feature was constant across the selected objects,
+  producing NA distance matrices. Gower is still available via
+  `distmeasure = "gower"`.
+* **`ComparePlot()`** (and `Cyclogram()`) now build a default colour palette when
+  `cols` is not supplied, and check up front that all results describe the same
+  objects, raising a clear message otherwise.
+
+## Metadata
+
+* The licence is **GPL-3**, consistent with 0.1.0 and 0.1.1. An interim local
+  change to CC BY-SA 4.0 is reverted, since CC licences are intended for content
+  rather than software.
+* "MoSaIC" expands to *Multi-Omics Similarity Aggregation and Integrative
+  Clustering in R*, and the README framework overview is a scalable SVG figure
+  (`man/figures/framework.svg`) that reads on both light and dark backgrounds.
+
+# MosaiClusteR 0.1.1
+
+* Documentation and installation updates to the README, and a package version
+  bump from 0.1.0.
 
 # MosaiClusteR 0.1.0
 

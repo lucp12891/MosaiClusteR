@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.rda binary
+*.RData binary
+*.png binary
+*.svg text eol=lf
