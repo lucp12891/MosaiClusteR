@@ -1,3 +1,32 @@
+# MosaiClusteR 1.0.0 (development)
+
+Work toward the first stable release, on branch `dev-1.0.0`. This section
+collects changes since 0.1.4.
+
+## Correctness fixes
+
+* `Cluster()` now forwards the normalisation method to `Distance()`. Previously
+  the `method` argument was documented and accepted but silently ignored, and
+  `normalize = TRUE` did not select a method. `normalize` now accepts either a
+  logical (`FALSE` for none) or a normalisation method name, and `method` sets
+  the method when `normalize = TRUE`.
+* Documentation examples now use the objects-in-rows orientation consistently
+  (the `Cluster()` example no longer transposes the bundled `mosaic_toy` data).
+
+## Documentation and examples
+
+* The vignette preprocessing example now computes distances from the normalised
+  data, rather than normalising and then discarding the result.
+* The vignette method-comparison example reports each method's name, success or
+  failure status, runtime and a useful error message, instead of returning a
+  bare `NA` on failure.
+* `SelectnrClusters()` returns one recommendation per criterion; the vignette now
+  reduces these to a single validated integer before using it as a cluster count,
+  rather than passing the whole table.
+* The five integration paradigms are stated consistently. Factor/low-rank and
+  spectral methods (`intNMF`, `spectral_clustering`, `LUCID`) are presented as
+  additional methods rather than a sixth paradigm.
+
 # MosaiClusteR 0.1.4
 
 Third public release. It consolidates the development carried out after 0.1.1,

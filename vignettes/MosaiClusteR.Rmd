@@ -32,7 +32,7 @@ consistent interface** and adds everything you need to *choose between them*:
 preprocessing, cluster-number selection, agreement metrics, visual comparison,
 cluster characterisation, and — for omics — pathway and gene-set interpretation.
 
-The methods are organised into five integration **paradigms**:
+The multi-source integration methods are organised into five **paradigms**:
 
 | Paradigm | Idea | Examples in this package |
 |---|---|---|
@@ -41,7 +41,11 @@ The methods are organised into five integration **paradigms**:
 | **Graph-based** | Partition a graph built from many clusterings | `EnsembleClustering`, `HBGF`, `ClusteringAggregation` |
 | **Voting / consensus** | Let many partitions vote on co-membership | `CEC`, `CVAA`, `ConsensusClustering`, `EvidenceAccumulation`, `LinkBasedClustering`, the ABC family |
 | **Hierarchy-based** | Merge per-source hierarchies | `HierarchicalEnsembleClustering`, `EHC` |
-| **Factor / low-rank** | Cluster a shared latent representation | `intNMF`, `spectral_clustering`, `LUCID` |
+
+Alongside the five integration paradigms, the package also includes methods that
+cluster a shared latent representation: `intNMF` (joint non-negative matrix
+factorisation, a multi-source method), and the related `spectral_clustering`
+(single-affinity) and `LUCID` (supervised, outcome-guided) functions.
 
 ```{r setup}
 library(MosaiClusteR)
@@ -93,8 +97,11 @@ integrate -> evaluate**.
 Make heterogeneous sources comparable and turn a source into a dissimilarity.
 
 ```{r preprocess}
-Xn <- Normalization(L[[1]], method = "Quantile")   # optional per-source scaling
-D1 <- Distance(L[[1]], distmeasure = "euclidean")   # object-by-object distance
+# Make heterogeneous sources comparable, then compute distances from the
+# normalised data. Distance() can also normalise internally via `normalize=`
+# (for distmeasure = "euclidean"), which gives the same result.
+Xn <- Normalization(L[[1]], method = "Quantile")
+D1 <- Distance(Xn, distmeasure = "euclidean")       # distances from normalised data
 round(as.matrix(D1)[1:4, 1:4], 2)
 ```
 
@@ -110,8 +117,9 @@ Cluster each source on its own to see what it recovers in isolation. Weak or
 *disagreeing* baselines are exactly what motivates integration.
 
 ```{r baseline}
-b1 <- Cluster(L[[1]], distmeasure = "euclidean", normalize = FALSE, nrclusters = 3)
-b2 <- Cluster(L[[2]], distmeasure = "euclidean", normalize = FALSE, nrclusters = 3)
+b1 <- Cluster(L[[1]], distmeasure = "euclidean", normalize = FALSE)
+b2 <- Cluster(L[[2]], distmeasure = "euclidean", normalize = FALSE)
+# the cluster count is chosen when labels are extracted, with mosaic_labels()
 c(source1 = cluster_agreement(mosaic_labels(b1, 3), truth)[["ARI"]],
   source2 = cluster_agreement(mosaic_labels(b2, 3), truth)[["ARI"]])
 ```
@@ -151,10 +159,24 @@ methods <- list(
       M_ABC(L, numsim = 60, NC = K), K)
 )
 
-ari <- vapply(methods, function(f)
-  tryCatch(round(cluster_agreement(f(), truth)[["ARI"]], 2),
-           error = function(e) NA_real_), numeric(1))
-sort(ari, decreasing = TRUE)
+# Run each method, recording success/failure, runtime and a useful message.
+run_one <- function(name, f) {
+  t0 <- proc.time()[["elapsed"]]
+  res <- tryCatch(
+    data.frame(method = name, status = "ok",
+               ARI = round(cluster_agreement(f(), truth)[["ARI"]], 2),
+               message = "", stringsAsFactors = FALSE),
+    error = function(e)
+      data.frame(method = name, status = "failed", ARI = NA_real_,
+                 message = conditionMessage(e), stringsAsFactors = FALSE))
+  res$seconds <- round(proc.time()[["elapsed"]] - t0, 2)
+  res[c("method", "status", "ARI", "seconds", "message")]
+}
+
+comparison <- do.call(rbind, Map(run_one, names(methods), methods))
+comparison <- comparison[order(-comparison$ARI, na.last = TRUE), ]
+rownames(comparison) <- NULL
+comparison
 ```
 
 On this toy set most methods recover the planted structure; on real data they
@@ -315,7 +337,13 @@ you do not have to guess. `ChooseCluster()` helps pick a cut of a fitted tree.
 ```{r selectk}
 sel <- SelectnrClusters(L, type = "data", distmeasure = DM, normalize = NM,
                         method = ME, nrclusters = 2:6)
-sel$Optimal_Nr_of_CLusters
+sel$Optimal_Nr_of_CLusters                 # one recommendation per criterion
+
+# $Optimal_Nr_of_CLusters is a one-row data frame (one column per criterion);
+# reduce it to a single integer by taking the most frequent recommendation.
+recs  <- as.integer(unlist(sel$Optimal_Nr_of_CLusters))
+k_hat <- as.integer(names(sort(table(recs), decreasing = TRUE))[1])
+k_hat
 ```
 
 # Evaluating and comparing clusterings
@@ -410,10 +438,13 @@ interface:
 
 ```{r together, eval = FALSE}
 L    <- my_sources                                   # list of matrices, objects in rows
-k    <- SelectnrClusters(L, type = "data", distmeasure = rep("euclidean", length(L)),
+sel  <- SelectnrClusters(L, type = "data", distmeasure = rep("euclidean", length(L)),
                          normalize = rep(FALSE, length(L)),
                          method = rep(list(NULL), length(L)),
-                         nrclusters = 2:8)$Optimal_Nr_of_CLusters
+                         nrclusters = 2:8)
+# reduce the per-criterion recommendations to a single integer k
+recs <- as.integer(unlist(sel$Optimal_Nr_of_CLusters))
+k    <- as.integer(names(sort(table(recs), decreasing = TRUE))[1])
 fit  <- SNF(L, type = "data", distmeasure = rep("euclidean", length(L)),
             normalize = rep(FALSE, length(L)), method = rep(list(NULL), length(L)))
 lab  <- mosaic_labels(fit, k)

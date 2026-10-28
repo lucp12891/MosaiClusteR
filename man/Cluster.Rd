@@ -26,7 +26,16 @@ Cluster(
 \item{distmeasure}{Distance measure (see \code{\link{Distance}}), used when
 \code{type = "data"}.}
 
-\item{normalize, method}{Normalisation controls passed to \code{\link{Distance}}.}
+\item{normalize}{Feature normalisation applied before the distance is
+computed. Either a logical (\code{FALSE}, the default, for none) or a
+\code{\link{Normalization}} method name, one of \code{"Quantile"},
+\code{"Fisher-Yates"}, \code{"Standardize"} or \code{"Range"}. Note that
+\code{\link{Distance}} applies feature normalisation only for
+\code{distmeasure = "euclidean"}.}
+
+\item{method}{Normalisation method used when \code{normalize = TRUE}
+(default \code{"Standardize"}). Ignored when \code{normalize} is
+\code{FALSE} or already names a method.}
 
 \item{clust}{Clustering backend; currently \code{"agnes"}.}
 
@@ -52,7 +61,8 @@ integrating. It also underpins \code{\link{HierarchicalEnsembleClustering}}.
 }
 \examples{
 data(mosaic_toy)
-base1 <- Cluster(t(mosaic_toy$List[[1]]), type = "data",
+# objects are in rows, so no transpose is needed
+base1 <- Cluster(mosaic_toy$List[[1]], type = "data",
                  distmeasure = "euclidean")
 mosaic_labels(base1, k = 3)[1:6]
 }

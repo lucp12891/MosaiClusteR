@@ -14,7 +14,15 @@
 #'   \code{Data} is already a dissimilarity matrix.
 #' @param distmeasure Distance measure (see \code{\link{Distance}}), used when
 #'   \code{type = "data"}.
-#' @param normalize,method Normalisation controls passed to \code{\link{Distance}}.
+#' @param normalize Feature normalisation applied before the distance is
+#'   computed. Either a logical (\code{FALSE}, the default, for none) or a
+#'   \code{\link{Normalization}} method name, one of \code{"Quantile"},
+#'   \code{"Fisher-Yates"}, \code{"Standardize"} or \code{"Range"}. Note that
+#'   \code{\link{Distance}} applies feature normalisation only for
+#'   \code{distmeasure = "euclidean"}.
+#' @param method Normalisation method used when \code{normalize = TRUE}
+#'   (default \code{"Standardize"}). Ignored when \code{normalize} is
+#'   \code{FALSE} or already names a method.
 #' @param clust Clustering backend; currently \code{"agnes"}.
 #' @param linkage Agglomeration method. Default \code{"ward"}.
 #' @param alpha Flexible-linkage parameter for \code{cluster::agnes}.
@@ -27,7 +35,8 @@
 #' @seealso \code{\link{Distance}}, \code{\link{M_ABC}}
 #' @examples
 #' data(mosaic_toy)
-#' base1 <- Cluster(t(mosaic_toy$List[[1]]), type = "data",
+#' # objects are in rows, so no transpose is needed
+#' base1 <- Cluster(mosaic_toy$List[[1]], type = "data",
 #'                  distmeasure = "euclidean")
 #' mosaic_labels(base1, k = 3)[1:6]
 #' @export
@@ -36,10 +45,22 @@ Cluster <- function(Data, type = c("data", "dist"),
                     clust = "agnes", linkage = "ward", alpha = 0.625,
                     StopRange = TRUE, ...) {
   type <- match.arg(type)
-  norm <- if (isFALSE(normalize) || is.null(normalize)) NULL else normalize
+
+  # Resolve the feature-normalisation method to forward to Distance().
+  # `normalize` may be FALSE/NULL (none) or a Normalization() method name.
+  # For backward compatibility, normalize = TRUE selects `method`
+  # (defaulting to "Standardize").
+  norm_method <- NULL
+  if (!isFALSE(normalize) && !is.null(normalize)) {
+    norm_method <- if (isTRUE(normalize)) {
+      if (is.null(method)) "Standardize" else method
+    } else {
+      normalize
+    }
+  }
 
   DistM <- if (type == "data")
-    as.matrix(Distance(Data, distmeasure = distmeasure, normalize = norm))
+    as.matrix(Distance(Data, distmeasure = distmeasure, normalize = norm_method))
   else
     as.matrix(Data)
 
