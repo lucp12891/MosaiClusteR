@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" width="800" height="560" role="img"
+     aria-label="The MoSaIC framework: a four-layer pipeline. Layer 1 preprocessing, layer 2 single-source baselines, layer 3 integration engine across five paradigms, layer 4 evaluation and interpretation.">
+  <style>
+    .card  { fill: #f7f9fc; stroke: #dfe3e8; stroke-width: 1.2; }
+    .title { font: 700 14.5px 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif; fill: #1f2733; }
+    .desc  { font: 12px 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif; fill: #47515e; }
+    .fn    { font: 12px 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; }
+    .metric{ font: 10.5px 'Segoe UI', system-ui, sans-serif; fill: #7b8794; }
+    .role  { font: 700 11px 'Segoe UI', system-ui, sans-serif; letter-spacing: .6px; fill: #64748b; }
+    .edge  { stroke: #9aa5b1; stroke-width: 1.6; fill: none; }
+    .elabel{ font: italic 11px 'Segoe UI', system-ui, sans-serif; fill: #6b7684; }
+    @media (prefers-color-scheme: dark) {
+      .role  { fill: #94a3b8; }
+      .edge  { stroke: #6b7684; }
+      .elabel{ fill: #9aa5b1; }
+    }
+  </style>
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#9aa5b1"/>
+    </marker>
+  </defs>
+
+  <!-- LAYER 1 -->
+  <text class="role" x="100" y="71" text-anchor="end">prepare</text>
+  <rect class="card" x="112" y="18" width="676" height="98" rx="9"/>
+  <rect x="113.5" y="20" width="4" height="94" rx="2" fill="#0ea5a4"/>
+  <text class="title" x="132" y="46">LAYER 1 · PREPROCESSING</text>
+  <text class="desc"  x="132" y="70">Make heterogeneous, differently-scaled modalities comparable</text>
+  <text class="fn"    x="132" y="94" fill="#0e857f">Normalization()   ·   Distance()</text>
+
+  <path class="edge" d="M450 116 L450 148" marker-end="url(#arw)"/>
+  <text class="elabel" x="460" y="137">List of matrices · shared objects</text>
+
+  <!-- LAYER 2 -->
+  <text class="role" x="100" y="203" text-anchor="end">explore</text>
+  <rect class="card" x="112" y="150" width="676" height="98" rx="9"/>
+  <rect x="113.5" y="152" width="4" height="94" rx="2" fill="#d97706"/>
+  <text class="title" x="132" y="178">LAYER 2 · SINGLE-SOURCE BASELINES</text>
+  <text class="desc"  x="132" y="202">Cluster each modality alone — what does each recover on its own?</text>
+  <text class="fn"    x="132" y="226" fill="#b45f06">Cluster()   ·   agreements vs. modality-specific structure</text>
+
+  <path class="edge" d="M450 248 L450 280" marker-end="url(#arw)"/>
+
+  <!-- LAYER 3 -->
+  <text class="role" x="100" y="343" text-anchor="end">integrate</text>
+  <rect class="card" x="112" y="282" width="676" height="112" rx="9"/>
+  <rect x="113.5" y="284" width="4" height="108" rx="2" fill="#4f46e5"/>
+  <text class="title" x="132" y="310">LAYER 3 · INTEGRATION ENGINE  ·  five paradigms</text>
+  <text class="desc"  x="132" y="334">Direct · Similarity · Graph · Voting-consensus · Hierarchy</text>
+  <text class="fn"    x="132" y="360" fill="#4338ca">M_ABC · M_ABCdist · WeightedClust · SNF · CEC · HEC · …</text>
+
+  <path class="edge" d="M450 394 L450 426" marker-end="url(#arw)"/>
+  <text class="elabel" x="460" y="415">{ DistM, Clust }</text>
+
+  <!-- LAYER 4 -->
+  <text class="role" x="100" y="484" text-anchor="end">conclude</text>
+  <rect class="card" x="112" y="428" width="676" height="112" rx="9"/>
+  <rect x="113.5" y="430" width="4" height="108" rx="2" fill="#16a34a"/>
+  <text class="title" x="132" y="456">LAYER 4 · EVALUATION &amp; INTERPRETATION</text>
+  <text class="desc"  x="132" y="480">Label, score and compare methods; reach a cross-method consensus</text>
+  <text class="fn"    x="132" y="504" fill="#15803d">mosaic_labels() · cluster_agreement() · compare_clusterings()</text>
+  <text class="metric" x="132" y="524">ARI · NMI · Jaccard · purity</text>
+</svg>

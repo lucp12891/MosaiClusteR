@@ -1,0 +1,113 @@
+/* MosaiClusteR site theme: warm, earthy palette with a gradient hero. */
+
+:root {
+  --mc-green: #2F4A3A;
+  --mc-green-mid: #356B52;
+  --mc-teal: #2E7E8C;
+  --mc-blue: #276DC3;
+  --mc-amber: #D39A4E;
+  --mc-cream: #F4EDDE;
+  --mc-ink: #15293D;
+}
+
+/* ---- Gradient navbar ----------------------------------------------------- */
+.navbar {
+  background: linear-gradient(90deg, var(--mc-green) 0%, var(--mc-teal) 58%, var(--mc-blue) 100%) !important;
+  border: 0 !important;
+  box-shadow: 0 2px 10px rgba(21, 41, 61, 0.18);
+}
+.navbar .navbar-brand,
+.navbar .nav-link,
+.navbar .navbar-brand:hover,
+.navbar-light .navbar-nav .nav-link {
+  color: #F4EDDE !important;
+}
+.navbar .nav-link {
+  border-radius: 8px;
+  margin: 0 1px;
+  padding: 0.4rem 0.75rem !important;
+  transition: background 0.15s ease;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.navbar .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+.navbar .navbar-brand img { background: #F4EDDE; border-radius: 10px; padding: 2px; }
+
+/* Hide pkgdown's auto-injected home-page logo (the hero carries its own). */
+.template-home img.logo,
+.template-home .page-header img.logo { display: none; }
+
+/* ---- Hero ---------------------------------------------------------------- */
+.mc-hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: linear-gradient(135deg, var(--mc-green) 0%, var(--mc-teal) 55%, var(--mc-blue) 100%);
+  color: #F4EDDE;
+  border-radius: 20px;
+  padding: 2.4rem 2.2rem;
+  margin: 0.5rem 0 2.2rem;
+  box-shadow: 0 10px 30px rgba(21, 41, 61, 0.25);
+}
+.mc-hero-logo { width: 160px; height: auto; flex: 0 0 auto; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25)); }
+.mc-hero-text h1 { color: #fff; font-weight: 800; font-size: 2.6rem; margin: 0 0 0.4rem; letter-spacing: 0.5px; }
+.mc-hero-text p { color: #EAF2EC; font-size: 1.12rem; line-height: 1.5; margin: 0 0 1.1rem; max-width: 40rem; }
+
+.mc-cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0 !important; }
+.mc-btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none !important;
+  border: 1.5px solid rgba(244, 237, 222, 0.75);
+  color: #F4EDDE !important;
+  transition: all 0.15s ease;
+}
+.mc-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-1px); }
+.mc-btn-primary { background: var(--mc-amber); border-color: var(--mc-amber); color: #2b1c05 !important; }
+.mc-btn-primary:hover { background: #e3ac62; }
+
+/* ---- Feature cards ------------------------------------------------------- */
+.mc-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0 2rem;
+}
+.mc-card {
+  border: 1px solid #e7e1d2;
+  border-top: 4px solid var(--mc-teal);
+  border-radius: 14px;
+  padding: 1.15rem 1.2rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(21,41,61,0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.mc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(21,41,61,0.12); }
+.mc-card:nth-child(1) { border-top-color: var(--mc-blue); }
+.mc-card:nth-child(2) { border-top-color: var(--mc-teal); }
+.mc-card:nth-child(3) { border-top-color: var(--mc-amber); }
+.mc-card:nth-child(4) { border-top-color: var(--mc-green-mid); }
+.mc-card:nth-child(5) { border-top-color: var(--mc-blue); }
+.mc-card:nth-child(6) { border-top-color: var(--mc-amber); }
+.mc-card h3 { color: var(--mc-green); font-size: 1.08rem; font-weight: 700; margin: 0 0 0.4rem; }
+.mc-card p { color: #4a4a46; font-size: 0.93rem; margin: 0; }
+.mc-card code { background: #f2efe6; color: var(--mc-green); padding: 0.05rem 0.3rem; border-radius: 4px; }
+
+/* ---- Framework figure ---------------------------------------------------- */
+.mc-figure { text-align: center; margin: 1.5rem 0 1rem; }
+.mc-figure img { max-width: 100%; width: 720px; }
+
+/* ---- Headings and links -------------------------------------------------- */
+.contents h2, .template-home h2 { color: var(--mc-green); font-weight: 700; }
+main a { color: var(--mc-green-mid); }
+main a:hover { color: var(--mc-teal); }
+
+@media (max-width: 620px) {
+  .mc-hero { flex-direction: column; text-align: center; padding: 1.8rem 1.2rem; }
+  .mc-cta { justify-content: center; }
+  .mc-hero-text h1 { font-size: 2.1rem; }
+}

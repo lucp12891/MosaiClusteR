@@ -194,13 +194,13 @@ rownames(comparison) <- NULL
 comparison
 #>                   method status  ARI seconds message
 #> 1           ADC (direct)     ok 1.00    0.01        
-#> 2 WeightedClust (simil.)     ok 1.00    0.07        
-#> 3     SNF (graph fusion)     ok 1.00    0.05        
-#> 4   NEMO (neighbourhood)     ok 1.00    0.03        
-#> 5        CEC (consensus)     ok 1.00    0.05        
-#> 6        intNMF (factor)     ok 1.00    0.08        
+#> 2 WeightedClust (simil.)     ok 1.00    0.02        
+#> 3     SNF (graph fusion)     ok 1.00    0.07        
+#> 4   NEMO (neighbourhood)     ok 1.00    0.01        
+#> 5        CEC (consensus)     ok 1.00    0.06        
+#> 6        intNMF (factor)     ok 1.00    0.10        
 #> 7           Data nuggets     ok 1.00    0.03        
-#> 8           ABC (voting)     ok 1.00    0.07        
+#> 8           ABC (voting)     ok 1.00    0.08        
 #> 9      WonM (similarity)     ok 0.95    0.01
 ```
 
