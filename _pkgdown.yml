@@ -1,0 +1,177 @@
+url: https://lucp12891.github.io/MosaiClusteR
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#1F4E5F"      # deep teal
+    base_font: {google: "Source Sans 3"}
+    heading_font: {google: "Source Sans 3"}
+    code_font: {google: "JetBrains Mono"}
+
+home:
+  title: MosaiClusteR
+  description: >
+    An umbrella framework for multi-source and multi-omics clustering in R.
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github]
+
+reference:
+
+- title: Preprocessing
+  desc: Make heterogeneous sources comparable and turn a source into a dissimilarity.
+  contents:
+  - Normalization
+  - Distance
+  - SimilarityMeasure
+  - Cluster
+
+- title: Integration — Direct
+  desc: Concatenate the sources and cluster once.
+  contents:
+  - ADC
+  - ADEC
+
+- title: Integration — Similarity-based
+  desc: Combine per-source object similarities.
+  contents:
+  - WeightedClust
+  - WonM
+  - SNF
+  - NEMO
+
+- title: Integration — Graph-based
+  desc: Partition a graph built from many clusterings.
+  contents:
+  - EnsembleClustering
+  - HBGF
+  - ClusteringAggregation
+
+- title: Integration — Voting / consensus
+  desc: Let many partitions vote on co-membership, including the ABC family.
+  contents:
+  - CEC
+  - CVAA
+  - ConsensusClustering
+  - EvidenceAccumulation
+  - LinkBasedClustering
+  - M_ABC
+  - M_ABCdist
+  - M_ABCdist.WC
+  - M_ABCdeep
+  - ABCpp.SingleInMultiple
+  - ABCdist.SingleInMultiple
+  - ABCdeep.SingleInMultiple
+  - f.clustABC.MultiSource
+
+- title: Integration — Hierarchy-based
+  desc: Merge per-source hierarchies.
+  contents:
+  - HierarchicalEnsembleClustering
+  - EHC
+
+- title: Additional methods (factor / low-rank / spectral)
+  desc: Cluster a shared latent representation, or an outcome-guided model.
+  contents:
+  - intNMF
+  - spectral_clustering
+  - LUCID
+
+- title: Feature weighting and data nuggets
+  desc: Weight features by importance; compress objects into weighted representatives.
+  contents:
+  - create_data_nuggets
+  - nugget_feature_weights
+  - nugget_cluster
+  - Wkmeans
+  - Whclust
+  - DetermineWeight_SilClust
+  - DetermineWeight_SimClust
+  - simulate_weighting_regime
+
+- title: Choosing the number of clusters
+  contents:
+  - SelectnrClusters
+  - ChooseCluster
+  - cluster_selection_plot
+  - cluster_k_sweep
+
+- title: Label extraction and evaluation
+  desc: Cut a result into clusters and score agreement, with or without ground truth.
+  contents:
+  - mosaic_labels
+  - cluster_agreement
+  - compare_clusterings
+  - clustering_concordance
+  - compare_methods_plot
+  - CompareSilCluster
+  - CompareSvsM
+
+- title: Visualisation
+  contents:
+  - ComparePlot
+  - Cyclogram
+  - ClusterPlot
+  - HeatmapPlot
+  - HeatmapSelection
+  - SimilarityHeatmap
+  - BoxPlotDistance
+  - ProfilePlot
+  - embedding_plot
+  - plot_cluster_profile
+  - CompareInteractive
+  - ColorPalette
+  - ColorsNames
+  - ClusterCols
+  - LabelCols
+  - LabelPlot
+
+- title: Cluster characterisation
+  desc: Describe what defines each cluster, from external variables to features.
+  contents:
+  - characterize_clusters
+  - cluster_biology_panel
+  - CharacteristicFeatures
+  - FeatSelection
+  - FeaturesOfCluster
+  - BinFeaturesPlot_SingleData
+  - BinFeaturesPlot_MultipleData
+  - ContFeaturesPlot
+  - TrackCluster
+
+- title: Biological interpretation and pathways
+  desc: Turn clusters into differential genes and enriched gene sets (needs Bioconductor).
+  contents:
+  - DiffGenes
+  - DiffGenesSelection
+  - FindGenes
+  - PathwayAnalysis
+  - Pathways
+  - PathwaysIter
+  - PathwaysSelection
+  - PreparePathway
+  - PlotPathways
+  - plot_pathways
+  - enriched_features
+  - Geneset.intersect
+  - Geneset.intersectSelection
+  - SharedGenesPathsFeat
+  - SharedComps
+  - SharedSelection
+  - SharedSelectionLimma
+  - SharedSelectionMLP
+
+- title: Simulation and data
+  contents:
+  - mosaic_sim
+  - mosaic_toy
+
+- title: Utilities
+  contents:
+  - ReorderToReference
+  - FindCluster
+  - FindElement
+  - Distance_v2
+  - distanceheatmaps
