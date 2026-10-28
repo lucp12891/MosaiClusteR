@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 160" width="420" height="160" role="img" aria-label="Two similarity networks exchange edges and fuse into one.">
+  <g stroke="#2E7E8C" stroke-width="3">
+    <line x1="70" y1="40" x2="120" y2="70"/><line x1="70" y1="110" x2="120" y2="70"/><line x1="70" y1="40" x2="70" y2="110"/>
+  </g>
+  <g stroke="#D39A4E" stroke-width="3">
+    <line x1="350" y1="40" x2="300" y2="70"/><line x1="350" y1="110" x2="300" y2="70"/><line x1="350" y1="40" x2="350" y2="110"/>
+  </g>
+  <g stroke="#15293D" stroke-width="3" stroke-dasharray="4 4">
+    <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.25;0.55;0.85;1" dur="5s" repeatCount="indefinite"/>
+    <line x1="120" y1="70" x2="300" y2="70"/><line x1="70" y1="40" x2="350" y2="40"/><line x1="70" y1="110" x2="350" y2="110"/>
+  </g>
+  <g fill="#2E7E8C"><circle cx="70" cy="40" r="9"/><circle cx="70" cy="110" r="9"/><circle cx="120" cy="70" r="9"/></g>
+  <g fill="#D39A4E"><circle cx="350" cy="40" r="9"/><circle cx="350" cy="110" r="9"/><circle cx="300" cy="70" r="9"/></g>
+</svg>

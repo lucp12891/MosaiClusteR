@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 170" width="420" height="170" role="img" aria-label="Three partitions of the same objects vote, and a consensus partition emerges.">
+  <g font-family="sans-serif" font-size="12" fill="#15293D"><text x="20" y="34">vote 1</text><text x="20" y="70">vote 2</text><text x="20" y="106">vote 3</text><text x="14" y="150">consensus</text></g>
+  <g>
+    <rect x="90" y="22" width="40" height="18" rx="4" fill="#2E7E8C"/><rect x="134" y="22" width="40" height="18" rx="4" fill="#2E7E8C"/><rect x="178" y="22" width="40" height="18" rx="4" fill="#D39A4E"/><rect x="222" y="22" width="80" height="18" rx="4" fill="#D39A4E"/>
+    <rect x="90" y="58" width="84" height="18" rx="4" fill="#2E7E8C"/><rect x="178" y="58" width="40" height="18" rx="4" fill="#D39A4E"/><rect x="222" y="58" width="80" height="18" rx="4" fill="#D39A4E"/>
+    <rect x="90" y="94" width="40" height="18" rx="4" fill="#2E7E8C"/><rect x="134" y="94" width="84" height="18" rx="4" fill="#2E7E8C"/><rect x="222" y="94" width="80" height="18" rx="4" fill="#D39A4E"/>
+  </g>
+  <g>
+    <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.55;0.75;1" dur="5s" repeatCount="indefinite"/>
+    <rect x="90" y="138" width="128" height="20" rx="4" fill="#2E7E8C"/><rect x="222" y="138" width="80" height="20" rx="4" fill="#D39A4E"/>
+  </g>
+</svg>
