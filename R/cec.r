@@ -49,12 +49,9 @@ CEC<-function(List,distmeasure=c("tanimoto","tanimoto"),normalize=c(FALSE,FALSE)
     stop("Specify r and/or nrclusters in order to perform an ADEC method.")
   }
   
-  #Put all data in the same order
-  OrderNames=rownames(List[[1]])
-  for(i in 1:length(List)){
-    List[[i]]=List[[i]][OrderNames,]
-  }
-  
+  #Put all data in the same order (align by object identifier; see ADC())
+  List <- .align_sources(List, "the data sources")
+
   #Put up Incidence matrix for each data modality
   nc=c()
   Incidence=list()

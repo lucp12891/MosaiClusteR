@@ -41,3 +41,21 @@ test_that("ADC is invariant to row order of a source and handles unnamed input",
   expect_silent(ADC(list(mk(named = FALSE), mk(named = FALSE, seed = 2)),
                     distmeasure = "euclidean", normalize = FALSE))
 })
+
+test_that("M_ABC is invariant to the row order of a source", {
+  a <- mk(30); b <- mk(30, seed = 2)
+  br <- b[sample(nrow(b)), ]                      # reorder before the call
+  l1 <- mosaic_labels(M_ABC(list(a, b),  numsim = 40, NC = 3, seed = 1), 3)
+  l2 <- mosaic_labels(M_ABC(list(a, br), numsim = 40, NC = 3, seed = 1), 3)
+  expect_equal(cluster_agreement(l1, l2)[["ARI"]], 1)
+})
+
+test_that("CEC accepts unnamed sources (positional) instead of failing", {
+  a <- mk(20, named = FALSE); b <- mk(20, named = FALSE, seed = 2)
+  S <- 2
+  expect_no_error(suppressMessages(
+    CEC(list(a, b), distmeasure = rep("euclidean", S),
+        normalize = rep(FALSE, S), method = rep(list(NULL), S),
+        r = rep(2L, S), nrclusters = as.list(rep(3, S)),
+        linkage = rep("ward", S))))
+})

@@ -28,6 +28,12 @@ collects changes since 0.1.4.
 * `M_ABC()` and `ADEC()` gained a `seed` argument for reproducible results,
   consistent with `M_ABCdeep()` and `intNMF()`. Their documentation states that
   they are stochastic and that `seed` (or `set.seed()`) fixes the result.
+* `M_ABC()` now aligns its sources by object identifier before building the
+  consensus, so a source with reordered rows no longer changes the result; it
+  also evaluates its `List` argument before seeding so an argument that uses the
+  RNG cannot offset the internal random stream. `CEC()` uses the same alignment
+  and now accepts sources without row names (combined positionally) instead of
+  failing with "need at least two non-NA values to interpolate".
 
 ## Documentation and examples
 

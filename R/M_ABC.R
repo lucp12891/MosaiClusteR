@@ -166,7 +166,12 @@ M_ABC <- function(List,
                     nugget_args   = list(),
                     seed          = NULL) {
 
-  if (!is.null(seed)) set.seed(seed)
+  force(List)                         # evaluate List before seeding, so an RNG-using
+  if (!is.null(seed)) set.seed(seed)  # argument cannot offset the internal RNG stream
+
+  # align the sources by object identifier so per-source results are combined
+  # over the same objects (reordered rows would otherwise misalign the consensus)
+  List <- .align_sources(List)
 
   K <- length(List)
 
