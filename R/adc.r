@@ -31,13 +31,12 @@ ADC<-function(List,distmeasure="tanimoto",normalize=FALSE,method=NULL,clust="agn
 		stop("Data must be of type list")
 	}
 
+	# Validate and align the sources (objects in rows): reordered rows are
+	# aligned, and absent/missing/duplicated object identifiers are handled
+	# with clear messages instead of a cryptic downstream failure.
+	List <- .align_sources(List, "the data sources")
 
 	#Fuse variables into 1 data Matrix
-
-	OrderNames=rownames(List[[1]])
-	for(i in 1:length(List)){
-		List[[i]]=List[[i]][OrderNames,]
-	}
 
 	AllData<-NULL
 	for (i in 1:length(List)){
@@ -119,10 +118,8 @@ ADEC<-function(List,distmeasure="tanimoto",normalize=FALSE,method=NULL,t=10,r=NU
 
 	#Fuse A1 and A2 into 1 Data Matrix
 
-	OrderNames=rownames(List[[1]])
-	for(i in 1:length(List)){
-		List[[i]]=List[[i]][OrderNames,]
-	}
+	# Validate and align the sources (objects in rows); see ADC().
+	List <- .align_sources(List, "the data sources")
 
 	AllData<-NULL
 	for (i in 1:length(List)){

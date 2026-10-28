@@ -16,6 +16,12 @@ collects changes since 0.1.4.
   return 1 for ARI, NMI and Jaccard, including the degenerate single-cluster and
   all-singleton cases that previously returned 0. Missing (`NA`) labels now raise
   a clear error instead of a cryptic "missing value where TRUE/FALSE needed".
+* `ADC()` and `ADEC()` validate and align the sources by object identifier before
+  combining them. Reordered rows are aligned to the first source; sources without
+  row names are combined positionally (previously this failed with "need at least
+  two non-NA values to interpolate"); and mismatched object sets, differing row
+  counts or duplicated identifiers now raise clear errors instead of a cryptic
+  "subscript out of bounds".
 
 ## Documentation and examples
 
