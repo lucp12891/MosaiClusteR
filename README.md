@@ -1,7 +1,8 @@
 # MosaiClusteR
 
 <!-- badges: start -->
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![License: GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![CRAN status](https://www.r-pkg.org/badges/version/MosaiClusteR)](https://CRAN.R-project.org/package=MosaiClusteR)
 [![R >= 4.0](https://img.shields.io/badge/R-%3E%3D4.0-blue)](https://www.r-project.org/)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/)
 ![Status](https://img.shields.io/badge/tests-passing-brightgreen.svg)
