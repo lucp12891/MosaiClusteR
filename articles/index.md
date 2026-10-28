@@ -7,7 +7,7 @@
 
 ### Guides
 
-- [How the paradigms work
+- [How the methods work
   (animated)](https://lucp12891.github.io/MosaiClusteR/articles/concepts.md):
 - [Preprocessing and source
   alignment](https://lucp12891.github.io/MosaiClusteR/articles/preprocessing.md):

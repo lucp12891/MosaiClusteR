@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>How the paradigms work (animated) • MosaiClusteR</title>
+<title>How the methods work (animated) • MosaiClusteR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="How the paradigms work (animated)">
+<meta property="og:title" content="How the methods work (animated)">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -38,13 +38,14 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../articles/MosaiClusteR.html">Get started</a></li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
+<li class="active nav-item"><a class="nav-link" href="../articles/concepts.html">Concepts</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/method-comparison.html">Methods</a></li>
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Guides</h6></li>
-    <li><a class="dropdown-item" href="../articles/concepts.html">How the paradigms work (animated)</a></li>
+    <li><a class="dropdown-item" href="../articles/concepts.html">How the methods work (animated)</a></li>
     <li><a class="dropdown-item" href="../articles/preprocessing.html">Preprocessing and source alignment</a></li>
     <li><a class="dropdown-item" href="../articles/choosing-k.html">Choosing the number of clusters, and stability</a></li>
     <li><a class="dropdown-item" href="../articles/weighting-and-nuggets.html">Feature weighting and data nuggets</a></li>
@@ -58,6 +59,7 @@
     <li><a class="dropdown-item" href="../articles/resources.html">Resources and attribution</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -77,7 +79,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>How the paradigms work (animated)</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>How the methods work (animated)</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/lucp12891/MosaiClusteR/blob/HEAD/vignettes/articles/concepts.Rmd" class="external-link"><code>vignettes/articles/concepts.Rmd</code></a></small>
@@ -86,30 +88,33 @@
 
     
     
-<p>Five short animations, one per idea behind the integration paradigms.
-Each is a small vector graphic, so it stays crisp at any size. The
-colours follow the package palette: teal and amber for two sources, navy
-for the result.</p>
+<p>Short animations for the ideas behind MosaiClusteR. Each is a small
+vector graphic that loops, so it stays crisp at any size. Teal and amber
+mark two sources; blue and navy mark objects and results.</p>
 <div class="section level2">
-<h2 id="direct-integration">Direct integration<a class="anchor" aria-label="anchor" href="#direct-integration"></a>
+<h2 id="integration-paradigms">Integration paradigms<a class="anchor" aria-label="anchor" href="#integration-paradigms"></a>
 </h2>
+<p>The five ways MosaiClusteR combines sources.</p>
+<div class="section level3">
+<h3 id="direct-integration">Direct integration<a class="anchor" aria-label="anchor" href="#direct-integration"></a>
+</h3>
 <p>The sources are concatenated into one wide matrix and clustered once.
 Fast and transparent (<code>ADC</code>, <code>ADEC</code>).</p>
 <p align="center">
 <img src="../anim/direct.svg" width="420" alt="Two source blocks slide together into one, then are clustered."></p>
 </div>
-<div class="section level2">
-<h2 id="similarity-fusion">Similarity fusion<a class="anchor" aria-label="anchor" href="#similarity-fusion"></a>
-</h2>
+<div class="section level3">
+<h3 id="similarity-fusion">Similarity fusion<a class="anchor" aria-label="anchor" href="#similarity-fusion"></a>
+</h3>
 <p>Each source gives an object-by-object similarity network. The
 networks reinforce each other through cross-diffusion and converge to
 one fused network (<code>SNF</code>).</p>
 <p align="center">
 <img src="../anim/fusion.svg" width="420" alt="Two similarity networks exchange edges and fuse into one."></p>
 </div>
-<div class="section level2">
-<h2 id="voting-consensus">Voting consensus<a class="anchor" aria-label="anchor" href="#voting-consensus"></a>
-</h2>
+<div class="section level3">
+<h3 id="voting-consensus">Voting consensus<a class="anchor" aria-label="anchor" href="#voting-consensus"></a>
+</h3>
 <p>Many partitions vote on whether each pair of objects belongs
 together. The votes accumulate into a consensus that is then clustered
 (<code>M_ABC</code>, <code>CEC</code>,
@@ -117,24 +122,56 @@ together. The votes accumulate into a consensus that is then clustered
 <p align="center">
 <img src="../anim/voting.svg" width="420" alt="Three partitions of the same objects vote, and a consensus partition emerges."></p>
 </div>
-<div class="section level2">
-<h2 id="hierarchy">Hierarchy<a class="anchor" aria-label="anchor" href="#hierarchy"></a>
-</h2>
-<p>Per-source hierarchies are consensed into a single dendrogram. The
-tree is read from the leaves upward to the root
+<div class="section level3">
+<h3 id="hierarchy">Hierarchy<a class="anchor" aria-label="anchor" href="#hierarchy"></a>
+</h3>
+<p>Per-source hierarchies are consensed into a single dendrogram, read
+from the leaves up to the root
 (<code>HierarchicalEnsembleClustering</code>, <code>EHC</code>).</p>
 <p align="center">
 <img src="../anim/hierarchy.svg" width="420" alt="A dendrogram draws itself from the leaves up to the root."></p>
 </div>
+</div>
 <div class="section level2">
-<h2 id="data-nuggets">Data nuggets<a class="anchor" aria-label="anchor" href="#data-nuggets"></a>
+<h2 id="inside-the-algorithms">Inside the algorithms<a class="anchor" aria-label="anchor" href="#inside-the-algorithms"></a>
 </h2>
-<p>A large set of observations is compressed into a few weighted
-representatives (nuggets). Feature weights and clustering then run on
-the small set, which is why the scheme scales to large samples.</p>
+<p>A closer look at two mechanisms that recur across the methods.</p>
+<div class="section level3">
+<h3 id="feature-bundling-the-abc-family">Feature bundling (the ABC family)<a class="anchor" aria-label="anchor" href="#feature-bundling-the-abc-family"></a>
+</h3>
+<p>For each source, M-ABC repeatedly draws a weighted subsample of
+features (a “bundle”), clusters on it, and records the result. Signal
+that hides in a subset of features is found across many bundles.</p>
+<p align="center">
+<img src="../anim/bundles.svg" width="420" alt="Feature columns are repeatedly resampled into bundles."></p>
+</div>
+<div class="section level3">
+<h3 id="consensus-co-association">Consensus co-association<a class="anchor" aria-label="anchor" href="#consensus-co-association"></a>
+</h3>
+<p>Every base clustering casts a vote for each pair of objects. The
+votes build an object-by-object co-association matrix, and its block
+structure is the consensus the final clustering recovers.</p>
+<p align="center">
+<img src="../anim/coassoc.svg" width="420" alt="A co-association matrix fills in, and three cluster blocks emerge on the diagonal."></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="choosing-and-checking-the-clusters">Choosing and checking the clusters<a class="anchor" aria-label="anchor" href="#choosing-and-checking-the-clusters"></a>
+</h2>
+<p>How many clusters are there? The average silhouette width rises to a
+peak at the number of clusters the data supports.</p>
+<p align="center">
+<img src="../anim/selectk.svg" width="420" alt="A silhouette-width curve draws itself and peaks at k = 3."></p>
+<div class="section level3">
+<h3 id="data-nuggets">Data nuggets<a class="anchor" aria-label="anchor" href="#data-nuggets"></a>
+</h3>
+<p>For very large samples, the objects are first compressed into a few
+weighted representatives (nuggets). Feature weighting and clustering
+then run on the small set.</p>
 <p align="center">
 <img src="../anim/nuggets.svg" width="420" alt="Many scattered points collapse into a few larger weighted nuggets."></p>
-<p>Each animation loops. For the full method details, see the <a href="method-comparison.html">method comparison</a> and the guides.</p>
+<p>For the full method details, see the <a href="method-comparison.html">method comparison</a> and the <a href="index.html">guides</a>.</p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

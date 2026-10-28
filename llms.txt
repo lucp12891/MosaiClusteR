@@ -1,15 +1,17 @@
+# MosaiClusteR
+
 ![MosaiClusteR logo](logo.png)
 
-``` R
-<h1>MosaiClusteR</h1>
-<p>An umbrella framework for multi-source and multi-omics clustering in R. One interface, many methods, and a complete workflow, from raw modalities to interpretable subgroups.</p>
-<p class="mc-cta">
-  <a class="mc-btn mc-btn-primary" href="articles/MosaiClusteR.html">Get started</a>
-  <a class="mc-btn" href="articles/method-comparison.html">Compare methods</a>
-  <a class="mc-btn" href="reference/index.html">Reference</a>
-  <a class="mc-btn" href="https://github.com/lucp12891/MosaiClusteR">GitHub</a>
-</p>
-```
+An umbrella framework for multi-source and multi-omics clustering in R.
+One interface, many methods, and a complete workflow, from raw
+modalities to interpretable subgroups.
+
+[Get
+started](https://lucp12891.github.io/MosaiClusteR/articles/MosaiClusteR.md)
+[Compare
+methods](https://lucp12891.github.io/MosaiClusteR/articles/method-comparison.md)
+[Reference](https://lucp12891.github.io/MosaiClusteR/reference/index.md)
+[GitHub](https://github.com/lucp12891/MosaiClusteR)
 
 ## Why MosaiClusteR
 
@@ -50,6 +52,30 @@ Consense the dendrograms themselves. `HierarchicalEnsembleClustering`,
 
 Score with ARI, NMI and Jaccard, and line methods up on the same
 footing.
+
+## See it in action
+
+Every figure below comes from the bundled example, in a few lines of
+MosaiClusteR.
+
+![Integrated clustering shown in a shared
+embedding](img/gallery/embedding.png)
+
+Integrated clusters in a shared embedding
+
+![Consensus dendrogram with three clusters](img/gallery/dendrogram.png)
+
+Consensus dendrogram
+
+![Object similarity heatmap reordered by
+cluster](img/gallery/heatmap.png)
+
+Similarity, reordered by cluster
+
+![Average silhouette width against the number of
+clusters](img/gallery/silhouette.png)
+
+Choosing the number of clusters
 
 ## 60-second quick start
 
@@ -432,7 +458,7 @@ Bioconductor).
 
 ### Guides
 
-- [How the paradigms work
+- [How the methods work
   (animated)](https://lucp12891.github.io/MosaiClusteR/articles/concepts.md):
 - [Preprocessing and source
   alignment](https://lucp12891.github.io/MosaiClusteR/articles/preprocessing.md):

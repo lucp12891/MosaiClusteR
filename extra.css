@@ -106,6 +106,39 @@
 main a { color: var(--mc-green-mid); }
 main a:hover { color: var(--mc-teal); }
 
+/* ---- Plain code blocks (no rainbow syntax highlighting) ------------------ */
+div.sourceCode, pre {
+  background: #f3f1e9 !important;
+  border: 1px solid #e6e0d1;
+  border-radius: 10px;
+}
+pre, pre code { background: transparent !important; color: #2b322c !important; }
+pre code span { color: #2b322c !important; font-weight: 400 !important; }
+pre code .co { color: #8f938a !important; font-style: italic; }   /* comments muted */
+pre code a, pre code a:hover { color: #2b322c !important; text-decoration: none; }
+pre code a:hover { text-decoration: underline; }
+code { color: var(--mc-green); }                                  /* inline code */
+
+/* ---- Gallery of clustering figures --------------------------------------- */
+.mc-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.1rem;
+  margin: 1rem 0 1.5rem;
+}
+.mc-gallery figure {
+  margin: 0;
+  background: #fff;
+  border: 1px solid #e7e1d2;
+  border-radius: 14px;
+  padding: 0.7rem;
+  box-shadow: 0 2px 8px rgba(21, 41, 61, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.mc-gallery figure:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(21,41,61,0.12); }
+.mc-gallery img { width: 100%; height: auto; display: block; }
+.mc-gallery figcaption { text-align: center; color: #4a4a46; font-size: 0.88rem; margin-top: 0.45rem; }
+
 @media (max-width: 620px) {
   .mc-hero { flex-direction: column; text-align: center; padding: 1.8rem 1.2rem; }
   .mc-cta { justify-content: center; }
