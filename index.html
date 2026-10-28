@@ -37,6 +37,12 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="articles/MosaiClusteR.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/method-comparison.html">Choosing a method: a side-by-side comparison</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -57,10 +63,10 @@
 <!-- badges: start -->
 
 <blockquote>
-<p><strong>An umbrella framework for multi-source &amp; multi-omics clustering in R.</strong> <em>One interface, many methods, a complete workflow — from raw modalities to interpretable subgroups.</em></p>
+<p><strong>An umbrella framework for multi-source and multi-omics clustering in R.</strong> <em>One interface, many methods, and a complete workflow, from raw modalities to interpretable subgroups.</em></p>
 </blockquote>
-<p><strong>MosaiClusteR</strong> — <em>“<strong>MoSaIC</strong>” = <strong>M</strong>ulti-<strong>O</strong>mics <strong>S</strong>imilarity <strong>A</strong>ggregation and <strong>I</strong>ntegrative <strong>C</strong>lustering in R</em> — treats every data modality (transcriptome, methylome, proteome, fingerprints, targets, imaging, clinical…) as one <strong>tile</strong> of a larger picture, and assembles those tiles into a single coherent <em>mosaic</em> of sample structure. It unifies a large family of integrative clustering algorithms behind <strong>one consistent list‑of‑matrices interface</strong>, and wraps them in a complete analysis framework: preprocessing → single‑source baselines → integration across five paradigms → evaluation &amp; interpretation.</p>
-<p>No single algorithm is best across all data regimes, so MosaiClusteR gathers many methods on the same footing and gives you the tooling to <em>choose between them</em>: cluster‑number selection, agreement metrics, visual comparison, cluster characterisation, and — for omics — pathway and gene‑set interpretation. It also introduces a <strong>data‑nugget feature‑weighting</strong> scheme that offers a robust, Big‑Data‑friendly alternative to variance weighting.</p>
+<p><strong>MosaiClusteR</strong> (MoSaIC: <strong>M</strong>ulti-<strong>O</strong>mics <strong>S</strong>imilarity <strong>A</strong>ggregation and <strong>I</strong>ntegrative <strong>C</strong>lustering in R) treats every data modality (transcriptome, methylome, proteome, fingerprints, targets, imaging, clinical) as one <strong>tile</strong> of a larger picture, and assembles those tiles into a single coherent <em>mosaic</em> of sample structure. It unifies a large family of integrative clustering algorithms behind <strong>one consistent list-of-matrices interface</strong>, and wraps them in a complete analysis framework: preprocessing, then single-source baselines, then integration across five paradigms, then evaluation and interpretation.</p>
+<p>No single algorithm is best across all data regimes, so MosaiClusteR gathers many methods on the same footing and gives you the tooling to <em>choose between them</em>: cluster-number selection, agreement metrics, visual comparison, cluster characterisation, and, for omics, pathway and gene-set interpretation. It also introduces a <strong>data-nugget feature-weighting</strong> scheme that offers a stable, big-data-friendly alternative to variance weighting.</p>
 <hr>
 <div class="section level2">
 <h2 id="table-of-contents">Table of contents<a class="anchor" aria-label="anchor" href="#table-of-contents"></a>
@@ -68,13 +74,12 @@
 <ul>
 <li><a href="#why-mosaicluster">Why MosaiClusteR</a></li>
 <li><a href="#installation">Installation</a></li>
-<li><a href="#id_60-second-quick-start">60‑second quick start</a></li>
+<li><a href="#id_60-second-quick-start">60-second quick start</a></li>
 <li><a href="#the-mosaic-framework-of-use">The MoSaIC framework of use</a></li>
 <li>
-<a href="#method-catalogue">Method catalogue</a> — <em>every method, and when to use it</em>
-</li>
-<li><a href="#spotlight-m-abc-and-data-nuggets">Spotlight: M‑ABC and data nuggets</a></li>
-<li><a href="#evaluation--comparison-toolkit">Evaluation &amp; comparison toolkit</a></li>
+<a href="#method-catalogue">Method catalogue</a> (every method, and when to use it)</li>
+<li><a href="#spotlight-m-abc-and-data-nuggets">Spotlight: M-ABC and data nuggets</a></li>
+<li><a href="#evaluation-and-comparison-toolkit">Evaluation and comparison toolkit</a></li>
 <li><a href="#datasets">Datasets</a></li>
 <li><a href="#design-principles">Design principles</a></li>
 <li><a href="#citation">Citation</a></li>
@@ -85,16 +90,16 @@
 <div class="section level2">
 <h2 id="why-mosaicluster">Why MosaiClusteR<a class="anchor" aria-label="anchor" href="#why-mosaicluster"></a>
 </h2>
-<p>Multi‑omics and other multi‑source studies measure the <em>same objects</em> (patients, tumours, compounds, cells) through several heterogeneous lenses. No single modality tells the whole story, and the many integration algorithms in the literature live in scattered packages with incompatible inputs and outputs. MosaiClusteR fixes this:</p>
+<p>Multi-omics and other multi-source studies measure the <em>same objects</em> (patients, tumours, compounds, cells) through several heterogeneous lenses. No single modality tells the whole story, and the many integration algorithms in the literature live in scattered packages with incompatible inputs and outputs. MosaiClusteR fixes this:</p>
 <ul>
 <li>
-<strong>One input format.</strong> Every method takes a <code>List</code> of matrices over the <em>same shared objects</em>, with <strong>objects (samples) in rows and features in columns</strong> (<code>n × m</code>) — the same convention across the entire package, including the M‑ABC family. Distance‑matrix inputs (<code>type = "dist"</code>) are orientation‑free.</li>
+<strong>One input format.</strong> Every method takes a <code>List</code> of matrices over the <em>same shared objects</em>, with <strong>objects (samples) in rows and features in columns</strong> (<code>n x m</code>), the same convention across the entire package, including the M-ABC family. Distance-matrix inputs (<code>type = "dist"</code>) are orientation-free.</li>
 <li>
-<strong>One output contract.</strong> Every method returns at least <code>DistM</code> (a dissimilarity matrix) and <code>Clust</code> (a hierarchical‑clustering object), so results are directly comparable and composable.</li>
+<strong>One output contract.</strong> Every method returns at least <code>DistM</code> (a dissimilarity matrix) and <code>Clust</code> (a hierarchical-clustering object), so results are directly comparable and composable.</li>
 <li>
-<strong>Five paradigms, one roof.</strong> Direct, similarity‑based, graph‑based, voting‑based consensus, and hierarchy‑based integration — pick the right tool without leaving the package.</li>
+<strong>Five paradigms, one roof.</strong> Direct, similarity-based, graph-based, voting-based consensus, and hierarchy-based integration. Pick the right tool without leaving the package.</li>
 <li>
-<strong>A full workflow, not just algorithms.</strong> Normalisation, distances, partition extraction, agreement metrics (ARI/NMI/Jaccard), and method comparison are built in.</li>
+<strong>A full workflow, not only algorithms.</strong> Normalisation, distances, partition extraction, agreement metrics (ARI, NMI, Jaccard), and method comparison are built in.</li>
 </ul>
 <hr>
 </div>
@@ -102,11 +107,15 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<code class="sourceCode R"><span><span class="co"># the stable release, from CRAN</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"MosaiClusteR"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># or the development version</span></span>
+<span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"lucp12891/MosaiClusteR"</span><span class="op">)</span></span></code></pre></div>
-<p>MosaiClusteR ships C++ kernels for the M‑ABC family, so a C/C++ toolchain is needed to build from source (on Windows install <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools</a>; on macOS the Xcode command‑line tools). Every method has a pure‑R fallback, so the package still runs if a kernel is unavailable. A few methods rely on <em>suggested</em> packages that are only loaded when you call them:</p>
+<p>MosaiClusteR ships C++ kernels for the M-ABC family, so a C/C++ toolchain is needed to build from source (on Windows install <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools</a>; on macOS the Xcode command-line tools). Every method has a pure-R fallback, so the package still runs if a kernel is unavailable. A few methods rely on <em>suggested</em> packages that are loaded only when you call them:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># optional, enables extra methods / distances</span></span>
+<code class="sourceCode R"><span><span class="co"># optional, enables extra methods and distances</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SNFtool"</span>, <span class="st">"datanugget"</span>, <span class="st">"WCluster"</span>, <span class="st">"lsa"</span>, <span class="st">"analogue"</span>, <span class="st">"FactoMineR"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -114,7 +123,7 @@
 <col width="40%">
 </colgroup>
 <thead><tr>
-<th>If you want…</th>
+<th>If you want</th>
 <th>Install (Suggests)</th>
 </tr></thead>
 <tbody>
@@ -123,13 +132,13 @@
 <td><code>SNFtool</code></td>
 </tr>
 <tr>
-<td>The reference data‑nugget engine</td>
+<td>The reference data-nugget engine</td>
 <td>
 <code>datanugget</code>, <code>WCluster</code>
 </td>
 </tr>
 <tr>
-<td>Cosine / χ² / MCA distances</td>
+<td>Cosine, chi-squared, or MCA distances</td>
 <td>
 <code>lsa</code>, <code>analogue</code>, <code>FactoMineR</code>
 </td>
@@ -139,7 +148,7 @@
 <hr>
 </div>
 <div class="section level2">
-<h2 id="id_60second-quick-start">60‑second quick start<a class="anchor" aria-label="anchor" href="#id_60second-quick-start"></a>
+<h2 id="id_60-second-quick-start">60-second quick start<a class="anchor" aria-label="anchor" href="#id_60-second-quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lucp12891/MosaiClusteR" class="external-link">MosaiClusteR</a></span><span class="op">)</span></span>
@@ -147,40 +156,40 @@
 <span><span class="va">L</span>     <span class="op">&lt;-</span> <span class="va">mosaic_toy</span><span class="op">$</span><span class="va">List</span>               <span class="co"># a list of matrices, objects in rows</span></span>
 <span><span class="va">truth</span> <span class="op">&lt;-</span> <span class="va">mosaic_toy</span><span class="op">$</span><span class="va">truth</span></span>
 <span></span>
-<span><span class="co">## ---- Integrate: every method shares one interface — swap to change paradigm</span></span>
+<span><span class="co">## Integrate: every method shares one interface, so swapping it changes the paradigm</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SNF.html">SNF</a></span><span class="op">(</span><span class="va">L</span>, type <span class="op">=</span> <span class="st">"data"</span>, distmeasure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"euclidean"</span><span class="op">)</span>,</span>
 <span>           normalize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span><span class="op">)</span>, method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mosaic_labels.html">mosaic_labels</a></span><span class="op">(</span><span class="va">fit</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>    <span class="co"># pull a flat partition from any fitted result</span></span>
-<span><span class="fu"><a href="reference/cluster_agreement.html">cluster_agreement</a></span><span class="op">(</span><span class="va">labels</span>, <span class="va">truth</span><span class="op">)</span>       <span class="co"># ARI / NMI / Jaccard / purity vs ground truth</span></span>
+<span><span class="fu"><a href="reference/cluster_agreement.html">cluster_agreement</a></span><span class="op">(</span><span class="va">labels</span>, <span class="va">truth</span><span class="op">)</span>       <span class="co"># ARI, NMI, Jaccard, purity vs ground truth</span></span>
 <span></span>
-<span><span class="co">## ---- Same score, a different paradigm — e.g. a neighbourhood method</span></span>
+<span><span class="co">## Same score from a different paradigm, e.g. a neighbourhood method</span></span>
 <span><span class="fu"><a href="reference/cluster_agreement.html">cluster_agreement</a></span><span class="op">(</span><span class="fu"><a href="reference/NEMO.html">NEMO</a></span><span class="op">(</span><span class="va">L</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">$</span><span class="va">cluster</span>, <span class="va">truth</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## ---- Compare two integrations directly</span></span>
+<span><span class="co">## Compare two integrations directly</span></span>
 <span><span class="fu"><a href="reference/compare_clusterings.html">compare_clusterings</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">DistM</span>,</span>
 <span>                    <span class="fu"><a href="reference/ADC.html">ADC</a></span><span class="op">(</span><span class="va">L</span>, distmeasure <span class="op">=</span> <span class="st">"euclidean"</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">DistM</span>, NC <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p>That is the whole loop: <strong>integrate → extract → evaluate → compare</strong> — and the same three lines work for any of the methods below.</p>
+<p>That is the whole loop: integrate, extract, evaluate, compare. The same three lines work for any of the methods below.</p>
 <hr>
 </div>
 <div class="section level2">
 <h2 id="the-mosaic-framework-of-use">The MoSaIC framework of use<a class="anchor" aria-label="anchor" href="#the-mosaic-framework-of-use"></a>
 </h2>
-<p>MosaiClusteR is organised as a four‑layer pipeline. You can enter at any layer, and every layer speaks the same <code>List → {DistM, Clust}</code> language.</p>
+<p>MosaiClusteR is organised as a four-layer pipeline. You can enter at any layer, and every layer speaks the same <code>List -&gt; {DistM, Clust}</code> language.</p>
 <p align="center">
-<img src="reference/figures/framework.svg" width="680" alt="The MoSaIC framework: a four-layer pipeline — (1) preprocessing with Normalization() and Distance(), (2) single-source baselines, (3) the integration engine spanning five paradigms, and (4) evaluation and interpretation with mosaic_labels(), cluster_agreement() and compare_clusterings()."></p>
-<p><strong>Choosing a layer‑3 method</strong> (decision shortcut):</p>
+<img src="reference/figures/framework.svg" width="680" alt="The MoSaIC framework: a four-layer pipeline. (1) preprocessing with Normalization() and Distance(), (2) single-source baselines, (3) the integration engine spanning five paradigms, and (4) evaluation and interpretation with mosaic_labels(), cluster_agreement() and compare_clusterings()."></p>
+<p><strong>Choosing a layer-3 method</strong> (decision shortcut):</p>
 <ul>
 <li>
-<em>Want a fast, transparent baseline?</em> → <strong>Direct</strong> (<code>ADC</code>) or <strong>Weighted</strong> (<code>WeightedClust</code>).</li>
+<em>Want a fast, transparent baseline?</em> Use <strong>Direct</strong> (<code>ADC</code>) or <strong>Weighted</strong> (<code>WeightedClust</code>).</li>
 <li>
-<em>Sources are noisy and complementary, genomic scale?</em> → <strong>Similarity</strong> (<code>SNF</code>).</li>
+<em>Sources are noisy and complementary, at genomic scale?</em> Use <strong>Similarity</strong> (<code>SNF</code>).</li>
 <li>
-<em>Want stability under resampling / a novel robust ensemble?</em> → <strong>Voting consensus</strong> (<code>M_ABC</code>, <code>CEC</code>, <code>EvidenceAccumulation</code>).</li>
+<em>Want stability under resampling, from a resampling-based ensemble?</em> Use <strong>Voting consensus</strong> (<code>M_ABC</code>, <code>CEC</code>, <code>EvidenceAccumulation</code>).</li>
 <li>
-<em>Care about the hierarchy / dendrogram structure itself?</em> → <strong>Hierarchy</strong> (<code>HEC</code>).</li>
+<em>Care about the hierarchy or dendrogram structure itself?</em> Use <strong>Hierarchy</strong> (<code>HEC</code>).</li>
 <li>
-<em>Have very large N or heavy‑tailed data?</em> → use <strong><code>weighting = "nugget"</code></strong> inside the M‑ABC family.</li>
+<em>Have very large N or heavy-tailed data?</em> Set <strong><code>weighting = "nugget"</code></strong> inside the M-ABC family.</li>
 </ul>
 <hr>
 </div>
@@ -188,11 +197,10 @@
 <h2 id="method-catalogue">Method catalogue<a class="anchor" aria-label="anchor" href="#method-catalogue"></a>
 </h2>
 <blockquote>
-<p><strong>Legend</strong> — a named function is implemented in this package · † requires an external graph‑partitioning executable (METIS) or MATLAB, not bundled · “—” marks methods interoperable with, or on the roadmap via, a reference package. All methods share the <code>List → {DistM, Clust}</code> contract and take the same objects‑in‑rows input.</p>
+<p><strong>Legend.</strong> A named function is implemented in this package. A dagger (†) marks a method that needs an external graph-partitioning executable (METIS) or MATLAB, which is not bundled. A plain dash in the reference column marks methods that are interoperable with, or on the roadmap via, a reference package. All methods share the <code>List -&gt; {DistM, Clust}</code> contract and take the same objects-in-rows input.</p>
 </blockquote>
 <div class="section level3">
-<h3 id="id_1--direct-clustering--combine-first-then-cluster">1 · Direct clustering — <em>combine first, then cluster</em>
-<a class="anchor" aria-label="anchor" href="#id_1--direct-clustering--combine-first-then-cluster"></a>
+<h3 id="id_1-direct-clustering-combine-first-then-cluster">1. Direct clustering: combine first, then cluster<a class="anchor" aria-label="anchor" href="#id_1-direct-clustering-combine-first-then-cluster"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -206,32 +214,31 @@
 <th>Method</th>
 <th>Function</th>
 <th>What it does</th>
-<th>When it’s useful</th>
+<th>When it is useful</th>
 <th>Ref</th>
 </tr></thead>
 <tbody>
 <tr>
 <td>
-<strong>ADC</strong> — Aggregated Data Clustering</td>
+<strong>ADC</strong> (Aggregated Data Clustering)</td>
 <td><code>ADC</code></td>
-<td>Concatenate all tiles <code>[D₁│…│Dₗ]</code>, one distance, one hierarchy</td>
+<td>Concatenate all tiles into one wide matrix, then apply one distance and one hierarchy</td>
 <td>Simplest baseline; when modalities are commensurate and you want a transparent reference</td>
 <td>Fodeh 2013</td>
 </tr>
 <tr>
 <td>
-<strong>ADEC</strong> — Aggregated Data <em>Ensemble</em> Clustering</td>
+<strong>ADEC</strong> (Aggregated Data <em>Ensemble</em> Clustering)</td>
 <td><code>ADEC</code></td>
-<td>ADC + resampling of features / cut‑points → co‑clustering matrix</td>
-<td>When ADC is unstable and you want a robustness layer</td>
+<td>ADC plus resampling of features and cut-points to a co-clustering matrix</td>
+<td>When ADC is unstable and you want a stability layer</td>
 <td>Fodeh 2013</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section level3">
-<h3 id="id_2--similaritybased--fuse-objectbyobject-similarity">2 · Similarity‑based — <em>fuse object‑by‑object similarity</em>
-<a class="anchor" aria-label="anchor" href="#id_2--similaritybased--fuse-objectbyobject-similarity"></a>
+<h3 id="id_2-similarity-based-fuse-object-by-object-similarity">2. Similarity-based: fuse object-by-object similarity<a class="anchor" aria-label="anchor" href="#id_2-similarity-based-fuse-object-by-object-similarity"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -245,61 +252,61 @@
 <th>Method</th>
 <th>Function</th>
 <th>What it does</th>
-<th>When it’s useful</th>
+<th>When it is useful</th>
 <th>Ref</th>
 </tr></thead>
 <tbody>
 <tr>
 <td><strong>Weighted Clustering</strong></td>
 <td><code>WeightedClust</code></td>
-<td>Convex combination <code>Σ wₖ Dₖ</code> over a weight grid</td>
-<td>When you want to <em>tune and inspect</em> the trade‑off between sources</td>
-<td>Perualila‑Tan 2016</td>
+<td>Convex combination <code>sum(wk Dk)</code> over a weight grid</td>
+<td>When you want to tune and inspect the trade-off between sources</td>
+<td>Perualila-Tan 2016</td>
 </tr>
 <tr>
 <td>
-<strong>SNF</strong> — Similarity Network Fusion</td>
+<strong>SNF</strong> (Similarity Network Fusion)</td>
 <td><code>SNF</code></td>
-<td>Cross‑diffuse per‑source similarity networks to one fused network</td>
-<td>Noisy, complementary, genomic‑scale sources; the multi‑omics workhorse</td>
+<td>Cross-diffuse per-source similarity networks into one fused network</td>
+<td>Noisy, complementary, genomic-scale sources; the multi-omics workhorse</td>
 <td>Wang 2014</td>
 </tr>
 <tr>
 <td>
-<strong>WonM</strong> — Weighting on Membership</td>
+<strong>WonM</strong> (Weighting on Membership)</td>
 <td><code>WonM</code></td>
-<td>Consensus co‑membership across many cut‑points <em>k</em>
+<td>Consensus co-membership across many cut-points <em>k</em>
 </td>
-<td>When you don’t want to commit to a single <em>k</em>
+<td>When you do not want to commit to a single <em>k</em>
 </td>
-<td>—</td>
+<td>-</td>
 </tr>
 <tr>
 <td>
-<strong>NEMO</strong> — Neighborhood‑based Multi‑Omics</td>
+<strong>NEMO</strong> (Neighborhood-based Multi-Omics)</td>
 <td><code>NEMO</code></td>
-<td>Locally‑scaled kNN affinities averaged over the omics measuring each pair → spectral clustering</td>
+<td>Locally-scaled kNN affinities averaged over the omics measuring each pair, then spectral clustering</td>
 <td>When samples are <strong>missing some modalities</strong> (no imputation needed)</td>
 <td>Rappoport 2019</td>
 </tr>
 <tr>
 <td><strong>Spectral clustering</strong></td>
 <td><code>spectral_clustering</code></td>
-<td>Normalised‑Laplacian embedding + k‑means on any affinity</td>
-<td>Final clusterer for fused/similarity matrices (SNF, NEMO, Spectrum)</td>
+<td>Normalised-Laplacian embedding plus k-means on any affinity</td>
+<td>Final clusterer for fused or similarity matrices (SNF, NEMO, Spectrum)</td>
 <td>Ng 2002</td>
 </tr>
 <tr>
-<td><strong>ab‑SNF</strong></td>
-<td>—</td>
-<td>SNF with association/variance feature weights</td>
+<td><strong>ab-SNF</strong></td>
+<td>-</td>
+<td>SNF with association or variance feature weights</td>
 <td>When a few features carry the signal and should drive the network</td>
 <td>Zhang 2022</td>
 </tr>
 <tr>
-<td><strong>CIMLR / rMKL‑LPP</strong></td>
-<td>—</td>
-<td>Multi‑kernel similarity learning</td>
+<td><strong>CIMLR / rMKL-LPP</strong></td>
+<td>-</td>
+<td>Multi-kernel similarity learning</td>
 <td>Many heterogeneous kernels; learn their weights</td>
 <td>Zhang 2022</td>
 </tr>
@@ -307,8 +314,7 @@
 </table>
 </div>
 <div class="section level3">
-<h3 id="id_3--graphbased--partition-an-ensemble-hypergraph">3 · Graph‑based — <em>partition an ensemble (hyper)graph</em>
-<a class="anchor" aria-label="anchor" href="#id_3--graphbased--partition-an-ensemble-hypergraph"></a>
+<h3 id="id_3-graph-based-partition-an-ensemble-hypergraph">3. Graph-based: partition an ensemble (hyper)graph<a class="anchor" aria-label="anchor" href="#id_3-graph-based-partition-an-ensemble-hypergraph"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -322,7 +328,7 @@
 <th>Method</th>
 <th>Function</th>
 <th>What it does</th>
-<th>When it’s useful</th>
+<th>When it is useful</th>
 <th>Ref</th>
 </tr></thead>
 <tbody>
@@ -330,32 +336,31 @@
 <td><strong>CSPA / HGPA / MCLA</strong></td>
 <td>
 <code>EnsembleClustering</code> †</td>
-<td>Cluster‑ensemble via (hyper)graph partitioning</td>
-<td>Combining many base partitions into one robust consensus</td>
+<td>Cluster-ensemble via (hyper)graph partitioning</td>
+<td>Combining many base partitions into one stable consensus</td>
 <td>Strehl 2002</td>
 </tr>
 <tr>
 <td>
-<strong>HBGF</strong> — Hybrid Bipartite Graph Formulation</td>
+<strong>HBGF</strong> (Hybrid Bipartite Graph Formulation)</td>
 <td><code>HBGF</code></td>
-<td>Partition an object↔︎cluster bipartite graph (SVD + k‑means)</td>
-<td>Ensembles where objects and clusters co‑embed naturally</td>
+<td>Partition an object-to-cluster bipartite graph (SVD plus k-means)</td>
+<td>Ensembles where objects and clusters co-embed naturally</td>
 <td>Fern 2004</td>
 </tr>
 <tr>
 <td>
-<strong>Clustering Aggregation</strong> (Balls/Agglo/Furthest)</td>
+<strong>Clustering Aggregation</strong> (Balls / Agglo / Furthest)</td>
 <td><code>ClusteringAggregation</code></td>
 <td>Minimise pairwise disagreement cost</td>
-<td>When you have several partitions and want the “median” one</td>
+<td>When you have several partitions and want the median one</td>
 <td>Gionis 2007</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section level3">
-<h3 id="id_4--votingbased-consensus--let-partitions-vote">4 · Voting‑based consensus — <em>let partitions vote</em>
-<a class="anchor" aria-label="anchor" href="#id_4--votingbased-consensus--let-partitions-vote"></a>
+<h3 id="id_4-voting-based-consensus-let-partitions-vote">4. Voting-based consensus: let partitions vote<a class="anchor" aria-label="anchor" href="#id_4-voting-based-consensus-let-partitions-vote"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -369,46 +374,46 @@
 <th>Method</th>
 <th>Function</th>
 <th>What it does</th>
-<th>When it’s useful</th>
+<th>When it is useful</th>
 <th>Ref</th>
 </tr></thead>
 <tbody>
 <tr>
 <td>
-<strong>M‑ABC</strong> — Multi‑source Aggregating Bundles of Clusters</td>
+<strong>M-ABC</strong> (Multi-source Aggregating Bundles of Clusters)</td>
 <td><code>M_ABC</code></td>
-<td>Per‑source bootstrap of <em>feature bundles</em> → consensus co‑clustering dissimilarity</td>
-<td>High‑dimensional sources, where signal hides in feature subsets; robust by design; supports <strong>data‑nugget weighting</strong>
+<td>Per-source bootstrap of <em>feature bundles</em> to a consensus co-clustering dissimilarity</td>
+<td>High-dimensional sources, where signal hides in feature subsets; stable under resampling; supports <strong>data-nugget weighting</strong>
 </td>
 <td>Amaratunga 2008</td>
 </tr>
 <tr>
-<td><strong>M‑ABCdist</strong></td>
+<td><strong>M-ABCdist</strong></td>
 <td><code>M_ABCdist</code></td>
-<td>M‑ABC that accumulates <em>distances</em> (keeps geometry) then fuses</td>
-<td>When you want continuous dissimilarities rather than co‑clustering counts</td>
+<td>M-ABC that accumulates <em>distances</em> (keeps geometry), then fuses</td>
+<td>When you want continuous dissimilarities rather than co-clustering counts</td>
 <td>Amaratunga 2008</td>
 </tr>
 <tr>
 <td>
-<strong>M‑ABCdeep</strong> — deep‑learning ABC</td>
+<strong>M-ABCdeep</strong> (deep-learning ABC)</td>
 <td>
 <code>M_ABCdeep</code> / <code>ABCdeep.SingleInMultiple</code>
 </td>
-<td>M‑ABC whose base clustering is a neural autoencoder embedding + latent clustering; self‑contained R network, no Python/torch</td>
-<td>Nonlinear/complex per‑source structure; when a learned embedding beats a raw distance</td>
+<td>M-ABC whose base clustering is a neural autoencoder embedding plus latent clustering; self-contained R network, no Python or torch</td>
+<td>Nonlinear or complex per-source structure; when a learned embedding beats a raw distance</td>
 <td>Amaratunga 2008</td>
 </tr>
 <tr>
 <td>
-<strong>CEC</strong> — (Consensus) Ensemble Clustering</td>
+<strong>CEC</strong> ((Consensus) Ensemble Clustering)</td>
 <td><code>CEC</code></td>
-<td>Incidence accumulation across sources &amp; cut‑points</td>
-<td>A solid, weight‑aware consensus baseline</td>
+<td>Incidence accumulation across sources and cut-points</td>
+<td>A solid, weight-aware consensus baseline</td>
 <td>Fodeh 2013</td>
 </tr>
 <tr>
-<td><strong>CVAA / W‑CVAA</strong></td>
+<td><strong>CVAA / W-CVAA</strong></td>
 <td><code>CVAA</code></td>
 <td>Cumulative voting aggregation (and weighted)</td>
 <td>Aligning and merging many partitions by voting</td>
@@ -423,25 +428,24 @@
 </tr>
 <tr>
 <td>
-<strong>EA</strong> — Evidence Accumulation</td>
+<strong>EA</strong> (Evidence Accumulation)</td>
 <td><code>EvidenceAccumulation</code></td>
-<td>Co‑association matrix across partitions (SL / SL‑agnes / MST)</td>
-<td>Classic, parameter‑light consensus</td>
+<td>Co-association matrix across partitions (SL / SL-agnes / MST)</td>
+<td>Classic, parameter-light consensus</td>
 <td>Fred 2005</td>
 </tr>
 <tr>
 <td><strong>CTS / SRS / ASRS</strong></td>
 <td><code>LinkBasedClustering</code></td>
-<td>Link‑based cluster ensembles (CTS/SRS pure‑R; ASRS needs MATLAB)</td>
+<td>Link-based cluster ensembles (CTS and SRS pure-R; ASRS needs MATLAB)</td>
 <td>When pairwise <em>link</em> similarity refines the consensus</td>
-<td>Iam‑On 2010</td>
+<td>Iam-On 2010</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section level3">
-<h3 id="id_5--hierarchybased--consense-the-trees-themselves">5 · Hierarchy‑based — <em>consense the trees themselves</em>
-<a class="anchor" aria-label="anchor" href="#id_5--hierarchybased--consense-the-trees-themselves"></a>
+<h3 id="id_5-hierarchy-based-consense-the-trees-themselves">5. Hierarchy-based: consense the trees themselves<a class="anchor" aria-label="anchor" href="#id_5-hierarchy-based-consense-the-trees-themselves"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -455,32 +459,32 @@
 <th>Method</th>
 <th>Function</th>
 <th>What it does</th>
-<th>When it’s useful</th>
+<th>When it is useful</th>
 <th>Ref</th>
 </tr></thead>
 <tbody>
 <tr>
 <td>
-<strong>HEC</strong> — Hierarchical Ensemble Clustering</td>
+<strong>HEC</strong> (Hierarchical Ensemble Clustering)</td>
 <td><code>HierarchicalEnsembleClustering</code></td>
-<td>Aggregate cophenetic distances → closest ultrametric (Floyd–Warshall)</td>
+<td>Aggregate cophenetic distances to the closest ultrametric (Floyd-Warshall)</td>
 <td>When the <em>dendrogram structure</em> across sources is the object of interest</td>
 <td>Zheng 2014</td>
 </tr>
 <tr>
 <td>
-<strong>EHC</strong> — Ensemble for Hierarchical Clustering</td>
+<strong>EHC</strong> (Ensemble for Hierarchical Clustering)</td>
 <td>
 <code>EHC</code> †</td>
 <td>Graph aggregation of dendrogram association strengths</td>
-<td>Graph‑flavoured hierarchical consensus</td>
+<td>Graph-flavoured hierarchical consensus</td>
 <td>Hossain 2012</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section level3">
-<h3 id="id_6--modelbased--factor-integration">6 · Model‑based &amp; factor integration<a class="anchor" aria-label="anchor" href="#id_6--modelbased--factor-integration"></a>
+<h3 id="id_6-model-based-and-factor-integration">6. Model-based and factor integration<a class="anchor" aria-label="anchor" href="#id_6-model-based-and-factor-integration"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -494,38 +498,38 @@
 <th>Method</th>
 <th>Function</th>
 <th>What it does</th>
-<th>When it’s useful</th>
+<th>When it is useful</th>
 <th>Ref</th>
 </tr></thead>
 <tbody>
 <tr>
 <td>
-<strong>intNMF</strong> — integrative NMF</td>
+<strong>intNMF</strong> (integrative NMF)</td>
 <td><code>intNMF</code></td>
-<td>Shared non‑negative basis <code>W</code> + per‑omic <code>Hₖ</code>; consensus clustering of <code>W</code>
+<td>Shared non-negative basis <code>W</code> plus per-omic <code>Hk</code>; consensus clustering of <code>W</code>
 </td>
-<td>Low‑rank, parts‑based integration; non‑negative data</td>
+<td>Low-rank, parts-based integration; non-negative data</td>
 <td>Chalise 2017</td>
 </tr>
 <tr>
 <td><strong>LUCID</strong></td>
 <td>
 <code>LUCID</code> ‡</td>
-<td>Latent clusters jointly from exposures, omics <strong>and</strong> an outcome (quasi‑mediation, EM)</td>
+<td>Latent clusters jointly from exposures, omics <strong>and</strong> an outcome (quasi-mediation, EM)</td>
 <td>Supervised subtyping where an outcome should shape the clusters</td>
 <td>Zhao 2024</td>
 </tr>
 <tr>
 <td><strong>iCluster / iClusterPlus / iClusterBayes</strong></td>
-<td>—</td>
-<td>Joint latent‑variable integration, mixed data types, feature selection</td>
+<td>-</td>
+<td>Joint latent-variable integration, mixed data types, feature selection</td>
 <td>Zhang 2022</td>
 <td></td>
 </tr>
 <tr>
 <td><strong>moCluster / MOFA / JIVE</strong></td>
-<td>—</td>
-<td>Low‑rank / factor decomposition of shared + individual variation</td>
+<td>-</td>
+<td>Low-rank or factor decomposition of shared and individual variation</td>
 <td>Zhang 2022</td>
 <td></td>
 </tr>
@@ -534,7 +538,7 @@
 <p>‡ <code>LUCID</code> wraps the <strong>LUCIDus</strong> package (a <em>Suggests</em> dependency).</p>
 </div>
 <div class="section level3">
-<h3 id="data-reduction--weighting">Data reduction &amp; weighting<a class="anchor" aria-label="anchor" href="#data-reduction--weighting"></a>
+<h3 id="data-reduction-and-weighting">Data reduction and weighting<a class="anchor" aria-label="anchor" href="#data-reduction-and-weighting"></a>
 </h3>
 <table class="table">
 <colgroup>
@@ -553,14 +557,14 @@
 <td>
 <code>create_data_nuggets</code>, <code>nugget_feature_weights</code>
 </td>
-<td>Compress N observations into M weighted representatives; derive robust <strong>feature weights</strong> for M‑ABC</td>
+<td>Compress N observations into M weighted representatives; derive stable <strong>feature weights</strong> for M-ABC</td>
 </tr>
 <tr>
-<td><strong>Data‑nugget clustering</strong></td>
+<td><strong>Data-nugget clustering</strong></td>
 <td>
 <code>nugget_cluster</code>, <code>Wkmeans</code>, <code>Whclust</code>
 </td>
-<td>Cluster the compressed representatives directly (weighted k‑means / weighted Ward), then map back to objects — Big‑Data clustering</td>
+<td>Cluster the compressed representatives directly (weighted k-means or weighted Ward), then map back to objects, for big-data clustering</td>
 </tr>
 </tbody>
 </table>
@@ -568,9 +572,9 @@
 </div>
 </div>
 <div class="section level2">
-<h2 id="spotlight-mabc-and-data-nuggets">Spotlight: M‑ABC and data nuggets<a class="anchor" aria-label="anchor" href="#spotlight-mabc-and-data-nuggets"></a>
+<h2 id="spotlight-m-abc-and-data-nuggets">Spotlight: M-ABC and data nuggets<a class="anchor" aria-label="anchor" href="#spotlight-m-abc-and-data-nuggets"></a>
 </h2>
-<p><strong>M‑ABC</strong> generalises the single‑source <em>Aggregating Bundles of Clusters</em> algorithm (Amaratunga et al. 2008) to many heterogeneous sources. For each source it repeats, <code>numsim</code> times: bootstrap the samples, draw a <strong>weighted subsample of features</strong>, cluster, and record co‑clustering. Per‑source evidence is accumulated into one consensus dissimilarity, then clustered.</p>
+<p><strong>M-ABC</strong> generalises the single-source <em>Aggregating Bundles of Clusters</em> algorithm (Amaratunga et al. 2008) to many heterogeneous sources. For each source it repeats, <code>numsim</code> times: bootstrap the samples, draw a <strong>weighted subsample of features</strong>, cluster, and record co-clustering. Per-source evidence is accumulated into one consensus dissimilarity, then clustered.</p>
 <p>The feature subsample is the heart of the method, and <em>how features are weighted</em> matters:</p>
 <table class="table">
 <colgroup>
@@ -587,48 +591,49 @@
 <tr>
 <td><code>"var"</code></td>
 <td>feature <strong>variance</strong> (classic)</td>
-<td>signal lives in high‑variance features</td>
+<td>signal lives in high-variance features</td>
 </tr>
 <tr>
 <td><code>"cv"</code></td>
 <td>coefficient of variation</td>
-<td>scale‑free relative dispersion</td>
+<td>scale-free relative dispersion</td>
 </tr>
 <tr>
 <td><code>"nugget"</code></td>
-<td><strong>data‑nugget between‑group weighted variance</strong></td>
-<td>large N, heavy tails, outliers — robust signal</td>
+<td><strong>data-nugget between-group weighted variance</strong></td>
+<td>large N, heavy tails, outliers: signal that resists noise</td>
 </tr>
 <tr>
 <td><code>"equal"</code></td>
 <td>flat</td>
-<td>ablation / no prior</td>
+<td>ablation or no prior</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Why data nuggets?</strong> A data nugget summarises a group of observations by a <em>centre</em>, a <em>weight</em> (how many observations it represents) and a <em>scale</em> (its internal spread). Building nuggets over the samples and asking <em>“which features separate the nugget centres?”</em> yields a feature‑importance score that rewards real between‑group signal while discounting within‑nugget noise — and it scales to very large N because it works on <code>M ≪ N</code> representatives.</p>
+<p><strong>Why data nuggets?</strong> A data nugget summarises a group of observations by a <em>centre</em>, a <em>weight</em> (how many observations it represents) and a <em>scale</em> (its internal spread). Building nuggets over the samples and asking <em>which features separate the nugget centres</em> yields a feature-importance score that rewards real between-group signal while discounting within-nugget noise, and it scales to very large N because it works on <code>M</code> representatives with <code>M</code> far below <code>N</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Inspect the nugget compression and the weights it induces</span></span>
-<span><span class="va">dn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_data_nuggets.html">create_data_nuggets</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">L</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, max_nuggets <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
-<span><span class="va">dn</span>                                   <span class="co"># 60 obs -&gt; 25 nuggets (reduction reported)</span></span>
-<span><span class="va">w</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/nugget_feature_weights.html">nugget_feature_weights</a></span><span class="op">(</span><span class="va">dn</span>, type <span class="op">=</span> <span class="st">"between"</span><span class="op">)</span>   <span class="co"># robust feature weights</span></span>
+<span><span class="co"># (objects are in rows, so pass the source directly: no transpose)</span></span>
+<span><span class="va">dn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_data_nuggets.html">create_data_nuggets</a></span><span class="op">(</span><span class="va">L</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, max_nuggets <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
+<span><span class="va">dn</span>                                   <span class="co"># 60 obs -&gt; up to 25 nuggets (reduction reported)</span></span>
+<span><span class="va">w</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/nugget_feature_weights.html">nugget_feature_weights</a></span><span class="op">(</span><span class="va">dn</span>, type <span class="op">=</span> <span class="st">"between"</span><span class="op">)</span>   <span class="co"># stable feature weights</span></span>
 <span></span>
 <span><span class="co"># Drop straight into M-ABC</span></span>
 <span><span class="fu"><a href="reference/M_ABC.html">M_ABC</a></span><span class="op">(</span><span class="va">L</span>, weighting <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nugget"</span>, <span class="st">"nugget"</span><span class="op">)</span>,</span>
 <span>      nugget_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>max_nuggets <span class="op">=</span> <span class="fl">25</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>If the reference <code>datanugget</code> package is installed you can swap in its engine with <code>create_data_nuggets(x, engine = "datanugget")</code>; otherwise the built‑in native engine is used (no extra dependency).</p>
+<p>If the reference <code>datanugget</code> package is installed you can swap in its engine with <code>create_data_nuggets(x, engine = "datanugget")</code>; otherwise the built-in native engine is used (no extra dependency).</p>
 <hr>
 </div>
 <div class="section level2">
-<h2 id="evaluation--comparison-toolkit">Evaluation &amp; comparison toolkit<a class="anchor" aria-label="anchor" href="#evaluation--comparison-toolkit"></a>
+<h2 id="evaluation-and-comparison-toolkit">Evaluation and comparison toolkit<a class="anchor" aria-label="anchor" href="#evaluation-and-comparison-toolkit"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/mosaic_labels.html">mosaic_labels</a></span><span class="op">(</span><span class="va">fit</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>                 <span class="co"># extract a partition from any result</span></span>
 <span><span class="fu"><a href="reference/cluster_agreement.html">cluster_agreement</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span>                   <span class="co"># ARI, NMI, pairwise Jaccard</span></span>
-<span><span class="fu"><a href="reference/compare_clusterings.html">compare_clusterings</a></span><span class="op">(</span><span class="va">D1</span>, <span class="va">D2</span>, NC <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>       <span class="co"># cluster two dissimilarities &amp; compare</span></span></code></pre></div>
-<p><code><a href="reference/cluster_agreement.html">cluster_agreement()</a></code> rule of thumb (ARI): <code>&gt;0.90</code> excellent · <code>0.75–0.90</code> good · <code>0.50–0.75</code> moderate · <code>&lt;0.50</code> weak.</p>
+<span><span class="fu"><a href="reference/compare_clusterings.html">compare_clusterings</a></span><span class="op">(</span><span class="va">D1</span>, <span class="va">D2</span>, NC <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>       <span class="co"># cluster two dissimilarities and compare</span></span></code></pre></div>
+<p><code><a href="reference/cluster_agreement.html">cluster_agreement()</a></code> rule of thumb (ARI): above 0.90 excellent, 0.75 to 0.90 good, 0.50 to 0.75 moderate, below 0.50 weak.</p>
 <div class="section level3">
-<h3 id="downstream-analysis--visualisation">Downstream analysis &amp; visualisation<a class="anchor" aria-label="anchor" href="#downstream-analysis--visualisation"></a>
+<h3 id="downstream-analysis-and-visualisation">Downstream analysis and visualisation<a class="anchor" aria-label="anchor" href="#downstream-analysis-and-visualisation"></a>
 </h3>
 <p>The package also ships a full downstream analysis suite (Layer 4). These guard their heavier dependencies via <em>Suggests</em> and raise an informative error if one is missing.</p>
 <table class="table">
@@ -644,7 +649,7 @@
 </tr></thead>
 <tbody>
 <tr>
-<td>Cross‑method comparison</td>
+<td>Cross-method comparison</td>
 <td>
 <code>ReorderToReference</code>, <code>SimilarityMeasure</code>, <code>CompareSilCluster</code>, <code>CompareSvsM</code>, <code>CompareInteractive</code>, <code>SelectnrClusters</code>
 </td>
@@ -673,7 +678,7 @@
 <td>base</td>
 </tr>
 <tr>
-<td>Dendrograms / colours</td>
+<td>Dendrograms and colours</td>
 <td>
 <code>ComparePlot</code>, <code>Cyclogram</code>, <code>ClusterPlot</code>, <code>ColorPalette</code>, <code>LabelPlot</code>
 </td>
@@ -682,7 +687,7 @@
 </td>
 </tr>
 <tr>
-<td>Heatmaps / boxplots</td>
+<td>Heatmaps and boxplots</td>
 <td>
 <code>HeatmapPlot</code>, <code>HeatmapSelection</code>, <code>SimilarityHeatmap</code>, <code>BoxPlotDistance</code>
 </td>
@@ -691,7 +696,7 @@
 </td>
 </tr>
 <tr>
-<td>Feature / profile plots</td>
+<td>Feature and profile plots</td>
 <td>
 <code>BinFeaturesPlot_SingleData</code>, <code>BinFeaturesPlot_MultipleData</code>, <code>ContFeaturesPlot</code>, <code>ProfilePlot</code>
 </td>
@@ -716,7 +721,7 @@
 </td>
 </tr>
 <tr>
-<td>Shared genes/paths/features</td>
+<td>Shared genes, paths, features</td>
 <td>
 <code>SharedGenesPathsFeat</code>, <code>SharedSelection</code>, <code>SharedSelectionLimma</code>, <code>SharedSelectionMLP</code>
 </td>
@@ -733,11 +738,11 @@
 </h2>
 <ul>
 <li>
-<strong><code>mosaic_toy</code></strong> — a bundled two‑source example (60 shared samples, 3 planted groups) for instant experimentation and the test suite.</li>
+<strong><code>mosaic_toy</code></strong>: a bundled two-source example (60 shared samples, 3 planted groups) for instant experimentation and the test suite.</li>
 <li>
-<strong><code><a href="reference/mosaic_sim.html">mosaic_sim()</a></code></strong> — generate your own multi‑source data with controllable group structure, informative‑feature counts and effect size.</li>
+<strong><code><a href="reference/mosaic_sim.html">mosaic_sim()</a></code></strong>: generate your own multi-source data with controllable group structure, informative-feature counts and effect size.</li>
 </ul>
-<p>The methods are designed for, and have been evaluated on, multi‑omics benchmarks in the spirit of the <strong>LUCIDus</strong> simulated‑HELIX data, <strong>TCGA</strong> subtype cohorts, and the <strong>MCF7</strong> compound–fingerprint–transcriptome panel used in the companion manuscript.</p>
+<p>The methods are designed for, and have been evaluated on, multi-omics benchmarks in the spirit of the <strong>LUCIDus</strong> simulated-HELIX data, <strong>TCGA</strong> subtype cohorts, and the <strong>MCF7</strong> compound, fingerprint and transcriptome panel used in the companion manuscript.</p>
 <hr>
 </div>
 <div class="section level2">
@@ -745,13 +750,13 @@
 </h2>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Source‑agnostic.</strong> Methods do not care whether a tile is RNA, methylation, fingerprints or clinical scores.</li>
+<strong>Source-agnostic.</strong> Methods do not care whether a tile is RNA, methylation, fingerprints or clinical scores.</li>
 <li>
-<strong>Composable.</strong> A uniform <code>{DistM, Clust}</code> return makes any two methods comparable and any result re‑usable.</li>
+<strong>Composable.</strong> A uniform <code>{DistM, Clust}</code> return makes any two methods comparable and any result re-usable.</li>
 <li>
 <strong>Honest dependencies.</strong> The core is pure R; heavyweight methods degrade gracefully when an optional package is absent.</li>
 <li>
-<strong>Tested.</strong> A <code>testthat</code> suite covers the data‑nugget engine, every weighting scheme, the M‑ABC family, distances and metrics.</li>
+<strong>Tested.</strong> A <code>testthat</code> suite covers the data-nugget engine, every weighting scheme, the M-ABC family, distances and metrics.</li>
 </ol>
 <hr>
 </div>
@@ -765,7 +770,7 @@
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>            Claesen, Jürgen and Gupta, Surya and Cabrera, Javier and</span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>            Amaratunga, Dhammika and Shkedy, Ziv},</span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="dt">year</span>   = {2026},</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="dt">note</span>   = {R package version 0.1.0},</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="dt">note</span>   = {R package version 1.0.0},</span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="dt">url</span>    = {https://github.com/lucp12891/MosaiClusteR}</span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>}</span></code></pre></div>
 </div>
@@ -773,20 +778,19 @@
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <ul>
-<li>Amaratunga, Cabrera &amp; Shkedy (2008). <em>Exploration and Analysis of DNA Microarray and Other High‑Dimensional Data.</em> Wiley.</li>
-<li>Cherasia, Cabrera, Fernholz &amp; Fernholz (2023). <em>Data Nuggets in Supervised Learning.</em> In <em>Robust and Multivariate Statistical Methods</em>, Springer, 429–449.</li>
-<li>Wang et al. (2014). <em>Similarity Network Fusion…</em> <strong>Nature Methods</strong> 11:333–337.</li>
-<li>Perualila‑Tan et al. (2016). <em>Weighted similarity‑based clustering…</em>
+<li>Amaratunga, Cabrera and Shkedy (2008). <em>Exploration and Analysis of DNA Microarray and Other High-Dimensional Data.</em> Wiley.</li>
+<li>Cherasia, Cabrera, Fernholz and Fernholz (2023). <em>Data Nuggets in Supervised Learning.</em> In <em>Robust and Multivariate Statistical Methods</em>, Springer, 429 to 449.</li>
+<li>Wang et al. (2014). <em>Similarity Network Fusion.</em> <strong>Nature Methods</strong> 11:333 to 337.</li>
+<li>Perualila-Tan et al. (2016). <em>Weighted similarity-based clustering.</em>
 </li>
-<li>Fodeh, Punch &amp; Tan (2013). <em>On unifying multi‑source information…</em> <strong>Proteins</strong>.</li>
-<li>Zheng, Chen &amp; Zheng (2014). <em>A novel approach for hierarchical ensemble clustering.</em> <strong>IEEE TPAMI</strong>.</li>
-<li>Strehl &amp; Ghosh (2002); Fern &amp; Brodley (2004); Gionis et al. (2007); Nguyen &amp; Caruana (2007); Fred &amp; Jain (2005); Iam‑On et al. (2010); Saeed et al. (2012/2014); Hossain et al. (2012).</li>
-<li>Zhang, Zhou, Xu &amp; Liu (2022). <em>Integrative clustering methods for multi‑omics data.</em> <strong>WIREs Comput Stat</strong> 14:e1553. <em>(SNF, NEMO, iCluster family, ab‑SNF, CIMLR review.)</em>
-</li>
-<li>Zhao, Jia, Goodrich &amp; Conti (2024). <em>LUCIDus…</em> <strong>The R Journal</strong> 16(2).</li>
+<li>Fodeh, Punch and Tan (2013). <em>On unifying multi-source information.</em> <strong>Proteins</strong>.</li>
+<li>Zheng, Chen and Zheng (2014). <em>A novel approach for hierarchical ensemble clustering.</em> <strong>IEEE TPAMI</strong>.</li>
+<li>Strehl and Ghosh (2002); Fern and Brodley (2004); Gionis et al. (2007); Nguyen and Caruana (2007); Fred and Jain (2005); Iam-On et al. (2010); Saeed et al. (2012/2014); Hossain et al. (2012).</li>
+<li>Zhang, Zhou, Xu and Liu (2022). <em>Integrative clustering methods for multi-omics data.</em> <strong>WIREs Comput Stat</strong> 14:e1553. (SNF, NEMO, iCluster family, ab-SNF, CIMLR review.)</li>
+<li>Zhao, Jia, Goodrich and Conti (2024). <em>LUCIDus.</em> <strong>The R Journal</strong> 16(2).</li>
 </ul>
 <hr>
-<p><em>MosaiClusteR is an open, extensible framework — contributions of new integration methods, distances, and evaluation tools are very welcome.</em></p>
+<p><em>MosaiClusteR is an open, extensible framework. Contributions of new integration methods, distances, and evaluation tools are very welcome.</em></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

@@ -33,6 +33,12 @@
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="../articles/MosaiClusteR.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/method-comparison.html">Choosing a method: a side-by-side comparison</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -288,14 +294,14 @@ how well each recovers the planted groups with the Adjusted Rand Index
 <span><span class="va">comparison</span></span>
 <span><span class="co">#&gt;                   method status  ARI seconds message</span></span>
 <span><span class="co">#&gt; 1           ADC (direct)     ok 1.00    0.02        </span></span>
-<span><span class="co">#&gt; 2 WeightedClust (simil.)     ok 1.00    0.01        </span></span>
-<span><span class="co">#&gt; 3     SNF (graph fusion)     ok 1.00    0.27        </span></span>
-<span><span class="co">#&gt; 4   NEMO (neighbourhood)     ok 1.00    0.01        </span></span>
-<span><span class="co">#&gt; 5        CEC (consensus)     ok 1.00    0.05        </span></span>
-<span><span class="co">#&gt; 6        intNMF (factor)     ok 1.00    0.09        </span></span>
-<span><span class="co">#&gt; 7           Data nuggets     ok 1.00    0.04        </span></span>
-<span><span class="co">#&gt; 8           ABC (voting)     ok 1.00    0.06        </span></span>
-<span><span class="co">#&gt; 9      WonM (similarity)     ok 0.95    0.03</span></span></code></pre></div>
+<span><span class="co">#&gt; 2 WeightedClust (simil.)     ok 1.00    0.02        </span></span>
+<span><span class="co">#&gt; 3     SNF (graph fusion)     ok 1.00    0.06        </span></span>
+<span><span class="co">#&gt; 4   NEMO (neighbourhood)     ok 1.00    0.02        </span></span>
+<span><span class="co">#&gt; 5        CEC (consensus)     ok 1.00    0.06        </span></span>
+<span><span class="co">#&gt; 6        intNMF (factor)     ok 1.00    0.08        </span></span>
+<span><span class="co">#&gt; 7           Data nuggets     ok 1.00    0.02        </span></span>
+<span><span class="co">#&gt; 8           ABC (voting)     ok 1.00    0.07        </span></span>
+<span><span class="co">#&gt; 9      WonM (similarity)     ok 0.95    0.01</span></span></code></pre></div>
 <p>On this toy set most methods recover the planted structure; on real
 data they diverge, which is why running several and comparing them is
 the recommended workflow rather than trusting a single algorithm.</p>
