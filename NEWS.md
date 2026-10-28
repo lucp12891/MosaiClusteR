@@ -1,3 +1,18 @@
+# MosaiClusteR 1.0.0 (development)
+
+Work toward the first stable release, on branch `dev-1.0.0`. This section
+collects changes since 0.1.4.
+
+## Correctness fixes
+
+* `Cluster()` now forwards the normalisation method to `Distance()`. Previously
+  the `method` argument was documented and accepted but silently ignored, and
+  `normalize = TRUE` did not select a method. `normalize` now accepts either a
+  logical (`FALSE` for none) or a normalisation method name, and `method` sets
+  the method when `normalize = TRUE`.
+* Documentation examples now use the objects-in-rows orientation consistently
+  (the `Cluster()` example no longer transposes the bundled `mosaic_toy` data).
+
 # MosaiClusteR 0.1.4
 
 Third public release. It consolidates the development carried out after 0.1.1,
