@@ -10,7 +10,8 @@ mosaic_labels(object, k, linkage = "ward")
 \item{object}{A MosaiClusteR result (e.g. from \code{\link{M_ABC}}), an
 \code{agnes}/\code{hclust} object, or a distance matrix.}
 
-\item{k}{Number of clusters.}
+\item{k}{Number of clusters: a single positive integer, at most the number of
+objects.}
 
 \item{linkage}{Linkage used when \code{object} is a bare distance matrix.}
 }

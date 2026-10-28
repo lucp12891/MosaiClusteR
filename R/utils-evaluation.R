@@ -11,7 +11,8 @@
 #'
 #' @param object A MosaiClusteR result (e.g. from \code{\link{M_ABC}}), an
 #'   \code{agnes}/\code{hclust} object, or a distance matrix.
-#' @param k Number of clusters.
+#' @param k Number of clusters: a single positive integer, at most the number of
+#'   objects.
 #' @param linkage Linkage used when \code{object} is a bare distance matrix.
 #' @return An integer vector of cluster labels, named by object.
 #' @examples
@@ -23,6 +24,10 @@
 #' mosaic_labels(fit, k = 3)
 #' @export
 mosaic_labels <- function(object, k, linkage = "ward") {
+  if (missing(k) || length(k) != 1L || is.na(k) || !is.numeric(k) ||
+      k < 1 || k != round(k))
+    stop("'k' must be a single positive integer.")
+  k <- as.integer(k)
   cl <- NULL
   if (is.list(object) && !is.null(object$Clust)) {
     cl <- object$Clust

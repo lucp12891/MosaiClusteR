@@ -22,6 +22,9 @@ collects changes since 0.1.4.
   two non-NA values to interpolate"); and mismatched object sets, differing row
   counts or duplicated identifiers now raise clear errors instead of a cryptic
   "subscript out of bounds".
+* `mosaic_labels()` validates `k` (a single positive integer) with a clear
+  message, instead of silently truncating a non-integer `k` or failing cryptically
+  on `NA`.
 
 ## Documentation and examples
 

@@ -41,3 +41,13 @@ test_that("Cluster treats objects as rows (no transpose needed)", {
   expect_length(lab, nrow(X))
   expect_equal(length(unique(lab)), 3L)
 })
+
+test_that("mosaic_labels validates k with a clear message", {
+  data(mosaic_toy)
+  fit <- Cluster(mosaic_toy$List[[1]], distmeasure = "euclidean")
+  expect_error(mosaic_labels(fit, NA), "single positive integer")
+  expect_error(mosaic_labels(fit, 2.7), "single positive integer")
+  expect_error(mosaic_labels(fit, c(2, 3)), "single positive integer")
+  expect_error(mosaic_labels(fit, 0), "single positive integer")
+  expect_length(mosaic_labels(fit, 3), nrow(mosaic_toy$List[[1]]))
+})
