@@ -20,7 +20,7 @@ comparison/evaluation.
 \code{\link{Distance}}.
 \item \strong{Baseline} each source on its own (any hierarchical clusterer)
 to motivate integration.
-\item \strong{Integrate} with one or more methods, e.g. \code{\link{M_ABCpp}},
+\item \strong{Integrate} with one or more methods, e.g. \code{\link{M_ABC}},
 \code{\link{M_ABCdist}}, \code{\link{WeightedClust}}, \code{\link{SNF}},
 \code{\link{CEC}}, \code{\link{HierarchicalEnsembleClustering}}.
 \item \strong{Evaluate} and compare solutions with
@@ -43,8 +43,8 @@ alternative based on \code{\link{create_data_nuggets}}. See
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/bosangir/MosaiClusteR}
-  \item Report bugs at \url{https://github.com/bosangir/MosaiClusteR/issues}
+  \item \url{https://github.com/lucp12891/MosaiClusteR}
+  \item Report bugs at \url{https://github.com/lucp12891/MosaiClusteR/issues}
 }
 
 }

@@ -1,0 +1,18 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^\.git$
+^\.gitignore$
+^LICENSE\.md$
+^manuscript$
+^references$
+^Revision$
+^Rplots.*\.pdf$
+^MoSaiClusteR Project$
+^MoSaiClusteR_Project$
+^MoSaiClusteR_howto.*
+^.*\.pdf$
+^.*\.zip$
+^.*\.RData$
+^.*\.dll$
+^.*\.o$

@@ -21,9 +21,9 @@ test_that("nugget weighting concentrates probability on informative features", {
   expect_gt(mean(p[1:5]), mean(p[6:30]))
 })
 
-test_that("data-nugget weighting recovers structure through M_ABCpp", {
+test_that("data-nugget weighting recovers structure through M_ABC", {
   data(mosaic_toy)
-  fit <- M_ABCpp(mosaic_toy$List, numsim = 60, NC = 3,
+  fit <- M_ABC(mosaic_toy$List, numsim = 60, NC = 3,
                  weighting = c("nugget", "nugget"),
                  nugget_args = list(max_nuggets = 25, seed = 1))
   expect_gt(cluster_agreement(mosaic_labels(fit, 3), mosaic_toy$truth)[["ARI"]], 0.6)

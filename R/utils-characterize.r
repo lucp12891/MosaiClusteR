@@ -139,9 +139,9 @@ CharacteristicFeatures<-function(List,Selection=NULL,binData=NULL,contData=NULL,
 				#Determine characteristic features for the objects: fishers exact test
 				result=list()
 				if(!is.null(binData)){
-					for(i in 1:length(binData)){
-						binData[[i]]=binData[[i]]+0
-						binData[[i]]<-binData[[i]][,which(colSums(binData[[i]]) != 0 & colSums(binData[[i]]) != nrow(binData[[i]]))]
+					for(b in 1:length(binData)){
+						binData[[b]]=binData[[b]]+0
+						binData[[b]]<-binData[[b]][,which(colSums(binData[[b]]) != 0 & colSums(binData[[b]]) != nrow(binData[[b]]))]
 					}
 
 
@@ -163,7 +163,7 @@ CharacteristicFeatures<-function(List,Selection=NULL,binData=NULL,contData=NULL,
 						TopFeat$Names=as.character(TopFeat$Names)
 						temp1=list(TopFeat=TopFeat,AllFeat=AllFeat)
 						result[[j]]<-temp1
-						names(result)[j]=datanames[length(binData)+j]
+						names(result)[j]=datanames[j]
 
 					}
 				}
@@ -228,6 +228,79 @@ CharacteristicFeatures<-function(List,Selection=NULL,binData=NULL,contData=NULL,
 	}
 
 	return(ResultFeat)
+}
+
+
+#' Tidy CharacteristicFeatures() output for plotting
+#'
+#' Turns the output of [CharacteristicFeatures()] into a per-cluster list of
+#' compact tables (`term` / `pvalue` / `Count`) ready for [plot_pathways()].
+#' For each cluster it keeps the characteristic features that pass a significance
+#' cut and, by default, only those that are \emph{enriched} in the cluster
+#' (more frequent among its objects than in the remaining objects) rather than
+#' depleted. Empty clusters are dropped.
+#'
+#' @param char Output of [CharacteristicFeatures()].
+#' @param data The binary data matrix whose features were tested (objects in
+#'   rows, features in columns) - e.g. the target matrix. Used to set the
+#'   enrichment direction and the per-cluster feature counts.
+#' @param source Which tested data source to use within each cluster, by name
+#'   (e.g. `"Target"`) or index. Default: the first source.
+#' @param method Which clustering result in `char` to use, by name or index.
+#'   Default `1`.
+#' @param sign Keep features with adjusted p-value below this. Default `0.05`.
+#' @param enriched_only If `TRUE` (default) keep only features more frequent in
+#'   the cluster than in the rest of the objects; if `FALSE` keep every
+#'   significant characteristic feature (enriched or depleted).
+#' @param clean_names If `TRUE` (default) tidy the feature names for display -
+#'   reversing the `make.names()` mangling common in binary descriptor matrices
+#'   (drop a leading `X` before a digit, turn `.`/`_` runs into spaces), e.g.
+#'   `"X3.oxo.5.alpha_steroid"` becomes `"3 oxo 5 alpha steroid"`. Set `FALSE`
+#'   to keep the raw column names.
+#' @return A named list - one element per non-empty cluster - of data frames
+#'   with columns `term`, `pvalue` (adjusted p-value) and `Count` (number of the
+#'   cluster's objects carrying the feature), suitable for [plot_pathways()].
+#' @seealso [CharacteristicFeatures()], [plot_pathways()]
+#' @examples
+#' \dontrun{
+#' Char <- CharacteristicFeatures(List = list(Weighted = sol),
+#'                                binData = list(Target = targetMat),
+#'                                datanames = "Target", nrclusters = 4)
+#' tabs <- enriched_features(Char, targetMat)
+#' plot_pathways(tabs, style = "circular")
+#' }
+#' @export
+enriched_features <- function(char, data, source = 1, method = 1,
+                              sign = 0.05, enriched_only = TRUE,
+                              clean_names = TRUE) {
+  m <- char[[method]]
+  if (is.null(m)) stop("No such 'method' in 'char'.")
+  tidy_nm <- function(x) gsub("[._]+", " ", sub("^X(?=[0-9])", "", x, perl = TRUE))
+  rest_all <- rownames(data)
+  out <- list()
+  for (nm in names(m)) {
+    cc <- m[[nm]]
+    if (!is.list(cc)) next                                   # empty cluster
+    lead  <- cc$objects$LeadCpds
+    chars <- cc$Characteristics
+    src   <- if (is.character(source)) source else min(source, length(chars))
+    tf    <- chars[[src]]$TopFeat
+    if (is.null(tf) || !nrow(tf)) next
+    keep <- tf$adj.P.Val < sign
+    if (enriched_only) {
+      rest <- setdiff(rest_all, lead)
+      incl <- colMeans(data[lead, tf$Names, drop = FALSE]) >
+              colMeans(data[rest, tf$Names, drop = FALSE])
+      keep <- keep & incl
+    }
+    tf <- tf[keep, , drop = FALSE]
+    if (!nrow(tf)) next
+    out[[nm]] <- data.frame(term   = if (clean_names) tidy_nm(tf$Names) else tf$Names,
+                            pvalue = tf$adj.P.Val,
+                            Count  = colSums(data[lead, tf$Names, drop = FALSE]),
+                            stringsAsFactors = FALSE)
+  }
+  out
 }
 
 
@@ -639,11 +712,11 @@ FeatSelection<-function(List,Selection=NULL,binData=NULL,contData=NULL,datanames
 
 				AllFeat=data.frame(Names=as.character(names(pTTest)),P.Value=pTTest,adj.P.Val=adjpTTest)
 				AllFeat$Names=as.character(AllFeat$Names)
-				if(is.null(topC)){
-					topC=length(which(pTTest<sign))
+				if(is.null(topChar)){
+					topChar=length(which(pTTest<sign))
 				}
 
-				TopFeat=data.frame(Names=as.character(names(pTTest[0:topC])),P.Value=pTTest[0:topC],adj.P.Val=adjpTTest[0:topC])
+				TopFeat=data.frame(Names=as.character(names(pTTest[0:topChar])),P.Value=pTTest[0:topChar],adj.P.Val=adjpTTest[0:topChar])
 				TopFeat$Names=as.character(TopFeat$Names)
 				temp1=list(TopFeat=TopFeat,AllFeat=AllFeat)
 				resultC[[j]]<-temp1
@@ -832,6 +905,9 @@ FeatSelection<-function(List,Selection=NULL,binData=NULL,contData=NULL,datanames
 #' @param data The data matrix.
 #' @param threshold The number of objects the features at least should be
 #' shared amongst. Default is set to 1.
+#' @param cexB Font size of the bottom (object) labels in the plot. Default is 1.1.
+#' @param cexR Font size of the right (feature) labels in the plot. Default is 1.1.
+#' @param cexN Font size of the data-name label in the plot. Default is 1.1.
 #' @param plot Logical. Indicates whether or not a BinFeaturesPlot should be
 #' set up. Default is TRUE.
 #' @param plottype Should be one of "pdf","new" or "sweave". Default is "new".
@@ -847,7 +923,7 @@ FeatSelection<-function(List,Selection=NULL,binData=NULL,contData=NULL,datanames
 #' FeaturesOfCluster(leadCpds=Lead,data=fingerprintMat,
 #' threshold=1,plot=TRUE,plottype="new",location=NULL)
 #' }
-FeaturesOfCluster<-function(leadCpds,data,threshold=1,plot=TRUE,plottype="new",location=NULL){
+FeaturesOfCluster<-function(leadCpds,data,threshold=1,plot=TRUE,cexB=1.1,cexR=1.1,cexN=1.1,plottype="new",location=NULL){
 	SubsetData=as.matrix(data[which(rownames(data)%in%leadCpds),])
 
 	Common=SubsetData%*%t(SubsetData)
@@ -869,7 +945,7 @@ FeaturesOfCluster<-function(leadCpds,data,threshold=1,plot=TRUE,plottype="new",l
 	if(plot==TRUE){
 		BinFeaturesPlot_SingleData(leadCpds=leadCpds,orderLab=rownames(data),
 				features=as.character(Features),data=data,colorLab=NULL,nrclusters=NULL,cols=NULL,name=c("Shared Features Among Selected objects"),
-				margins=c(8.5,2.0,0.5,9.5),plottype=plottype,location=location)
+				margins=c(8.5,2.0,0.5,9.5),cexB=cexB,cexR=cexR,cexN=cexN,plottype=plottype,location=location)
 	}
 
 	Out=list("Number_of_Common_Features"=Common,"SharedFeatures"=Features)

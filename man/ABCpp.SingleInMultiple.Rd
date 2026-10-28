@@ -62,7 +62,7 @@ The canonical single-source ABC engine of
 \insertCite{Amaratunga2008}{MosaiClusteR}. Over \code{numsim} iterations it
 (optionally) bootstraps the objects, draws a weighted subsample of features,
 clusters the sub-matrix with \code{fastcluster::hclust}, and records each
-selected object's base-cluster label. \code{\link{M_ABCpp}} turns the stacked
+selected object's base-cluster label. \code{\link{M_ABC}} turns the stacked
 label matrix into a consensus dissimilarity using the C++ co-clustering
 kernel.
 }
@@ -90,5 +90,5 @@ dim(lab)
 \insertAllCited{}
 }
 \seealso{
-\code{\link{M_ABCpp}}, \code{\link{create_data_nuggets}}
+\code{\link{M_ABC}}, \code{\link{create_data_nuggets}}
 }

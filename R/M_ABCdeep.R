@@ -3,7 +3,7 @@
 # Multi-source M-ABC with a deep-learning (autoencoder) Step 4.
 # Function: M_ABCdeep
 #
-# Mirror of M_ABCpp: per source we run ABCdeep.SingleInMultiple and row-stack the
+# Mirror of M_ABC: per source we run ABCdeep.SingleInMultiple and row-stack the
 # label matrices, then fuse them into a consensus dissimilarity with the SAME
 # f.clustABC.MultiSource (C++ co-clustering kernel when available). Only the
 # per-source base clustering differs (autoencoder latent space instead of a raw
@@ -13,7 +13,7 @@
 
 #' Multi-source M-ABC with a deep-learning (autoencoder) Step 4 (M-ABCdeep)
 #'
-#' The deep-learning counterpart of \code{\link{M_ABCpp}}: runs
+#' The deep-learning counterpart of \code{\link{M_ABC}}: runs
 #' \code{\link{ABCdeep.SingleInMultiple}} per source (autoencoder embedding +
 #' latent clustering for the base partitions), row-stacks the per-iteration label
 #' matrices, and builds one consensus dissimilarity via
@@ -43,7 +43,7 @@
 #' @param seed Optional RNG seed.
 #' @return A list of class \code{"M_ABC"} with \code{DistM} and \code{Clust}.
 #' @references \insertAllCited{}
-#' @seealso \code{\link{ABCdeep.SingleInMultiple}}, \code{\link{M_ABCpp}},
+#' @seealso \code{\link{ABCdeep.SingleInMultiple}}, \code{\link{M_ABC}},
 #'   \code{\link{f.clustABC.MultiSource}}
 #' @examples
 #' data(mosaic_toy)

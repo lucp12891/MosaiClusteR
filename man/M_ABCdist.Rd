@@ -70,6 +70,6 @@ dim(fit$DistM)
 \insertCite{Amaratunga2008}{MosaiClusteR}
 }
 \seealso{
-\code{\link{M_ABCpp}}, \code{\link{ABCdist.SingleInMultiple}},
+\code{\link{M_ABC}}, \code{\link{ABCdist.SingleInMultiple}},
 \code{\link{M_ABCdist.WC}}
 }

@@ -13,7 +13,7 @@
 #'         \code{\link{Distance}}.
 #'   \item \strong{Baseline} each source on its own (any hierarchical clusterer)
 #'         to motivate integration.
-#'   \item \strong{Integrate} with one or more methods, e.g. \code{\link{M_ABCpp}},
+#'   \item \strong{Integrate} with one or more methods, e.g. \code{\link{M_ABC}},
 #'         \code{\link{M_ABCdist}}, \code{\link{WeightedClust}}, \code{\link{SNF}},
 #'         \code{\link{CEC}}, \code{\link{HierarchicalEnsembleClustering}}.
 #'   \item \strong{Evaluate} and compare solutions with

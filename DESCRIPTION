@@ -1,16 +1,15 @@
 Package: MosaiClusteR
 Type: Package
 Title: An Umbrella Framework for Multi-Source and Multi-Omics Clustering
-Version: 0.1.0
+Version: 0.1.5
 Authors@R: c(
-    person("Bernard Isekah", "Osang'ir", email = "bernard.osangir@sckcen.be",
+    person("Bernard Isekah", "Osang'ir", email = "b.osangir@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5557-3602")),
     person("Marijke", "Van Moerbeke", role = "aut"),
     person("Ziv", "Shkedy", role = "ctb"),
     person("Surya", "Gupta", role = "ctb"),
     person("Jürgen", "Claesen", role = "ctb"))
-Description: An umbrella framework ("MoSaIC" = Multi-Omics Source-Agnostic
-    Integration Clustering in R) that unifies a large collection
+Description: An umbrella framework ("MoSaIC:" Multi-Omics Similarity Aggregation and Integrative Clustering in R) that unifies a large collection
     of multi-source / multi-omics clustering methodologies behind a single,
     consistent list-of-matrices interface. It spans five integration
     paradigms - direct, similarity-based, graph-based, voting-based consensus,
@@ -20,7 +19,7 @@ Description: An umbrella framework ("MoSaIC" = Multi-Omics Source-Agnostic
     based feature-weighting scheme as a robust, big-data-friendly alternative to
     variance weighting, and a downstream suite for cluster characterisation,
     visualisation and biological interpretation.
-License: GPL-3
+License: CC BY-SA 4.0
 Encoding: UTF-8
 LazyData: false
 Depends: R (>= 4.0)
@@ -67,6 +66,9 @@ Suggests:
     genefilter,
     ggplot2,
     gridExtra,
+    uwot,
+    Rtsne,
+    MOFAdata,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown
@@ -77,4 +79,4 @@ VignetteBuilder: knitr
 URL: https://github.com/lucp12891/MosaiClusteR
 BugReports: https://github.com/lucp12891/MosaiClusteR/issues
 NeedsCompilation: yes
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0

@@ -9,6 +9,9 @@ FeaturesOfCluster(
   data,
   threshold = 1,
   plot = TRUE,
+  cexB = 1.1,
+  cexR = 1.1,
+  cexN = 1.1,
   plottype = "new",
   location = NULL
 )
@@ -24,6 +27,12 @@ shared amongst. Default is set to 1.}
 
 \item{plot}{Logical. Indicates whether or not a BinFeaturesPlot should be
 set up. Default is TRUE.}
+
+\item{cexB}{Font size of the bottom (object) labels in the plot. Default is 1.1.}
+
+\item{cexR}{Font size of the right (feature) labels in the plot. Default is 1.1.}
+
+\item{cexN}{Font size of the data-name label in the plot. Default is 1.1.}
 
 \item{plottype}{Should be one of "pdf","new" or "sweave". Default is "new".}
 

@@ -9,7 +9,7 @@
 #' \code{k} groups. Works with any method returning a \code{Clust} element (an
 #' \code{agnes}/\code{hclust} object) and/or a \code{DistM}.
 #'
-#' @param object A MosaiClusteR result (e.g. from \code{\link{M_ABCpp}}), an
+#' @param object A MosaiClusteR result (e.g. from \code{\link{M_ABC}}), an
 #'   \code{agnes}/\code{hclust} object, or a distance matrix.
 #' @param k Number of clusters.
 #' @param linkage Linkage used when \code{object} is a bare distance matrix.
@@ -19,7 +19,7 @@
 #' s <- paste0("o", 1:20)
 #' L <- list(matrix(rnorm(20 * 40), 20, dimnames = list(s, NULL)),
 #'           matrix(rnorm(20 * 50), 20, dimnames = list(s, NULL)))
-#' fit <- M_ABCpp(L, numsim = 30)
+#' fit <- M_ABC(L, numsim = 30)
 #' mosaic_labels(fit, k = 3)
 #' @export
 mosaic_labels <- function(object, k, linkage = "ward") {

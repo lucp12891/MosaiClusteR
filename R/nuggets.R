@@ -70,7 +70,7 @@
 #'
 #' \insertRef{WCluster2025}{MosaiClusteR}
 #'
-#' @seealso \code{\link{nugget_feature_weights}}, \code{\link{M_ABCpp}}
+#' @seealso \code{\link{nugget_feature_weights}}, \code{\link{M_ABC}}
 #' @examples
 #' set.seed(1)
 #' x <- rbind(matrix(rnorm(200 * 5,  0), ncol = 5),
@@ -226,7 +226,7 @@ print.data_nugget <- function(x, ...) {
 #'   non-negative feature scores.
 #'
 #' @references \insertRef{Cherasia2023}{MosaiClusteR}
-#' @seealso \code{\link{create_data_nuggets}}, \code{\link{M_ABCpp}}
+#' @seealso \code{\link{create_data_nuggets}}, \code{\link{M_ABC}}
 #' @examples
 #' set.seed(1)
 #' x <- cbind(signal = c(rnorm(50, 0), rnorm(50, 5)),  # separates groups

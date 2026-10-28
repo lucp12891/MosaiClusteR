@@ -1,6 +1,6 @@
-test_that("M_ABCpp returns a standard MosaiClusteR result", {
+test_that("M_ABC returns a standard MosaiClusteR result", {
   data(mosaic_toy)
-  fit <- M_ABCpp(mosaic_toy$List, numsim = 40, NC = 3,
+  fit <- M_ABC(mosaic_toy$List, numsim = 40, NC = 3,
                  distmeasure = c("euclidean", "euclidean"))
   expect_true(all(c("DistM", "Clust") %in% names(fit)))
   expect_true(inherits(fit$Clust, c("agnes", "twins")))
@@ -9,14 +9,14 @@ test_that("M_ABCpp returns a standard MosaiClusteR result", {
   expect_equal(unname(diag(fit$DistM)), rep(0, 60))
 })
 
-test_that("M_ABCpp recovers structure with var and data-nugget weighting", {
+test_that("M_ABC recovers structure with var and data-nugget weighting", {
   data(mosaic_toy)
   truth <- mosaic_toy$truth
   set.seed(11)
-  fit_v <- M_ABCpp(mosaic_toy$List, numsim = 60, NC = 3,
+  fit_v <- M_ABC(mosaic_toy$List, numsim = 60, NC = 3,
                    weighting = c("var", "var"),
                    distmeasure = c("euclidean", "euclidean"))
-  fit_n <- M_ABCpp(mosaic_toy$List, numsim = 60, NC = 3,
+  fit_n <- M_ABC(mosaic_toy$List, numsim = 60, NC = 3,
                    weighting = c("nugget", "nugget"),
                    distmeasure = c("euclidean", "euclidean"),
                    nugget_args = list(max_nuggets = 25, seed = 1))

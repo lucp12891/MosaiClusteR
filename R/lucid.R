@@ -26,7 +26,7 @@
 #' @references Zhao, Y., Jia, K., Goodrich, J. & Conti, D. V. (2024). LUCIDus:
 #'   an R package for implementing LUCID with phenotypic traits. The R Journal
 #'   16(2).
-#' @seealso \code{\link{M_ABCpp}}, \code{\link{intNMF}}
+#' @seealso \code{\link{M_ABC}}, \code{\link{intNMF}}
 #' @examples
 #' \dontrun{
 #' # requires the 'LUCIDus' package

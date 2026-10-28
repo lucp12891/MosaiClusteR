@@ -29,7 +29,7 @@ test_that("cluster_agreement is 1 for identical partitions up to relabelling", {
 
 test_that("mosaic_labels extracts a partition of the right size", {
   data(mosaic_toy)
-  fit <- M_ABCpp(mosaic_toy$List, numsim = 30, NC = 3)
+  fit <- M_ABC(mosaic_toy$List, numsim = 30, NC = 3)
   lab <- mosaic_labels(fit, k = 3)
   expect_length(lab, 60)
   expect_equal(length(unique(lab)), 3)

@@ -9,8 +9,10 @@
 #'
 #' @param Data A data matrix; rows are the objects.
 #' @param distmeasure One of \code{"tanimoto"}, \code{"jaccard"},
-#'   \code{"euclidean"} (Gower), \code{"hamming"}, \code{"cont tanimoto"},
-#'   \code{"MCA_coord"}, \code{"gower"}, \code{"chi.squared"}, \code{"cosine"}.
+#'   \code{"euclidean"} (true Euclidean, via \code{stats::dist}),
+#'   \code{"gower"} (mixed-type, via \code{FD::gowdis}), \code{"hamming"},
+#'   \code{"cont tanimoto"}, \code{"MCA_coord"}, \code{"chi.squared"},
+#'   \code{"cosine"}.
 #' @param normalize Optional normalisation method (see \code{\link{Normalization}}),
 #'   applied for the \code{"euclidean"} / \code{"cont tanimoto"} measures.
 #' @param method Ignored; retained for backward compatibility.
@@ -56,7 +58,12 @@ Distance <- function(Data,
     dist <- as.matrix(ade4::dist.binary(Data, method = 1))
   } else if (distmeasure == "tanimoto") {
     dist <- as.matrix(tanimoto(Data)); rownames(dist) <- rownames(Data)
-  } else if (distmeasure %in% c("euclidean", "gower")) {
+  } else if (distmeasure == "euclidean") {
+    # true Euclidean distance. (Previously this branch routed to FD::gowdis,
+    # i.e. Gower, which returns NaN when a feature is constant across the
+    # selected objects -- the source of the NA distance-matrix errors.)
+    dist <- as.matrix(stats::dist(Data, method = "euclidean"))
+  } else if (distmeasure == "gower") {
     dist <- as.matrix(FD::gowdis(Data))
   } else if (distmeasure == "hamming") {
     dist <- as.matrix(e1071::hamming.distance(Data))

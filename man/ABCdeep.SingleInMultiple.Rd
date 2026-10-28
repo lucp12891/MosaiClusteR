@@ -88,7 +88,7 @@ ABC algorithm of \insertCite{Amaratunga2008}{MosaiClusteR} intact and replaces
 neural autoencoder embeds the objects into a latent space and the latent
 vectors are clustered into \code{NC} base clusters. The stacked label matrix
 is fused across sources by \code{\link{f.clustABC.MultiSource}}, exactly as in
-\code{\link{M_ABCpp}}.
+\code{\link{M_ABC}}.
 }
 \section{Speed (trained once, forward pass per iteration)}{
 

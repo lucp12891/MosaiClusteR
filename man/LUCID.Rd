@@ -59,5 +59,5 @@ an R package for implementing LUCID with phenotypic traits. The R Journal
 16(2).
 }
 \seealso{
-\code{\link{M_ABCpp}}, \code{\link{intNMF}}
+\code{\link{M_ABC}}, \code{\link{intNMF}}
 }

@@ -24,7 +24,7 @@
 #'   \code{maxK}).
 #' @return A list with \code{DistM} (the dissimilarity matrix) and \code{Clust}
 #'   (an \code{agnes} object).
-#' @seealso \code{\link{Distance}}, \code{\link{M_ABCpp}}
+#' @seealso \code{\link{Distance}}, \code{\link{M_ABC}}
 #' @examples
 #' data(mosaic_toy)
 #' base1 <- Cluster(t(mosaic_toy$List[[1]]), type = "data",

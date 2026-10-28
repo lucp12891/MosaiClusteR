@@ -16,14 +16,14 @@
 #           (replaces ABCpp's distance -> hclust on the raw sub-matrix)
 #   Step 5  record the base-cluster labels                      -- as in ABCpp
 # The stacked label matrix is fused into a consensus dissimilarity by
-# f.clustABC.MultiSource (the same C++-accelerated kernel used by M_ABCpp).
+# f.clustABC.MultiSource (the same C++-accelerated kernel used by M_ABC).
 #
 # DIGEST OF THE ORIGINAL ABCdeep + WHAT CHANGED HERE
 # --------------------------------------------------
 # The original ABCdeep (keras/tensorflow) trained a fresh autoencoder on EVERY
 # iteration (slow) and silently fell back to PCA when TF was unavailable. This
 # version removes both, and -- crucially -- gets clustering quality on par with
-# (or better than) M_ABCpp:
+# (or better than) M_ABC:
 #   * WHY NOT PER-ITERATION FEATURE SUBSAMPLING? A subsample of only
 #     g = floor(sqrt(G)) features pushed through an encoder trained on all G
 #     features is a train/inference mismatch and gives a degraded embedding on
@@ -31,7 +31,7 @@
 #     most-informative features (by the same var/cv/nugget weighting): this drops
 #     the noise features that dilute a full-feature embedding on sparse-signal
 #     data, yet keeps enough features to embed dense-signal data well. Empirically
-#     this matches M_ABCpp on sparse signals and beats it on dense signals.
+#     this matches M_ABC on sparse signals and beats it on dense signals.
 #   * SUPER FAST -- the autoencoder is trained ONCE per source (on the top-K
 #     features); each of the numsim iterations does only a forward pass over the
 #     bootstrap. The network is a self-contained, vectorised R autoencoder
@@ -129,7 +129,7 @@
 #' neural autoencoder embeds the objects into a latent space and the latent
 #' vectors are clustered into \code{NC} base clusters. The stacked label matrix
 #' is fused across sources by \code{\link{f.clustABC.MultiSource}}, exactly as in
-#' \code{\link{M_ABCpp}}.
+#' \code{\link{M_ABC}}.
 #'
 #' @section Speed (trained once, forward pass per iteration):
 #' The autoencoder is trained a single time on the source's top-\code{topk_frac}
@@ -217,7 +217,7 @@ ABCdeep.SingleInMultiple <- function(data,
   if (n < min_samples)
     warning("ABCdeep: n = ", n, " objects is small for an autoencoder (< ",
             min_samples, "); the deep embedding may be unreliable -- consider ",
-            "ABCpp.SingleInMultiple / M_ABCpp for datasets this small.",
+            "ABCpp.SingleInMultiple / M_ABC for datasets this small.",
             call. = FALSE)
 
   # optional normalisation, then min-max scaling for the sigmoid autoencoder

@@ -16,7 +16,7 @@ Cyclogram(
   Highlight = NULL,
   cex.highlight = 1,
   substr = NULL,
-  cex.labels = 0.7,
+  cex.labels = 0.9,
   plottype = "new",
   location = NULL
 )

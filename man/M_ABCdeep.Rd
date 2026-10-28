@@ -66,7 +66,7 @@ autoencoder is underdetermined at very small \eqn{N} (default 40).}
 A list of class \code{"M_ABC"} with \code{DistM} and \code{Clust}.
 }
 \description{
-The deep-learning counterpart of \code{\link{M_ABCpp}}: runs
+The deep-learning counterpart of \code{\link{M_ABC}}: runs
 \code{\link{ABCdeep.SingleInMultiple}} per source (autoencoder embedding +
 latent clustering for the base partitions), row-stacks the per-iteration label
 matrices, and builds one consensus dissimilarity via
@@ -84,6 +84,6 @@ table(stats::cutree(stats::as.hclust(fit$Clust), 3))
 \insertAllCited{}
 }
 \seealso{
-\code{\link{ABCdeep.SingleInMultiple}}, \code{\link{M_ABCpp}},
+\code{\link{ABCdeep.SingleInMultiple}}, \code{\link{M_ABC}},
 \code{\link{f.clustABC.MultiSource}}
 }

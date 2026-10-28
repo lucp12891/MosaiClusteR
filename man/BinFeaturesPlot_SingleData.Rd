@@ -17,6 +17,9 @@ BinFeaturesPlot_SingleData(
   colors2 = c("gray90", "green"),
   highlightFeat = NULL,
   margins = c(5.5, 3.5, 0.5, 5.5),
+  cexB = 1.1,
+  cexR = 1.1,
+  cexN = 1.1,
   plottype = "new",
   location = NULL
 )
@@ -45,6 +48,12 @@ BinFeaturesPlot_SingleData(
 \item{highlightFeat}{Optional. A character vector with names of features to be highlighted. The names of the features are coloured purple. Default is NULL.}
 
 \item{margins}{A vector with the margings of the plot. Default is c(5.5,3.5,0.5,5.5).}
+
+\item{cexB}{Font size of the bottom (object) labels. Default is 1.1.}
+
+\item{cexR}{Font size of the right (feature) labels. Default is 1.1.}
+
+\item{cexN}{Font size of the data-name label. Default is 1.1.}
 
 \item{plottype}{Should be one of "pdf","new" or "sweave". If "pdf", a
 location should be provided in "location" and the figure is saved there. If

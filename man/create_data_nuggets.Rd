@@ -80,5 +80,5 @@ dn
 \insertRef{WCluster2025}{MosaiClusteR}
 }
 \seealso{
-\code{\link{nugget_feature_weights}}, \code{\link{M_ABCpp}}
+\code{\link{nugget_feature_weights}}, \code{\link{M_ABC}}
 }

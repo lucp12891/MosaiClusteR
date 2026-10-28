@@ -7,7 +7,7 @@
 mosaic_labels(object, k, linkage = "ward")
 }
 \arguments{
-\item{object}{A MosaiClusteR result (e.g. from \code{\link{M_ABCpp}}), an
+\item{object}{A MosaiClusteR result (e.g. from \code{\link{M_ABC}}), an
 \code{agnes}/\code{hclust} object, or a distance matrix.}
 
 \item{k}{Number of clusters.}
@@ -27,6 +27,6 @@ set.seed(1)
 s <- paste0("o", 1:20)
 L <- list(matrix(rnorm(20 * 40), 20, dimnames = list(s, NULL)),
           matrix(rnorm(20 * 50), 20, dimnames = list(s, NULL)))
-fit <- M_ABCpp(L, numsim = 30)
+fit <- M_ABC(L, numsim = 30)
 mosaic_labels(fit, k = 3)
 }

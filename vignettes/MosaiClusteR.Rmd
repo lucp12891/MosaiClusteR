@@ -148,7 +148,7 @@ methods <- list(
   "Data nuggets"           = function() nugget_cluster(
       do.call(cbind, L), k = K, max_nuggets = 40)$cluster,
   "ABC (voting)"           = function() mosaic_labels(
-      M_ABCpp(L, numsim = 60, NC = K), K)
+      M_ABC(L, numsim = 60, NC = K), K)
 )
 
 ari <- vapply(methods, function(f)
@@ -234,7 +234,7 @@ consensus co-membership is then clustered.
 * **`EvidenceAccumulation`** — co-association matrix across partitions.
 * **`LinkBasedClustering`** — refines the co-association with link-based
   similarity (CTS / SRS / ASRS).
-* **The ABC family** — `M_ABCpp`, `M_ABCdist` and the deep-learning variant
+* **The ABC family** — `M_ABC`, `M_ABCdist` and the deep-learning variant
   `M_ABCdeep` build a consensus by repeatedly bootstrapping objects and feature
   bundles per source; `M_ABCdist.WC` fuses per-source distances with an
   optimally weighted combination.
@@ -249,7 +249,7 @@ EvidenceAccumulation(L, type = "data", distmeasure = DM, normalize = NM,
                      method = ME, nrclusters = 3)
 LinkBasedClustering(L, type = "data", distmeasure = DM, normalize = NM,
                     method = ME, nrclusters = 3, linkBasedMethod = "SRS")
-M_ABCpp(L, numsim = 200, NC = 3)                 # co-clustering consensus
+M_ABC(L, numsim = 200, NC = 3)                 # co-clustering consensus
 M_ABCdist(L, numsim = 200, NC = 3)               # distance-accumulating variant
 M_ABCdeep(L, numsim = 200, NC = 3, ae_epochs = 60)   # autoencoder embedding
 ```
@@ -304,7 +304,7 @@ the ABC family (`weighting = "nugget"`):
 ```{r nuggets2, eval = FALSE}
 nugget_cluster(do.call(cbind, L), k = K, max_nuggets = 40)$cluster  # cluster nuggets
 Wkmeans(dn, k = K); Whclust(dn, k = K)                              # weighted k-means / hclust
-M_ABCpp(L, numsim = 200, NC = 3, weighting = c("nugget", "nugget")) # nugget-weighted
+M_ABC(L, numsim = 200, NC = 3, weighting = c("nugget", "nugget")) # nugget-weighted
 ```
 
 # Choosing the number of clusters

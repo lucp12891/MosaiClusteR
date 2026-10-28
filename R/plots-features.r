@@ -43,9 +43,12 @@
 #' c('gray90','green'),highlightFeat=NULL,margins=c(5.5,3.5,0.5,5.5),
 #' plottype="new",location=NULL)
 #' }
+#' @param cexB Font size of the bottom (object) labels. Default is 1.1.
+#' @param cexR Font size of the right (feature) labels. Default is 1.1.
+#' @param cexN Font size of the data-name label. Default is 1.1.
 #' @export BinFeaturesPlot_SingleData
 BinFeaturesPlot_SingleData<-function(leadCpds=c(),orderLab=c(),features=c(),data=NULL,colorLab=NULL,nrclusters=NULL,cols=NULL,name=c("Data"),colors1=c('gray90','blue'),
-		colors2=c('gray90','green'),highlightFeat=NULL,margins=c(5.5,3.5,0.5,5.5),plottype="new",location=NULL){
+		colors2=c('gray90','green'),highlightFeat=NULL,margins=c(5.5,3.5,0.5,5.5),cexB=1.1,cexR=1.1,cexN=1.1,plottype="new",location=NULL){
 
 	if(all(leadCpds%in%rownames(data))){
 		data=t(data)
@@ -133,13 +136,13 @@ BinFeaturesPlot_SingleData<-function(leadCpds=c(),orderLab=c(),features=c(),data
 	if(!is.null(highlightFeat)){
 		colfeat=rep("black",ncol(PlotData))
 		colfeat[which(colnames(PlotData)%in%highlightFeat)]="purple"
-		graphics::mtext(colnames(PlotData), side = 4, at= c(1:ncol(PlotData)), line=0.2, las=2,cex=0.8,col=colfeat)
+		graphics::mtext(colnames(PlotData), side = 4, at= c(1:ncol(PlotData)), line=0.2, las=2,cex=cexR,col=colfeat)
 	}
 	else{
-		graphics::mtext(colnames(PlotData), side = 4, at= c(1:ncol(PlotData)), line=0.2, las=2,cex=0.8)
+		graphics::mtext(colnames(PlotData), side = 4, at= c(1:ncol(PlotData)), line=0.2, las=2,cex=cexR)
 	}
-	graphics::mtext(name, side = 2,  line=1, las=0, cex=1)
-	graphics::mtext(rownames(PlotData), side = 1, at= c(1:nrow(PlotData)), line=0.2, las=2, cex=0.8,col=colors[AllCpds])
+	graphics::mtext(name, side = 2,  line=1, las=0, cex=cexN)
+	graphics::mtext(rownames(PlotData), side = 1, at= c(1:nrow(PlotData)), line=0.2, las=2, cex=cexB,col=colors[AllCpds])
 	plottypeout(plottype)
 }
 

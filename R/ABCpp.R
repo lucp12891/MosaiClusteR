@@ -7,7 +7,7 @@
 # Cabrera & Kovtun 2008): the per-iteration weighted feature subsample is drawn
 # in pure R with sample.int(prob = zf); clustering is done with
 # fastcluster::hclust; the C++ acceleration lives in the consensus step
-# (count_coclustering_cpp, called by f.clustABC.MultiSource in M_ABCpp.R).
+# (count_coclustering_cpp, called by f.clustABC.MultiSource in M_ABC.R).
 #
 # Corrections carried over from the original engine:
 #   B1  c solved adaptively via uniroot (.solve_weight_c), not hardcoded nf/183
@@ -28,7 +28,7 @@
 #' \insertCite{Amaratunga2008}{MosaiClusteR}. Over \code{numsim} iterations it
 #' (optionally) bootstraps the objects, draws a weighted subsample of features,
 #' clusters the sub-matrix with \code{fastcluster::hclust}, and records each
-#' selected object's base-cluster label. \code{\link{M_ABCpp}} turns the stacked
+#' selected object's base-cluster label. \code{\link{M_ABC}} turns the stacked
 #' label matrix into a consensus dissimilarity using the C++ co-clustering
 #' kernel.
 #'
@@ -65,7 +65,7 @@
 #' @return A data frame, \code{numsim} rows by one column per object; entries are
 #'   base-cluster labels (\code{0} = object not selected that iteration).
 #' @references \insertAllCited{}
-#' @seealso \code{\link{M_ABCpp}}, \code{\link{create_data_nuggets}}
+#' @seealso \code{\link{M_ABC}}, \code{\link{create_data_nuggets}}
 #' @examples
 #' data(mosaic_toy)
 #' lab <- ABCpp.SingleInMultiple(mosaic_toy$List[[1]], numsim = 40, NC = 3,

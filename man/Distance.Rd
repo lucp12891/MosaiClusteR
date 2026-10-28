@@ -19,8 +19,10 @@ Distance_v2(Data, distmeasure = "tanimoto", normalize = NULL)
 \item{Data}{A data matrix; rows are the objects.}
 
 \item{distmeasure}{One of \code{"tanimoto"}, \code{"jaccard"},
-\code{"euclidean"} (Gower), \code{"hamming"}, \code{"cont tanimoto"},
-\code{"MCA_coord"}, \code{"gower"}, \code{"chi.squared"}, \code{"cosine"}.}
+\code{"euclidean"} (true Euclidean, via \code{stats::dist}),
+\code{"gower"} (mixed-type, via \code{FD::gowdis}), \code{"hamming"},
+\code{"cont tanimoto"}, \code{"MCA_coord"}, \code{"chi.squared"},
+\code{"cosine"}.}
 
 \item{normalize}{Optional normalisation method (see \code{\link{Normalization}}),
 applied for the \code{"euclidean"} / \code{"cont tanimoto"} measures.}

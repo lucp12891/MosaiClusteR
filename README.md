@@ -1,16 +1,16 @@
 # MosaiClusteR
 
 <!-- badges: start -->
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![R >= 4.0](https://img.shields.io/badge/R-%3E%3D4.0-blue)](https://www.r-project.org/)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/)
 ![Status](https://img.shields.io/badge/tests-passing-brightgreen.svg)
 <!-- badges: end -->
 
 > **An umbrella framework for multi-source & multi-omics clustering in R.**
-> *One interface, many methods, a complete workflow from raw modalities to interpretable subgroups.*
+> *One interface, many methods, a complete workflow — from raw modalities to interpretable subgroups.*
 
-**MosaiClusteR** derives from *“**MoSaIC**” which stands for **M**ulti-**O**mics **S**imilarity **A**ggregation and **I**ntegrative **C**lustering in **R***. **MosaiClustR** treats every data modality (transcriptome, methylome, proteome, fingerprints, targets, imaging, clinical…) as one **tile** of a larger picture, and assembles those tiles into a single coherent *mosaic* of sample structure. It unifies a large family of integrative clustering algorithms behind **one consistent list‑of‑matrices interface**, and wraps them in a complete analysis framework: preprocessing → single‑source baselines → integration across five paradigms → evaluation & interpretation.
+**MosaiClusteR** — *“**MoSaIC**” = **M**ulti-**O**mics **S**imilarity **A**ggregation and **I**ntegrative **C**lustering in R* — treats every data modality (transcriptome, methylome, proteome, fingerprints, targets, imaging, clinical…) as one **tile** of a larger picture, and assembles those tiles into a single coherent *mosaic* of sample structure. It unifies a large family of integrative clustering algorithms behind **one consistent list‑of‑matrices interface**, and wraps them in a complete analysis framework: preprocessing → single‑source baselines → integration across five paradigms → evaluation & interpretation.
 
 No single algorithm is best across all data regimes, so MosaiClusteR gathers many methods on the same footing and gives you the tooling to *choose between them*: cluster‑number selection, agreement metrics, visual comparison, cluster characterisation, and — for omics — pathway and gene‑set interpretation. It also introduces a **data‑nugget feature‑weighting** scheme that offers a robust, Big‑Data‑friendly alternative to variance weighting.
 
@@ -46,8 +46,6 @@ Multi‑omics and other multi‑source studies measure the *same objects* (patie
 ## Installation
 
 ```r
-install.packages("MosaiClusteR") # from CRAN or
-
 # install.packages("remotes")
 remotes::install_github("lucp12891/MosaiClusteR")
 ```
@@ -81,12 +79,8 @@ L     <- mosaic_toy$List               # a list of matrices, objects in rows
 truth <- mosaic_toy$truth
 
 ## ---- Integrate: every method shares one interface — swap to change paradigm
-fit <- SNF(L,
-           type = "data",
-           distmeasure = c("euclidean", "euclidean"),
-           normalize = c(FALSE, FALSE),
-           method = list(NULL, NULL)
-)
+fit <- SNF(L, type = "data", distmeasure = c("euclidean", "euclidean"),
+           normalize = c(FALSE, FALSE), method = list(NULL, NULL))
 
 labels <- mosaic_labels(fit, k = 3)    # pull a flat partition from any fitted result
 cluster_agreement(labels, truth)       # ARI / NMI / Jaccard / purity vs ground truth
@@ -109,40 +103,16 @@ same three lines work for any of the methods below.
 MosaiClusteR is organised as a four‑layer pipeline. You can enter at any layer,
 and every layer speaks the same `List → {DistM, Clust}` language.
 
-```
-            ┌─────────────────────────────────────────────────────────────┐
-  LAYER 1   │  PREPROCESSING                                               │
-  prepare   │  Normalization()  ·  Distance()                             │
-            │  heterogeneous, differently-scaled modalities → comparable  │
-            └─────────────────────────────────────────────────────────────┘
-                              │  List of matrices (features × objects)
-                              ▼
-            ┌─────────────────────────────────────────────────────────────┐
-  LAYER 2   │  SINGLE-SOURCE BASELINES                                     │
-  explore   │  cluster each tile alone → see what each modality recovers  │
-            │  motivates integration: agreements vs. modality-specific    │
-            └─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-            ┌─────────────────────────────────────────────────────────────┐
-  LAYER 3   │  INTEGRATION ENGINE  (five paradigms)                        │
-  integrate │  Direct · Similarity · Graph · Voting-consensus · Hierarchy │
-            │  M_ABCpp · M_ABCdist · WeightedClust · SNF · CEC · HEC · …   │
-            └─────────────────────────────────────────────────────────────┘
-                              │  {DistM, Clust}
-                              ▼
-            ┌─────────────────────────────────────────────────────────────┐
-  LAYER 4   │  EVALUATION & INTERPRETATION                                 │
-  conclude  │  mosaic_labels() · cluster_agreement() · compare_clusterings│
-            │  ARI / NMI / Jaccard · cross-method consensus               │
-            └─────────────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="man/figures/framework.svg" width="680"
+       alt="The MoSaIC framework: a four-layer pipeline — (1) preprocessing with Normalization() and Distance(), (2) single-source baselines, (3) the integration engine spanning five paradigms, and (4) evaluation and interpretation with mosaic_labels(), cluster_agreement() and compare_clusterings().">
+</p>
 
 **Choosing a layer‑3 method** (decision shortcut):
 
 - *Want a fast, transparent baseline?* → **Direct** (`ADC`) or **Weighted** (`WeightedClust`).
 - *Sources are noisy and complementary, genomic scale?* → **Similarity** (`SNF`).
-- *Want stability under resampling / a novel robust ensemble?* → **Voting consensus** (`M_ABCpp`, `CEC`, `EvidenceAccumulation`).
+- *Want stability under resampling / a novel robust ensemble?* → **Voting consensus** (`M_ABC`, `CEC`, `EvidenceAccumulation`).
 - *Care about the hierarchy / dendrogram structure itself?* → **Hierarchy** (`HEC`).
 - *Have very large N or heavy‑tailed data?* → use **`weighting = "nugget"`** inside the M‑ABC family.
 
@@ -187,7 +157,7 @@ and every layer speaks the same `List → {DistM, Clust}` language.
 
 | Method | Function | What it does | When it’s useful | Ref |
 |---|---|---|---|---|
-| **M‑ABC** — Multi‑source Aggregating Bundles of Clusters | `M_ABCpp` | Per‑source bootstrap of *feature bundles* → consensus co‑clustering dissimilarity | High‑dimensional sources, where signal hides in feature subsets; robust by design; supports **data‑nugget weighting** | Amaratunga 2008 |
+| **M‑ABC** — Multi‑source Aggregating Bundles of Clusters | `M_ABC` | Per‑source bootstrap of *feature bundles* → consensus co‑clustering dissimilarity | High‑dimensional sources, where signal hides in feature subsets; robust by design; supports **data‑nugget weighting** | Amaratunga 2008 |
 | **M‑ABCdist** | `M_ABCdist` | M‑ABC that accumulates *distances* (keeps geometry) then fuses | When you want continuous dissimilarities rather than co‑clustering counts | Amaratunga 2008 |
 | **M‑ABCdeep** — deep‑learning ABC | `M_ABCdeep` / `ABCdeep.SingleInMultiple` | M‑ABC whose base clustering is a neural autoencoder embedding + latent clustering; self‑contained R network, no Python/torch | Nonlinear/complex per‑source structure; when a learned embedding beats a raw distance | Amaratunga 2008 |
 | **CEC** — (Consensus) Ensemble Clustering | `CEC` | Incidence accumulation across sources & cut‑points | A solid, weight‑aware consensus baseline | Fodeh 2013 |
@@ -250,7 +220,7 @@ dn                                   # 60 obs -> 25 nuggets (reduction reported)
 w  <- nugget_feature_weights(dn, type = "between")   # robust feature weights
 
 # Drop straight into M-ABC
-M_ABCpp(L, weighting = c("nugget", "nugget"),
+M_ABC(L, weighting = c("nugget", "nugget"),
       nugget_args = list(max_nuggets = 25, seed = 1))
 ```
 
@@ -322,18 +292,17 @@ in the companion manuscript.
   title  = {MosaiClusteR: An Umbrella Framework for Multi-Source and
             Multi-Omics Clustering},
   author = {Osang'ir, Bernard Isekah and Van Moerbeke, Marijke and
-            Gupta, Surya and Cabrera, Javier and Amaratunga, Dhammika
-            and Shkedy, Ziv and Claesen, Jürgen},
+            Claesen, Jürgen and Gupta, Surya and Cabrera, Javier and
+            Amaratunga, Dhammika and Shkedy, Ziv},
   year   = {2026},
-  note   = {R package version 0.1.1},
+  note   = {R package version 0.1.0},
   url    = {https://github.com/lucp12891/MosaiClusteR}
 }
 ```
 
 ## References
 
-- Amaratunga D, Cabrera J, Kovtun V. Microarray learning with ABC. Biostatistics. 2008 Jan 1;9(1):128-36.
-- Amaratunga, D., Cabrera, J., & Shkedy, Z. (2014). Exploration and analysis of DNA microarray and other high dimensional data. Hoboken, NJ: Wiley.
+- Amaratunga, Cabrera & Shkedy (2008). *Exploration and Analysis of DNA Microarray and Other High‑Dimensional Data.* Wiley.
 - Cherasia, Cabrera, Fernholz & Fernholz (2023). *Data Nuggets in Supervised Learning.* In *Robust and Multivariate Statistical Methods*, Springer, 429–449.
 - Wang et al. (2014). *Similarity Network Fusion…* **Nature Methods** 11:333–337.
 - Perualila‑Tan et al. (2016). *Weighted similarity‑based clustering…*

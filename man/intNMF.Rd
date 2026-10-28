@@ -42,5 +42,5 @@ multi-level omic data based on non-negative matrix factorization. PLoS ONE
 12:e0176278. Reviewed in Zhang et al. (2022), WIREs Comput Stat 14:e1553.
 }
 \seealso{
-\code{\link{M_ABCpp}}, \code{\link{SNF}}
+\code{\link{M_ABC}}, \code{\link{SNF}}
 }

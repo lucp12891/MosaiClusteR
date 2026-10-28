@@ -52,6 +52,26 @@ ComparePlot<-function(List,nrclusters=NULL,cols=NULL,fusionsLog=FALSE,weightclus
 		}
 	}
 
+	# default colour palette: ColorsNames() indexes cols[k], so cols = NULL
+	# (the default) would be length-0 and crash. Build one sized to nrclusters.
+	if(is.null(cols)){
+		nc=if(is.null(nrclusters)) 8L else max(2L,as.integer(nrclusters))
+		cols=grDevices::hcl.colors(nc,palette="Dark 3")
+	} else if(!is.null(nrclusters) && length(cols) < as.integer(nrclusters)){
+		cols=grDevices::hcl.colors(as.integer(nrclusters),palette="Dark 3")
+	}
+
+	# every result must describe the SAME objects; otherwise the alignment
+	# fails with a cryptic error. Check up front and report clearly.
+	.objs=lapply(List,function(el){o=el$Clust$order.lab; if(is.null(o)) o=rownames(as.matrix(el$DistM)); o})
+	.n=vapply(.objs,length,integer(1))
+	if(length(unique(.n))!=1L)
+		stop("ComparePlot: all results must be over the same objects, but they have ",
+		     paste(.n,collapse="/")," objects. Compare only methods run on one shared object set.",call.=FALSE)
+	if(!is.null(.objs[[1]]) && !all(vapply(.objs,function(o) setequal(o,.objs[[1]]),logical(1))))
+		stop("ComparePlot: the results describe different object sets (their object names differ). ",
+		     "Compare only methods run on the same shared objects.",call.=FALSE)
+
 	MatrixColors=ReorderToReference(List,nrclusters,fusionsLog,weightclust,names)
 	#capture singletons
 	for(i in 1:nrow(MatrixColors)){
@@ -206,7 +226,7 @@ ComparePlot<-function(List,nrclusters=NULL,cols=NULL,fusionsLog=FALSE,weightclus
 #' @export Cyclogram
 Cyclogram<-function (List, nrclusters = NULL, cols = NULL, fusionsLog = FALSE,
 		weightclust = FALSE, names = NULL, canvaslims=c(-1.0,1.0,-1.0,1.0), margins = c(8.1, 3.1,
-				3.1, 4.1), Highlight=NULL,cex.highlight=1,substr=NULL,cex.labels=0.7, plottype = "new", location = NULL)
+				3.1, 4.1), Highlight=NULL,cex.highlight=1,substr=NULL,cex.labels=0.9, plottype = "new", location = NULL)
 {
 	if (!requireNamespace("circlize", quietly = TRUE)) stop("Cyclogram() requires the suggested package 'circlize'.")
 	plottypein <- function(plottype, location) {
@@ -231,6 +251,10 @@ Cyclogram<-function (List, nrclusters = NULL, cols = NULL, fusionsLog = FALSE,
 			attr(T, "method") = "Single Clustering"
 			List[[i]] = T
 		}
+	}
+	if(is.null(cols)){
+		nc = if(is.null(nrclusters)) 8L else max(2L, as.integer(nrclusters))
+		cols = grDevices::hcl.colors(nc, palette = "Dark 3")
 	}
 	MatrixColors = ReorderToReference(List, nrclusters, fusionsLog,
 			weightclust, names)

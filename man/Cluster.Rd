@@ -57,5 +57,5 @@ base1 <- Cluster(t(mosaic_toy$List[[1]]), type = "data",
 mosaic_labels(base1, k = 3)[1:6]
 }
 \seealso{
-\code{\link{Distance}}, \code{\link{M_ABCpp}}
+\code{\link{Distance}}, \code{\link{M_ABC}}
 }

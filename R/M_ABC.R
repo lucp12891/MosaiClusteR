@@ -1,7 +1,7 @@
 # =============================================================================
-# M_ABCpp.R
+# M_ABC.R
 # Multi-source M-ABC -- the canonical, C++-accelerated wrapper (Osang'ir).
-# Functions: f.clustABC.MultiSource, M_ABCpp
+# Functions: f.clustABC.MultiSource, M_ABC
 #
 # This retains the ORIGINAL design:
 #   * per source we run ABCpp.SingleInMultiple and row-stack the label matrices;
@@ -44,7 +44,7 @@
 #' @return A list with \code{DistM}, \code{Clust} and (if \code{numclust} given)
 #'   \code{cut}.
 #' @references \insertCite{Amaratunga2008}{MosaiClusteR}
-#' @seealso \code{\link{M_ABCpp}}
+#' @seealso \code{\link{M_ABC}}
 #' @export
 f.clustABC.MultiSource <- function(res,
                                    numclust      = NULL,
@@ -140,11 +140,11 @@ f.clustABC.MultiSource <- function(res,
 #'   \code{\link{create_data_nuggets}}
 #' @examples
 #' data(mosaic_toy)
-#' fit <- M_ABCpp(mosaic_toy$List, numsim = 50, NC = 3,
+#' fit <- M_ABC(mosaic_toy$List, numsim = 50, NC = 3,
 #'                weighting = c("var", "nugget"))
 #' table(stats::cutree(stats::as.hclust(fit$Clust), 3))
 #' @export
-M_ABCpp <- function(List,
+M_ABC <- function(List,
                     distmeasure   = rep("euclidean", length(List)),
                     weighting     = rep("var",       length(List)),
                     normalize     = rep(FALSE,       length(List)),
@@ -179,7 +179,7 @@ M_ABCpp <- function(List,
 
   Results <- NULL
   for (i in seq_len(K)) {
-    message("M_ABCpp: source ", i, " of ", K, " (weighting = ", weighting[i], ") ...")
+    message("M_ABC: source ", i, " of ", K, " (weighting = ", weighting[i], ") ...")
     norm_i <- if (isFALSE(normalize[[i]])) NULL else normalize[[i]]
     res <- ABCpp.SingleInMultiple(          # the original single-source engine
       data        = List[[i]],
@@ -200,7 +200,7 @@ M_ABCpp <- function(List,
     Results <- rbind(Results, res)
   }
 
-  message("M_ABCpp: building consensus dissimilarity",
+  message("M_ABC: building consensus dissimilarity",
           if (exists("count_coclustering_cpp", mode = "function")) " (C++ kernel)" else " (pure R)",
           " ...")
   out <- f.clustABC.MultiSource(

@@ -2,5 +2,5 @@
   packageStartupMessage(
     "MosaiClusteR ", utils::packageVersion("MosaiClusteR"),
     " - an umbrella framework for multi-source clustering. ",
-    "See vignette('MosaiClusteR') and ?M_ABCpp.")
+    "See vignette('MosaiClusteR') and ?M_ABC.")
 }

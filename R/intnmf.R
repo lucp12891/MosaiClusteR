@@ -27,7 +27,7 @@
 #' @references Chalise, P. & Fridley, B. L. (2017). Integrative clustering of
 #'   multi-level omic data based on non-negative matrix factorization. PLoS ONE
 #'   12:e0176278. Reviewed in Zhang et al. (2022), WIREs Comput Stat 14:e1553.
-#' @seealso \code{\link{M_ABCpp}}, \code{\link{SNF}}
+#' @seealso \code{\link{M_ABC}}, \code{\link{SNF}}
 #' @examples
 #' data(mosaic_toy)
 #' fit <- intNMF(mosaic_toy$List, k = 3, nstart = 5, seed = 1)

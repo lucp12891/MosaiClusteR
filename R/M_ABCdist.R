@@ -12,14 +12,14 @@
 #' \code{[0, 1]} dissimilarity, combines them as a weighted mean
 #' \eqn{D = \sum_k w_k D_k} and applies a final agglomerative clustering.
 #'
-#' @inheritParams M_ABCpp
+#' @inheritParams M_ABC
 #' @param source_weights Optional non-negative source weights (normalised to sum
 #'   to one); \code{NULL} = equal weights.
 #' @param NC2 Optional number of clusters to cut the final tree into.
 #' @return A list of class \code{"M_ABCdist"} with \code{source_D}, \code{DistM},
 #'   \code{weights} and \code{Clust}.
 #' @references \insertCite{Amaratunga2008}{MosaiClusteR}
-#' @seealso \code{\link{M_ABCpp}}, \code{\link{ABCdist.SingleInMultiple}},
+#' @seealso \code{\link{M_ABC}}, \code{\link{ABCdist.SingleInMultiple}},
 #'   \code{\link{M_ABCdist.WC}}
 #' @examples
 #' data(mosaic_toy)

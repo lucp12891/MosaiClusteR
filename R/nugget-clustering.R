@@ -114,7 +114,7 @@ Whclust <- function(x, weights = rep(1, nrow(x))) {
 #' into weighted data nuggets (\code{\link{create_data_nuggets}}), clustering the
 #' nugget centres with a weighted clusterer, and mapping the nugget labels back
 #' to the original observations. This is the clustering analogue of the
-#' data-nugget weighting used by \code{\link{M_ABCpp}} and follows
+#' data-nugget weighting used by \code{\link{M_ABC}} and follows
 #' \code{DN.Wkmeans} / \code{DN.Whclust} from the WCluster package.
 #'
 #' @param data A numeric matrix (objects in rows) \emph{or} a precomputed

@@ -43,5 +43,5 @@ nugget_feature_weights(dn, type = "between")
 \insertRef{Cherasia2023}{MosaiClusteR}
 }
 \seealso{
-\code{\link{create_data_nuggets}}, \code{\link{M_ABCpp}}
+\code{\link{create_data_nuggets}}, \code{\link{M_ABC}}
 }
