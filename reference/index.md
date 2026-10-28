@@ -1,0 +1,320 @@
+# Package index
+
+## Preprocessing
+
+Make heterogeneous sources comparable and turn a source into a
+dissimilarity.
+
+- [`Normalization()`](https://lucp12891.github.io/MosaiClusteR/reference/Normalization.md)
+  : Normalisation of features
+- [`Distance()`](https://lucp12891.github.io/MosaiClusteR/reference/Distance.md)
+  [`Distance_v2()`](https://lucp12891.github.io/MosaiClusteR/reference/Distance.md)
+  : Compute a distance matrix
+- [`SimilarityMeasure()`](https://lucp12891.github.io/MosaiClusteR/reference/SimilarityMeasure.md)
+  : Similarity of a set of clusterings to a reference
+- [`Cluster()`](https://lucp12891.github.io/MosaiClusteR/reference/Cluster.md)
+  : Single-source base clustering
+
+## Integration — Direct
+
+Concatenate the sources and cluster once.
+
+- [`ADC()`](https://lucp12891.github.io/MosaiClusteR/reference/ADC.md) :
+  Aggregated data clustering
+- [`ADEC()`](https://lucp12891.github.io/MosaiClusteR/reference/ADEC.md)
+  : Aggregated data ensemble clustering
+
+## Integration — Similarity-based
+
+Combine per-source object similarities.
+
+- [`WeightedClust()`](https://lucp12891.github.io/MosaiClusteR/reference/WeightedClust.md)
+  : Weighted clustering
+- [`WonM()`](https://lucp12891.github.io/MosaiClusteR/reference/WonM.md)
+  : Weighting on Membership clustering
+- [`SNF()`](https://lucp12891.github.io/MosaiClusteR/reference/SNF.md) :
+  Similarity network fusion
+- [`NEMO()`](https://lucp12891.github.io/MosaiClusteR/reference/NEMO.md)
+  : NEMO: neighborhood-based multi-omics clustering
+
+## Integration — Graph-based
+
+Partition a graph built from many clusterings.
+
+- [`EnsembleClustering()`](https://lucp12891.github.io/MosaiClusteR/reference/EnsembleClustering.md)
+  : Ensemble clustering via graph partitioning (CSPA / HGPA / MCLA)
+- [`HBGF()`](https://lucp12891.github.io/MosaiClusteR/reference/HBGF.md)
+  : Hybrid Bipartite Graph Formulation
+- [`ClusteringAggregation()`](https://lucp12891.github.io/MosaiClusteR/reference/ClusteringAggregation.md)
+  : Clustering aggregation
+
+## Integration — Voting / consensus
+
+Let many partitions vote on co-membership, including the ABC family.
+
+- [`CEC()`](https://lucp12891.github.io/MosaiClusteR/reference/CEC.md) :
+  Complementary ensemble clustering
+- [`CVAA()`](https://lucp12891.github.io/MosaiClusteR/reference/CVAA.md)
+  : Cumulative Voting Aggregation (CVAA / W-CVAA)
+- [`ConsensusClustering()`](https://lucp12891.github.io/MosaiClusteR/reference/ConsensusClustering.md)
+  : Voting-based consensus clustering
+- [`EvidenceAccumulation()`](https://lucp12891.github.io/MosaiClusteR/reference/EvidenceAccumulation.md)
+  : Evidence accumulation clustering (co-association)
+- [`LinkBasedClustering()`](https://lucp12891.github.io/MosaiClusteR/reference/LinkBasedClustering.md)
+  : Link-based cluster ensembles
+- [`M_ABC()`](https://lucp12891.github.io/MosaiClusteR/reference/M_ABC.md)
+  : Multi-source Aggregating Bundles of Clusters (M-ABC),
+  C++-accelerated
+- [`M_ABCdist()`](https://lucp12891.github.io/MosaiClusteR/reference/M_ABCdist.md)
+  : Multi-source M-ABC with distance accumulation
+- [`M_ABCdist.WC()`](https://lucp12891.github.io/MosaiClusteR/reference/M_ABCdist.WC.md)
+  : Multi-source M-ABC fused with WeightedClust
+- [`M_ABCdeep()`](https://lucp12891.github.io/MosaiClusteR/reference/M_ABCdeep.md)
+  : Multi-source M-ABC with a deep-learning (autoencoder) Step 4
+  (M-ABCdeep)
+- [`ABCpp.SingleInMultiple()`](https://lucp12891.github.io/MosaiClusteR/reference/ABCpp.SingleInMultiple.md)
+  : Single-source Aggregating Bundles of Clusters (ABC), C++-accelerated
+  engine
+- [`ABCdist.SingleInMultiple()`](https://lucp12891.github.io/MosaiClusteR/reference/ABCdist.SingleInMultiple.md)
+  : Single-source ABC with distance accumulation
+- [`ABCdeep.SingleInMultiple()`](https://lucp12891.github.io/MosaiClusteR/reference/ABCdeep.SingleInMultiple.md)
+  : Single-source ABC with a deep-learning (autoencoder) Step 4
+  (ABCdeep)
+- [`f.clustABC.MultiSource()`](https://lucp12891.github.io/MosaiClusteR/reference/f.clustABC.MultiSource.md)
+  : Consensus clustering from stacked ABC label matrices
+
+## Integration — Hierarchy-based
+
+Merge per-source hierarchies.
+
+- [`HierarchicalEnsembleClustering()`](https://lucp12891.github.io/MosaiClusteR/reference/HierarchicalEnsembleClustering.md)
+  : Hierarchical ensemble clustering
+- [`EHC()`](https://lucp12891.github.io/MosaiClusteR/reference/EHC.md) :
+  Ensemble hierarchical clustering via graph partitioning (METIS / MST)
+
+## Additional methods (factor / low-rank / spectral)
+
+Cluster a shared latent representation, or an outcome-guided model.
+
+- [`intNMF()`](https://lucp12891.github.io/MosaiClusteR/reference/intNMF.md)
+  : Integrative NMF clustering (intNMF)
+- [`spectral_clustering()`](https://lucp12891.github.io/MosaiClusteR/reference/spectral_clustering.md)
+  : Spectral clustering of an affinity matrix
+- [`LUCID()`](https://lucp12891.github.io/MosaiClusteR/reference/LUCID.md)
+  : LUCID: latent unknown clustering integrating omics with an outcome
+
+## Feature weighting and data nuggets
+
+Weight features by importance; compress objects into weighted
+representatives.
+
+- [`create_data_nuggets()`](https://lucp12891.github.io/MosaiClusteR/reference/create_data_nuggets.md)
+  : Create data nuggets from a data matrix
+- [`nugget_feature_weights()`](https://lucp12891.github.io/MosaiClusteR/reference/nugget_feature_weights.md)
+  : Feature weights derived from data nuggets
+- [`nugget_cluster()`](https://lucp12891.github.io/MosaiClusteR/reference/nugget_cluster.md)
+  : Data-nugget clustering
+- [`Wkmeans()`](https://lucp12891.github.io/MosaiClusteR/reference/Wkmeans.md)
+  : Weighted k-means (minimises WWCSS)
+- [`Whclust()`](https://lucp12891.github.io/MosaiClusteR/reference/Whclust.md)
+  : Weighted hierarchical clustering (weighted Ward)
+- [`DetermineWeight_SilClust()`](https://lucp12891.github.io/MosaiClusteR/reference/DetermineWeight_SilClust.md)
+  : Determines an optimal weight for weighted clustering by silhouettes
+  widths.
+- [`DetermineWeight_SimClust()`](https://lucp12891.github.io/MosaiClusteR/reference/DetermineWeight_SimClust.md)
+  : Determines an optimal weight for weighted clustering by similarity
+  weighted clustering.
+- [`simulate_weighting_regime()`](https://lucp12891.github.io/MosaiClusteR/reference/simulate_weighting_regime.md)
+  : Simulate data for evaluating feature-weighting schemes (variance vs
+  CV)
+
+## Choosing the number of clusters
+
+- [`SelectnrClusters()`](https://lucp12891.github.io/MosaiClusteR/reference/SelectnrClusters.md)
+  : Select the number of clusters via silhouette widths
+- [`ChooseCluster()`](https://lucp12891.github.io/MosaiClusteR/reference/ChooseCluster.md)
+  : Interactive plot to determine DE Genes and DE features for a
+  specific cluster
+- [`cluster_selection_plot()`](https://lucp12891.github.io/MosaiClusteR/reference/cluster_selection_plot.md)
+  : Justify the number of clusters (silhouette + elbow / scree)
+- [`cluster_k_sweep()`](https://lucp12891.github.io/MosaiClusteR/reference/cluster_k_sweep.md)
+  : Show the clustering at every k (see how it deteriorates)
+
+## Label extraction and evaluation
+
+Cut a result into clusters and score agreement, with or without ground
+truth.
+
+- [`mosaic_labels()`](https://lucp12891.github.io/MosaiClusteR/reference/mosaic_labels.md)
+  : Extract a flat partition from a MosaiClusteR result
+- [`cluster_agreement()`](https://lucp12891.github.io/MosaiClusteR/reference/cluster_agreement.md)
+  : Agreement between two partitions
+- [`compare_clusterings()`](https://lucp12891.github.io/MosaiClusteR/reference/compare_clusterings.md)
+  : Compare two clusterings derived from distance matrices
+- [`clustering_concordance()`](https://lucp12891.github.io/MosaiClusteR/reference/clustering_concordance.md)
+  : Compare clustering solutions to each other (no ground truth needed)
+- [`compare_methods_plot()`](https://lucp12891.github.io/MosaiClusteR/reference/compare_methods_plot.md)
+  : Visually compare clustering solutions with ComparePlot (no ground
+  truth)
+- [`CompareSilCluster()`](https://lucp12891.github.io/MosaiClusteR/reference/CompareSilCluster.md)
+  : Compares medoid clustering results based on silhouette widths
+- [`CompareSvsM()`](https://lucp12891.github.io/MosaiClusteR/reference/CompareSvsM.md)
+  : Comparison of clustering results for the single and multiple source
+  clustering.
+
+## Visualisation
+
+- [`ComparePlot()`](https://lucp12891.github.io/MosaiClusteR/reference/ComparePlot.md)
+  : Comparison of clustering results over multiple methods
+- [`Cyclogram()`](https://lucp12891.github.io/MosaiClusteR/reference/Cyclogram.md)
+  : Comparison of clustering results over multiple results in circular
+  format
+- [`ClusterPlot()`](https://lucp12891.github.io/MosaiClusteR/reference/ClusterPlot.md)
+  : Colouring clusters in a dendrogram
+- [`HeatmapPlot()`](https://lucp12891.github.io/MosaiClusteR/reference/HeatmapPlot.md)
+  : A heatmap of the comparison of two clustering results.
+- [`HeatmapSelection()`](https://lucp12891.github.io/MosaiClusteR/reference/HeatmapSelection.md)
+  : A function to select a group of objects via the similarity heatmap.
+- [`SimilarityHeatmap()`](https://lucp12891.github.io/MosaiClusteR/reference/SimilarityHeatmap.md)
+  : A heatmap of similarity values between objects
+- [`BoxPlotDistance()`](https://lucp12891.github.io/MosaiClusteR/reference/BoxPlotDistance.md)
+  : Box plots of one distance matrix categorized against another
+  distance matrix.
+- [`ProfilePlot()`](https://lucp12891.github.io/MosaiClusteR/reference/ProfilePlot.md)
+  : Plotting gene profiles
+- [`embedding_plot()`](https://lucp12891.github.io/MosaiClusteR/reference/embedding_plot.md)
+  : Two-dimensional cluster visualisation (PCA / UMAP / t-SNE)
+- [`plot_cluster_profile()`](https://lucp12891.github.io/MosaiClusteR/reference/plot_cluster_profile.md)
+  : Plot one external variable by cluster
+- [`CompareInteractive()`](https://lucp12891.github.io/MosaiClusteR/reference/CompareInteractive.md)
+  : Interactive comparison of single and multiple source clustering
+  results
+- [`ColorPalette()`](https://lucp12891.github.io/MosaiClusteR/reference/ColorPalette.md)
+  : Create a color palette to be used in the plots
+- [`ColorsNames()`](https://lucp12891.github.io/MosaiClusteR/reference/ColorsNames.md)
+  : Function that annotates colors to their names
+- [`ClusterCols()`](https://lucp12891.github.io/MosaiClusteR/reference/ClusterCols.md)
+  : Helper that colours dendrogram leaves by cluster membership
+- [`LabelCols()`](https://lucp12891.github.io/MosaiClusteR/reference/LabelCols.md)
+  : Helper that colours specific dendrogram leaves
+- [`LabelPlot()`](https://lucp12891.github.io/MosaiClusteR/reference/LabelPlot.md)
+  : Coloring specific leaves of a dendrogram
+
+## Cluster characterisation
+
+Describe what defines each cluster, from external variables to features.
+
+- [`characterize_clusters()`](https://lucp12891.github.io/MosaiClusteR/reference/characterize_clusters.md)
+  : Characterise clusters with external (biological / clinical)
+  variables
+- [`cluster_biology_panel()`](https://lucp12891.github.io/MosaiClusteR/reference/cluster_biology_panel.md)
+  : Panel of cluster characterisation plots
+- [`CharacteristicFeatures()`](https://lucp12891.github.io/MosaiClusteR/reference/CharacteristicFeatures.md)
+  : Determine the characteristic features of clusters
+- [`FeatSelection()`](https://lucp12891.github.io/MosaiClusteR/reference/FeatSelection.md)
+  : Determine the characteristic features of a cluster or selection
+- [`FeaturesOfCluster()`](https://lucp12891.github.io/MosaiClusteR/reference/FeaturesOfCluster.md)
+  : List all features present in a selected cluster of objects
+- [`BinFeaturesPlot_SingleData()`](https://lucp12891.github.io/MosaiClusteR/reference/BinFeaturesPlot_SingleData.md)
+  : Visualization of characteristic binary features of a single data set
+- [`BinFeaturesPlot_MultipleData()`](https://lucp12891.github.io/MosaiClusteR/reference/BinFeaturesPlot_MultipleData.md)
+  : Visualization of characteristic binary features of multiple data
+  sets
+- [`ContFeaturesPlot()`](https://lucp12891.github.io/MosaiClusteR/reference/ContFeaturesPlot.md)
+  : Plot of continuous features
+- [`TrackCluster()`](https://lucp12891.github.io/MosaiClusteR/reference/TrackCluster.md)
+  : Track a cluster or a selection of objects across multiple methods
+
+## Biological interpretation and pathways
+
+Turn clusters into differential genes and enriched gene sets (needs
+Bioconductor).
+
+- [`DiffGenes()`](https://lucp12891.github.io/MosaiClusteR/reference/DiffGenes.md)
+  : Find differentially expressed genes
+
+- [`DiffGenesSelection()`](https://lucp12891.github.io/MosaiClusteR/reference/DiffGenesSelection.md)
+  : Differential expression for a selection of objects
+
+- [`FindGenes()`](https://lucp12891.github.io/MosaiClusteR/reference/FindGenes.md)
+  : Find the genes shared across methods
+
+- [`PathwayAnalysis()`](https://lucp12891.github.io/MosaiClusteR/reference/PathwayAnalysis.md)
+  : Pathway analysis with intersection over iterations
+
+- [`Pathways()`](https://lucp12891.github.io/MosaiClusteR/reference/Pathways.md)
+  : Pathway analysis for multiple clustering results
+
+- [`PathwaysIter()`](https://lucp12891.github.io/MosaiClusteR/reference/PathwaysIter.md)
+  : Iterations of the pathway analysis
+
+- [`PathwaysSelection()`](https://lucp12891.github.io/MosaiClusteR/reference/PathwaysSelection.md)
+  : Pathway analysis for a selection of objects
+
+- [`PreparePathway()`](https://lucp12891.github.io/MosaiClusteR/reference/PreparePathway.md)
+  : Prepare data for pathway analysis
+
+- [`PlotPathways()`](https://lucp12891.github.io/MosaiClusteR/reference/PlotPathways.md)
+  : A GO plot of a pathway analysis output.
+
+- [`plot_pathways()`](https://lucp12891.github.io/MosaiClusteR/reference/plot_pathways.md)
+  : Modern Gene Ontology / pathway-enrichment plots
+
+- [`enriched_features()`](https://lucp12891.github.io/MosaiClusteR/reference/enriched_features.md)
+  : Tidy CharacteristicFeatures() output for plotting
+
+- [`Geneset.intersect()`](https://lucp12891.github.io/MosaiClusteR/reference/Geneset.intersect.md)
+  :
+
+  Intersection over resulting gene sets of `PathwaysIter` function
+
+- [`Geneset.intersectSelection()`](https://lucp12891.github.io/MosaiClusteR/reference/Geneset.intersectSelection.md)
+  :
+
+  Intersection over resulting gene sets of `PathwaysIter` function for a
+  selection of objects
+
+- [`SharedGenesPathsFeat()`](https://lucp12891.github.io/MosaiClusteR/reference/SharedGenesPathsFeat.md)
+  : Shared genes, pathways and features across methods
+
+- [`SharedComps()`](https://lucp12891.github.io/MosaiClusteR/reference/SharedComps.md)
+  : Objects shared across clusterings
+
+- [`SharedSelection()`](https://lucp12891.github.io/MosaiClusteR/reference/SharedSelection.md)
+  : Intersection of genes and pathways over multiple methods for a
+  selection of objects.
+
+- [`SharedSelectionLimma()`](https://lucp12891.github.io/MosaiClusteR/reference/SharedSelectionLimma.md)
+  : Intersection of genes over multiple methods for a selection of
+  objects.
+
+- [`SharedSelectionMLP()`](https://lucp12891.github.io/MosaiClusteR/reference/SharedSelectionMLP.md)
+  : Intersection of pathways over multiple methods for a selection of
+  objects.
+
+## Simulation and data
+
+- [`mosaic_sim()`](https://lucp12891.github.io/MosaiClusteR/reference/mosaic_sim.md)
+  : Simulate a multi-source data set with planted clusters
+- [`mosaic_toy`](https://lucp12891.github.io/MosaiClusteR/reference/mosaic_toy.md)
+  : Toy multi-omics example data
+
+## Utilities
+
+- [`ReorderToReference()`](https://lucp12891.github.io/MosaiClusteR/reference/ReorderToReference.md)
+  : Relabel and reorder clusterings to a reference
+
+- [`FindCluster()`](https://lucp12891.github.io/MosaiClusteR/reference/FindCluster.md)
+  :
+
+  Find a selection of objects in the output of `ReorderToReference`
+
+- [`FindElement()`](https://lucp12891.github.io/MosaiClusteR/reference/FindElement.md)
+  : Find an element in a data structure
+
+- [`Distance()`](https://lucp12891.github.io/MosaiClusteR/reference/Distance.md)
+  [`Distance_v2()`](https://lucp12891.github.io/MosaiClusteR/reference/Distance.md)
+  : Compute a distance matrix
+
+- [`distanceheatmaps()`](https://lucp12891.github.io/MosaiClusteR/reference/distanceheatmaps.md)
+  : Determine the distance in a heatmap

@@ -1,0 +1,105 @@
+# Find differentially expressed genes
+
+The `DiffGenes` function looks for differentially expressed genes for
+each cluster of a clustering result by comparing the objects of a
+cluster against all other objects. The limma method is applied to find
+the differentially expressed genes.
+
+## Usage
+
+``` r
+DiffGenes(
+  List,
+  Selection = NULL,
+  geneExpr = NULL,
+  nrclusters = NULL,
+  method = "limma",
+  sign = 0.05,
+  topG = NULL,
+  fusionsLog = TRUE,
+  weightclust = TRUE,
+  names = NULL
+)
+```
+
+## Arguments
+
+- List:
+
+  A list of the clustering outputs to be compared. The first element of
+  the list will be used as the reference in `ReorderToReference`.
+
+- Selection:
+
+  If differential gene expression should be investigated for a specific
+  selection of objects, this selection can be provided here. Selection
+  can be of the type "character" (names of the objects) or "numeric"
+  (the number of specific cluster). Default is NULL.
+
+- geneExpr:
+
+  The gene expression matrix or ExpressionSet of the objects. The rows
+  should correspond with the genes.
+
+- nrclusters:
+
+  Optional. The number of clusters to cut the dendrogram in. Default is
+  NULL.
+
+- method:
+
+  The method to applied to look for DE genes. For now, only the limma
+  method is available. Default is "limma".
+
+- sign:
+
+  The significance level to be handled. Default is 0.05.
+
+- topG:
+
+  Overrules sign. The number of top genes to be shown. Default is NULL.
+
+- fusionsLog:
+
+  Logical. To be handed to `ReorderToReference`: indicator for the
+  fusion of clusters. Default is TRUE
+
+- weightclust:
+
+  Logical. To be handed to `ReorderToReference`: to be used for the
+  outputs of CEC, WeightedClust or WeightedSimClust. If TRUE, only the
+  result of the Clust element is considered. Default is TRUE.
+
+- names:
+
+  Optional. Names of the methods. Default is NULL.
+
+## Value
+
+The result is a list with an element per method. Each element is again a
+list with for each cluster the found differentially expressed genes.
+
+## Details
+
+This function relies on the suggested Bioconductor package 'limma'.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+data(fingerprintMat)
+data(targetMat)
+data(geneMat)
+
+MCF7_F = Cluster(fingerprintMat,type="data",distmeasure="tanimoto",normalize=FALSE,
+method=NULL,clust="agnes",linkage="flexible",gap=FALSE,maxK=55,StopRange=FALSE)
+MCF7_T = Cluster(targetMat,type="data",distmeasure="tanimoto",normalize=FALSE,
+method=NULL,clust="agnes",linkage="flexible",gap=FALSE,maxK=55,StopRange=FALSE)
+
+L=list(MCF7_F,MCF7_T)
+names=c('FP','TP')
+
+MCF7_FT_DE = DiffGenes(List=L,geneExpr=geneMat,nrclusters=7,method="limma",sign=0.05,
+topG=10,fusionsLog=TRUE,weightclust=TRUE,names=names)
+} # }
+```
