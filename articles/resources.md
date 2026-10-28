@@ -10,6 +10,21 @@
   <https://github.com/lucp12891/MosaiClusteR/issues>
 - **Documentation site**: <https://lucp12891.github.io/MosaiClusteR/>
 
+## Worked example scripts
+
+Runnable `.R` versions of the worked examples, ready to download and
+adapt:
+
+- [quickstart.R](https://lucp12891.github.io/MosaiClusteR/scripts/quickstart.R):
+  the 60-second quick start.
+- [end-to-end.R](https://lucp12891.github.io/MosaiClusteR/scripts/end-to-end.R):
+  a complete analysis, from preprocessing to characterisation.
+- [compare-methods.R](https://lucp12891.github.io/MosaiClusteR/scripts/compare-methods.R):
+  run one method per paradigm and compare them by ARI.
+
+Each script runs on the bundled `mosaic_toy` data; swap in your own list
+of matrices (objects in rows) to use it on real data.
+
 ## How to cite
 
 Please cite the package when it contributes to published work.
