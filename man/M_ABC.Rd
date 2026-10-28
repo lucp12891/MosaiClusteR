@@ -21,7 +21,8 @@ M_ABC(
   mds = FALSE,
   nfeat = NULL,
   nugget_type = "between",
-  nugget_args = list()
+  nugget_args = list(),
+  seed = NULL
 )
 }
 \arguments{
@@ -47,6 +48,10 @@ M_ABC(
 \code{\link{ABCpp.SingleInMultiple}} (\code{NULL} = \eqn{\lfloor\sqrt{G}\rfloor}).}
 
 \item{nugget_type, nugget_args}{Forwarded to the nugget weighting.}
+
+\item{seed}{Optional integer RNG seed. \code{M_ABC} is stochastic (it
+bootstraps objects and subsamples features), so set \code{seed} (or call
+\code{\link{set.seed}} beforehand) for reproducible results.}
 }
 \value{
 A list of class \code{"M_ABC"} with \code{DistM} and \code{Clust}.

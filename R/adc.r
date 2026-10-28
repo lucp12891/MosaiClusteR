@@ -79,6 +79,7 @@ ADC<-function(List,distmeasure="tanimoto",normalize=FALSE,method=NULL,clust="agn
 #' @param clust Choice of clustering function (character). Defaults to "agnes".
 #' @param linkage Choice of inter group dissimilarity (character). Defaults to "flexible".
 #' @param alpha The parameter alpha to be used in the "flexible" linkage of the agnes function. Defaults to 0.625 and is only used if the linkage is set to "flexible".
+#' @param seed Optional integer RNG seed. ADEC is stochastic when \code{r} is set (it takes a random sample of the features each iteration), so set \code{seed} for reproducible results.
 #' @return The returned value is a list with the following three elements.
 #' \item{AllData}{Fused data matrix of the data matrices}
 #' \item{DistM}{The resulting co-association matrix}
@@ -94,7 +95,9 @@ ADC<-function(List,distmeasure="tanimoto",normalize=FALSE,method=NULL,clust="agn
 #' res_ADEC <- ADEC(List=L, distmeasure="euclidean", normalize=FALSE, method=NULL,
 #'                  t=5, r=50, nrclusters=5, clust="agnes", linkage="flexible", alpha=0.625)
 #' }
-ADEC<-function(List,distmeasure="tanimoto",normalize=FALSE,method=NULL,t=10,r=NULL,nrclusters=NULL,clust="agnes",linkage="flexible",alpha=0.625){
+ADEC<-function(List,distmeasure="tanimoto",normalize=FALSE,method=NULL,t=10,r=NULL,nrclusters=NULL,clust="agnes",linkage="flexible",alpha=0.625,seed=NULL){
+
+	if(!is.null(seed)) set.seed(seed)
 
 	if(!is.list(List)){
 		stop("Data must be of type lists")

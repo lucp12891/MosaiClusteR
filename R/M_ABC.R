@@ -134,6 +134,9 @@ f.clustABC.MultiSource <- function(res,
 #' @param nfeat Feature-subsample size forwarded to
 #'   \code{\link{ABCpp.SingleInMultiple}} (\code{NULL} = \eqn{\lfloor\sqrt{G}\rfloor}).
 #' @param nugget_type,nugget_args Forwarded to the nugget weighting.
+#' @param seed Optional integer RNG seed. \code{M_ABC} is stochastic (it
+#'   bootstraps objects and subsamples features), so set \code{seed} (or call
+#'   \code{\link{set.seed}} beforehand) for reproducible results.
 #' @return A list of class \code{"M_ABC"} with \code{DistM} and \code{Clust}.
 #' @references \insertAllCited{}
 #' @seealso \code{\link{ABCpp.SingleInMultiple}}, \code{\link{f.clustABC.MultiSource}},
@@ -160,7 +163,10 @@ M_ABC <- function(List,
                     mds           = FALSE,
                     nfeat         = NULL,
                     nugget_type   = "between",
-                    nugget_args   = list()) {
+                    nugget_args   = list(),
+                    seed          = NULL) {
+
+  if (!is.null(seed)) set.seed(seed)
 
   K <- length(List)
 

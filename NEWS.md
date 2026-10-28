@@ -25,6 +25,9 @@ collects changes since 0.1.4.
 * `mosaic_labels()` validates `k` (a single positive integer) with a clear
   message, instead of silently truncating a non-integer `k` or failing cryptically
   on `NA`.
+* `M_ABC()` and `ADEC()` gained a `seed` argument for reproducible results,
+  consistent with `M_ABCdeep()` and `intNMF()`. Their documentation states that
+  they are stochastic and that `seed` (or `set.seed()`) fixes the result.
 
 ## Documentation and examples
 

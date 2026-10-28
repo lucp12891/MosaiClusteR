@@ -14,7 +14,8 @@ ADEC(
   nrclusters = NULL,
   clust = "agnes",
   linkage = "flexible",
-  alpha = 0.625
+  alpha = 0.625,
+  seed = NULL
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ ADEC(
 \item{linkage}{Choice of inter group dissimilarity (character). Defaults to "flexible".}
 
 \item{alpha}{The parameter alpha to be used in the "flexible" linkage of the agnes function. Defaults to 0.625 and is only used if the linkage is set to "flexible".}
+
+\item{seed}{Optional integer RNG seed. ADEC is stochastic when \code{r} is set (it takes a random sample of the features each iteration), so set \code{seed} for reproducible results.}
 }
 \value{
 The returned value is a list with the following three elements.
