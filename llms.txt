@@ -77,6 +77,11 @@ clusters](img/gallery/silhouette.png)
 
 Choosing the number of clusters
 
+![Integration beats single sources, by Adjusted Rand
+Index](img/gallery/integration.png)
+
+Integration beats single sources
+
 ## 60-second quick start
 
 ``` r

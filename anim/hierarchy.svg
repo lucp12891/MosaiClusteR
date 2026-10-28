@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 160" width="420" height="160" role="img" aria-label="A dendrogram draws itself from the leaves up to the root.">
-  <g fill="#15293D"><circle cx="90" cy="140" r="7"/><circle cx="150" cy="140" r="7"/><circle cx="250" cy="140" r="7"/><circle cx="330" cy="140" r="7"/></g>
-  <g stroke="#1F4E5F" stroke-width="4" fill="none" stroke-dasharray="320" stroke-dashoffset="320">
+  <g fill="#1A2A4F"><circle cx="90" cy="140" r="7"/><circle cx="150" cy="140" r="7"/><circle cx="250" cy="140" r="7"/><circle cx="330" cy="140" r="7"/></g>
+  <g stroke="#1A2A4F" stroke-width="4" fill="none" stroke-dasharray="320" stroke-dashoffset="320">
     <animate attributeName="stroke-dashoffset" values="320;320;0;0;320" keyTimes="0;0.1;0.6;0.85;1" dur="5s" repeatCount="indefinite"/>
     <path d="M90,140 V100 H150 V140"/>
     <path d="M120,100 V70 H290 V140"/>

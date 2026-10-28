@@ -1,18 +1,18 @@
 /* MosaiClusteR site theme: warm, earthy palette with a gradient hero. */
 
 :root {
-  --mc-green: #2F4A3A;
-  --mc-green-mid: #356B52;
-  --mc-teal: #2E7E8C;
-  --mc-blue: #276DC3;
-  --mc-amber: #D39A4E;
+  --mc-green: #1A2A4F;      /* deep navy: frames, headings, wordmark */
+  --mc-green-mid: #C92A64;  /* raspberry: links */
+  --mc-teal: #12B886;       /* emerald */
+  --mc-blue: #E8366F;       /* raspberry */
+  --mc-amber: #F59F00;      /* vivid amber */
   --mc-cream: #F4EDDE;
-  --mc-ink: #15293D;
+  --mc-ink: #1A2A4F;
 }
 
 /* ---- Gradient navbar ----------------------------------------------------- */
 .navbar {
-  background: linear-gradient(90deg, var(--mc-green) 0%, var(--mc-teal) 58%, var(--mc-blue) 100%) !important;
+  background: linear-gradient(90deg, #1A2A4F 0%, #E8366F 62%, #F59F00 100%) !important;
   border: 0 !important;
   box-shadow: 0 2px 10px rgba(21, 41, 61, 0.18);
 }
@@ -44,7 +44,7 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-  background: linear-gradient(135deg, var(--mc-green) 0%, var(--mc-teal) 55%, var(--mc-blue) 100%);
+  background: linear-gradient(135deg, #1A2A4F 0%, #E8366F 55%, #F59F00 112%);
   color: #F4EDDE;
   border-radius: 20px;
   padding: 2.4rem 2.2rem;
