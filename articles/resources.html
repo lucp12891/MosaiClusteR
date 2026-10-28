@@ -43,6 +43,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Guides</h6></li>
+    <li><a class="dropdown-item" href="../articles/concepts.html">How the paradigms work (animated)</a></li>
     <li><a class="dropdown-item" href="../articles/preprocessing.html">Preprocessing and source alignment</a></li>
     <li><a class="dropdown-item" href="../articles/choosing-k.html">Choosing the number of clusters, and stability</a></li>
     <li><a class="dropdown-item" href="../articles/weighting-and-nuggets.html">Feature weighting and data nuggets</a></li>
@@ -117,9 +118,18 @@ analysis, from preprocessing to characterisation.</li>
 <li>
 <a href="../scripts/compare-methods.R">compare-methods.R</a>: run
 one method per paradigm and compare them by ARI.</li>
+<li>
+<a href="../scripts/weighting-and-nuggets.R">weighting-and-nuggets.R</a>:
+feature-weighting schemes, data-nugget compression and nugget
+clustering.</li>
+<li>
+<a href="../scripts/biological-interpretation.R">biological-interpretation.R</a>:
+a template for differential genes and pathway enrichment (needs your own
+expression data and Bioconductor).</li>
 </ul>
-<p>Each script runs on the bundled <code>mosaic_toy</code> data; swap in
-your own list of matrices (objects in rows) to use it on real data.</p>
+<p>The first four scripts run on the bundled <code>mosaic_toy</code>
+data; swap in your own list of matrices (objects in rows) to use them on
+real data.</p>
 </div>
 <div class="section level2">
 <h2 id="how-to-cite">How to cite<a class="anchor" aria-label="anchor" href="#how-to-cite"></a>

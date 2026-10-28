@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   articles/biological-interpretation: biological-interpretation.html
   articles/choosing-k: choosing-k.html
+  articles/concepts: concepts.html
   articles/evaluation: evaluation.html
   articles/faq: faq.html
   articles/method-comparison: method-comparison.html
@@ -12,7 +13,7 @@ articles:
   articles/resources: resources.html
   articles/visualization: visualization.html
   articles/weighting-and-nuggets: weighting-and-nuggets.html
-last_built: 2026-10-28T18:51Z
+last_built: 2026-10-28T19:00Z
 urls:
   reference: https://lucp12891.github.io/MosaiClusteR/reference
   article: https://lucp12891.github.io/MosaiClusteR/articles

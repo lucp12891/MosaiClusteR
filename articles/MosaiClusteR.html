@@ -43,6 +43,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Guides</h6></li>
+    <li><a class="dropdown-item" href="../articles/concepts.html">How the paradigms work (animated)</a></li>
     <li><a class="dropdown-item" href="../articles/preprocessing.html">Preprocessing and source alignment</a></li>
     <li><a class="dropdown-item" href="../articles/choosing-k.html">Choosing the number of clusters, and stability</a></li>
     <li><a class="dropdown-item" href="../articles/weighting-and-nuggets.html">Feature weighting and data nuggets</a></li>
@@ -88,8 +89,8 @@
 <h2 id="what-mosaicluster-is-for">What MosaiClusteR is for<a class="anchor" aria-label="anchor" href="#what-mosaicluster-is-for"></a>
 </h2>
 <p>Modern studies rarely describe their samples with a single table. A
-cohort may be profiled by several assays at once — transcriptomics,
-proteomics, metabolomics, methylation, microbiome — or a set of objects
+cohort may be profiled by several assays at once (transcriptomics,
+proteomics, metabolomics, methylation, microbiome), or a set of objects
 may be described by several heterogeneous data sources.
 <strong>MosaiClusteR</strong> is a framework for discovering the sample
 structure that these sources <em>agree</em> on: it takes a collection of
@@ -101,8 +102,8 @@ ways, and no one method is best across all data regimes, so MosaiClusteR
 gathers a broad set of methods behind <strong>one consistent
 interface</strong> and adds everything you need to <em>choose between
 them</em>: preprocessing, cluster-number selection, agreement metrics,
-visual comparison, cluster characterisation, and — for omics — pathway
-and gene-set interpretation.</p>
+visual comparison, cluster characterisation, and, for omics, pathway and
+gene-set interpretation.</p>
 <p>The multi-source integration methods are organised into five
 <strong>paradigms</strong>:</p>
 <table class="table">
@@ -190,8 +191,8 @@ default) starts from the raw matrices.</li>
 <p>Because the interface is uniform, swapping one method for another is
 a one-line change, and the evaluation / visualisation tools work with
 any of them.</p>
-<p>The package ships a small toy data set — two sources over 60 shared
-objects with three planted groups — used throughout this vignette.</p>
+<p>The package ships a small toy data set (two sources over 60 shared
+objects with three planted groups) used throughout this vignette.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mosaic_toy</span><span class="op">)</span></span>
 <span><span class="va">L</span>     <span class="op">&lt;-</span> <span class="va">mosaic_toy</span><span class="op">$</span><span class="va">List</span>      <span class="co"># a list of two matrices, objects in rows</span></span>
@@ -230,10 +231,10 @@ dissimilarity.</p>
 <span><span class="co">#&gt; obj02 13.83  0.00 14.78 13.88</span></span>
 <span><span class="co">#&gt; obj03 14.03 14.78  0.00 14.30</span></span>
 <span><span class="co">#&gt; obj04 13.74 13.88 14.30  0.00</span></span></code></pre></div>
-<p><code><a href="../reference/Distance.html">Distance()</a></code> supports many measures —
+<p><code><a href="../reference/Distance.html">Distance()</a></code> supports many measures, including
 <code>"euclidean"</code>, <code>"manhattan"</code>,
 <code>"tanimoto"</code>/<code>"jaccard"</code> (for binary
-fingerprints), and correlation-based distances among them — and
+fingerprints), and correlation-based distances, and
 <code><a href="../reference/Normalization.html">Normalization()</a></code> offers quantile, standardisation and range
 scaling. Binary sources (e.g. molecular fingerprints, presence/absence)
 are handled by choosing an appropriate <code>distmeasure</code>.</p>
@@ -309,15 +310,15 @@ how well each recovers the planted groups with the Adjusted Rand Index
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">comparison</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="va">comparison</span></span>
 <span><span class="co">#&gt;                   method status  ARI seconds message</span></span>
-<span><span class="co">#&gt; 1           ADC (direct)     ok 1.00    0.02        </span></span>
-<span><span class="co">#&gt; 2 WeightedClust (simil.)     ok 1.00    0.01        </span></span>
-<span><span class="co">#&gt; 3     SNF (graph fusion)     ok 1.00    0.07        </span></span>
-<span><span class="co">#&gt; 4   NEMO (neighbourhood)     ok 1.00    0.03        </span></span>
-<span><span class="co">#&gt; 5        CEC (consensus)     ok 1.00    0.04        </span></span>
-<span><span class="co">#&gt; 6        intNMF (factor)     ok 1.00    0.10        </span></span>
+<span><span class="co">#&gt; 1           ADC (direct)     ok 1.00    0.01        </span></span>
+<span><span class="co">#&gt; 2 WeightedClust (simil.)     ok 1.00    0.02        </span></span>
+<span><span class="co">#&gt; 3     SNF (graph fusion)     ok 1.00    0.04        </span></span>
+<span><span class="co">#&gt; 4   NEMO (neighbourhood)     ok 1.00    0.02        </span></span>
+<span><span class="co">#&gt; 5        CEC (consensus)     ok 1.00    0.06        </span></span>
+<span><span class="co">#&gt; 6        intNMF (factor)     ok 1.00    0.08        </span></span>
 <span><span class="co">#&gt; 7           Data nuggets     ok 1.00    0.01        </span></span>
 <span><span class="co">#&gt; 8           ABC (voting)     ok 1.00    0.08        </span></span>
-<span><span class="co">#&gt; 9      WonM (similarity)     ok 0.95    0.00</span></span></code></pre></div>
+<span><span class="co">#&gt; 9      WonM (similarity)     ok 0.95    0.02</span></span></code></pre></div>
 <p>On this toy set most methods recover the planted structure; on real
 data they diverge, which is why running several and comparing them is
 the recommended workflow rather than trusting a single algorithm.</p>
@@ -336,11 +337,11 @@ and ready to adapt.</p>
 once.</p>
 <ul>
 <li>
-<strong><code>ADC</code></strong> — Aggregated Data Clustering:
+<strong><code>ADC</code></strong>: Aggregated Data Clustering:
 concatenate the sources (after optional per-source normalisation), form
 a single distance and one hierarchy.</li>
 <li>
-<strong><code>ADEC</code></strong> — Aggregated Data Ensemble
+<strong><code>ADEC</code></strong>: Aggregated Data Ensemble
 Clustering: repeatedly subsample / reduce the concatenated data and
 aggregate the resulting partitions.</li>
 </ul>
@@ -355,19 +356,19 @@ aggregate the resulting partitions.</li>
 similarities are combined before clustering.</p>
 <ul>
 <li>
-<strong><code>WeightedClust</code></strong> — convex (weighted)
+<strong><code>WeightedClust</code></strong>: convex (weighted)
 combination of per-source distances over a grid of weights; good when
 you want to control each source’s influence.</li>
 <li>
-<strong><code>WonM</code></strong> — Weighting on Membership:
+<strong><code>WonM</code></strong>: Weighting on Membership:
 consensus co-membership accumulated over many cut heights, so no single
 <code>k</code> has to be fixed up front.</li>
 <li>
-<strong><code>SNF</code></strong> — Similarity Network Fusion:
+<strong><code>SNF</code></strong>: Similarity Network Fusion:
 iteratively cross-diffuses per-source similarity networks into a single
 fused network (needs <code>SNFtool</code>).</li>
 <li>
-<strong><code>NEMO</code></strong> — NEighborhood based Multi-Omics
+<strong><code>NEMO</code></strong>: NEighborhood based Multi-Omics
 clustering: averages neighbourhood affinities across sources and
 tolerates partially missing samples.</li>
 </ul>
@@ -386,13 +387,13 @@ tolerates partially missing samples.</li>
 clusters) that is then partitioned.</p>
 <ul>
 <li>
-<strong><code>EnsembleClustering</code></strong> — CSPA / HGPA /
-MCLA hyper-graph consensus.</li>
+<strong><code>EnsembleClustering</code></strong>: CSPA / HGPA / MCLA
+hyper-graph consensus.</li>
 <li>
-<strong><code>HBGF</code></strong> — Hybrid Bipartite Graph
+<strong><code>HBGF</code></strong>: Hybrid Bipartite Graph
 Formulation over objects and clusters.</li>
 <li>
-<strong><code>ClusteringAggregation</code></strong> — aggregate many
+<strong><code>ClusteringAggregation</code></strong>: aggregate many
 partitions by a distance between clusterings.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -409,23 +410,23 @@ partitions by a distance between clusterings.</li>
 together; a consensus co-membership is then clustered.</p>
 <ul>
 <li>
-<strong><code>CEC</code></strong> — (Consensus) Ensemble Clustering
+<strong><code>CEC</code></strong>: (Consensus) Ensemble Clustering
 by incidence accumulation across sources and cut points;
 weight-aware.</li>
 <li>
-<strong><code>CVAA</code></strong> — Cumulative Voting Adjusted
+<strong><code>CVAA</code></strong>: Cumulative Voting Adjusted
 Aggregation, aligning partitions to a reference before merging.</li>
 <li>
-<strong><code>ConsensusClustering</code></strong> — iterative
+<strong><code>ConsensusClustering</code></strong>: iterative
 (probabilistic) voting consensus.</li>
 <li>
-<strong><code>EvidenceAccumulation</code></strong> — co-association
+<strong><code>EvidenceAccumulation</code></strong>: co-association
 matrix across partitions.</li>
 <li>
-<strong><code>LinkBasedClustering</code></strong> — refines the
+<strong><code>LinkBasedClustering</code></strong>: refines the
 co-association with link-based similarity (CTS / SRS / ASRS).</li>
 <li>
-<strong>The ABC family</strong> — <code>M_ABC</code>,
+<strong>The ABC family</strong>: <code>M_ABC</code>,
 <code>M_ABCdist</code> and the deep-learning variant
 <code>M_ABCdeep</code> build a consensus by repeatedly bootstrapping
 objects and feature bundles per source; <code>M_ABCdist.WC</code> fuses
@@ -451,11 +452,11 @@ per-source distances with an optimally weighted combination.</li>
 <p>Per-source hierarchies are merged into a single dendrogram.</p>
 <ul>
 <li>
-<strong><code>HierarchicalEnsembleClustering</code></strong> —
+<strong><code>HierarchicalEnsembleClustering</code></strong>:
 combine per-source hierarchical clusterings into a consensus
 hierarchy.</li>
 <li>
-<strong><code>EHC</code></strong> — Ensemble Hierarchical Clustering
+<strong><code>EHC</code></strong>: Ensemble Hierarchical Clustering
 (uses an external partitioner).</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -468,15 +469,15 @@ hierarchy.</li>
 <p>Cluster a shared latent representation of the sources.</p>
 <ul>
 <li>
-<strong><code>intNMF</code></strong> — integrative non-negative
+<strong><code>intNMF</code></strong>: integrative non-negative
 matrix factorisation: a shared basis plus per-source coefficients;
 cluster the shared factors.</li>
 <li>
-<strong><code>spectral_clustering</code></strong> — spectral
+<strong><code>spectral_clustering</code></strong>: spectral
 clustering of an affinity matrix (build one from a fused similarity,
 e.g. via <code><a href="../reference/SimilarityMeasure.html">SimilarityMeasure()</a></code> or <code><a href="../reference/SNF.html">SNF()</a></code>).</li>
 <li>
-<strong><code>LUCID</code></strong> — a wrapper for latent-cluster
+<strong><code>LUCID</code></strong>: a wrapper for latent-cluster
 models that <em>use an outcome</em> (supervised integration); supply
 exposures <code>G</code>, omics <code>Z</code> and outcome
 <code>Y</code>.</li>
@@ -491,8 +492,8 @@ exposures <code>G</code>, omics <code>Z</code> and outcome
 <h2 id="feature-weighting-and-data-nuggets">Feature weighting and data nuggets<a class="anchor" aria-label="anchor" href="#feature-weighting-and-data-nuggets"></a>
 </h2>
 <p>Not all features are equally informative. Several methods can weight
-features by their importance, and MosaiClusteR provides a robust,
-big-data-friendly weighting based on <strong>data nuggets</strong> — a
+features by their importance, and MosaiClusteR provides a stable,
+big-data-friendly weighting based on <strong>data nuggets</strong>: a
 compression of the objects into weighted representatives that resists
 outliers and scales to large <code>n</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">

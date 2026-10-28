@@ -3,8 +3,8 @@
 ## What MosaiClusteR is for
 
 Modern studies rarely describe their samples with a single table. A
-cohort may be profiled by several assays at once — transcriptomics,
-proteomics, metabolomics, methylation, microbiome — or a set of objects
+cohort may be profiled by several assays at once (transcriptomics,
+proteomics, metabolomics, methylation, microbiome), or a set of objects
 may be described by several heterogeneous data sources. **MosaiClusteR**
 is a framework for discovering the sample structure that these sources
 *agree* on: it takes a collection of data matrices measured over the
@@ -16,7 +16,7 @@ method is best across all data regimes, so MosaiClusteR gathers a broad
 set of methods behind **one consistent interface** and adds everything
 you need to *choose between them*: preprocessing, cluster-number
 selection, agreement metrics, visual comparison, cluster
-characterisation, and — for omics — pathway and gene-set interpretation.
+characterisation, and, for omics, pathway and gene-set interpretation.
 
 The multi-source integration methods are organised into five
 **paradigms**:
@@ -61,8 +61,8 @@ Because the interface is uniform, swapping one method for another is a
 one-line change, and the evaluation / visualisation tools work with any
 of them.
 
-The package ships a small toy data set — two sources over 60 shared
-objects with three planted groups — used throughout this vignette.
+The package ships a small toy data set (two sources over 60 shared
+objects with three planted groups) used throughout this vignette.
 
 ``` r
 
@@ -112,9 +112,9 @@ round(as.matrix(D1)[1:4, 1:4], 2)
 ```
 
 [`Distance()`](https://lucp12891.github.io/MosaiClusteR/reference/Distance.md)
-supports many measures — `"euclidean"`, `"manhattan"`,
+supports many measures, including `"euclidean"`, `"manhattan"`,
 `"tanimoto"`/`"jaccard"` (for binary fingerprints), and
-correlation-based distances among them — and
+correlation-based distances, and
 [`Normalization()`](https://lucp12891.github.io/MosaiClusteR/reference/Normalization.md)
 offers quantile, standardisation and range scaling. Binary sources
 (e.g. molecular fingerprints, presence/absence) are handled by choosing
@@ -193,15 +193,15 @@ comparison <- comparison[order(-comparison$ARI, na.last = TRUE), ]
 rownames(comparison) <- NULL
 comparison
 #>                   method status  ARI seconds message
-#> 1           ADC (direct)     ok 1.00    0.02        
-#> 2 WeightedClust (simil.)     ok 1.00    0.01        
-#> 3     SNF (graph fusion)     ok 1.00    0.07        
-#> 4   NEMO (neighbourhood)     ok 1.00    0.03        
-#> 5        CEC (consensus)     ok 1.00    0.04        
-#> 6        intNMF (factor)     ok 1.00    0.10        
+#> 1           ADC (direct)     ok 1.00    0.01        
+#> 2 WeightedClust (simil.)     ok 1.00    0.02        
+#> 3     SNF (graph fusion)     ok 1.00    0.04        
+#> 4   NEMO (neighbourhood)     ok 1.00    0.02        
+#> 5        CEC (consensus)     ok 1.00    0.06        
+#> 6        intNMF (factor)     ok 1.00    0.08        
 #> 7           Data nuggets     ok 1.00    0.01        
 #> 8           ABC (voting)     ok 1.00    0.08        
-#> 9      WonM (similarity)     ok 0.95    0.00
+#> 9      WonM (similarity)     ok 0.95    0.02
 ```
 
 On this toy set most methods recover the planted structure; on real data
@@ -218,10 +218,10 @@ adapt.
 
 The sources are combined into one representation and clustered once.
 
-- **`ADC`** — Aggregated Data Clustering: concatenate the sources (after
+- **`ADC`**: Aggregated Data Clustering: concatenate the sources (after
   optional per-source normalisation), form a single distance and one
   hierarchy.
-- **`ADEC`** — Aggregated Data Ensemble Clustering: repeatedly subsample
+- **`ADEC`**: Aggregated Data Ensemble Clustering: repeatedly subsample
   / reduce the concatenated data and aggregate the resulting partitions.
 
 ``` r
@@ -235,16 +235,16 @@ ADEC(L, distmeasure = DM, normalize = NM, method = ME, nrclusters = 3, t = 10)
 Each source contributes an object-by-object similarity; the similarities
 are combined before clustering.
 
-- **`WeightedClust`** — convex (weighted) combination of per-source
+- **`WeightedClust`**: convex (weighted) combination of per-source
   distances over a grid of weights; good when you want to control each
   source’s influence.
-- **`WonM`** — Weighting on Membership: consensus co-membership
+- **`WonM`**: Weighting on Membership: consensus co-membership
   accumulated over many cut heights, so no single `k` has to be fixed up
   front.
-- **`SNF`** — Similarity Network Fusion: iteratively cross-diffuses
+- **`SNF`**: Similarity Network Fusion: iteratively cross-diffuses
   per-source similarity networks into a single fused network (needs
   `SNFtool`).
-- **`NEMO`** — NEighborhood based Multi-Omics clustering: averages
+- **`NEMO`**: NEighborhood based Multi-Omics clustering: averages
   neighbourhood affinities across sources and tolerates partially
   missing samples.
 
@@ -263,10 +263,10 @@ NEMO(L, k = K, NN = 20)$cluster
 Many base clusterings are encoded as a graph (of objects and/or
 clusters) that is then partitioned.
 
-- **`EnsembleClustering`** — CSPA / HGPA / MCLA hyper-graph consensus.
-- **`HBGF`** — Hybrid Bipartite Graph Formulation over objects and
+- **`EnsembleClustering`**: CSPA / HGPA / MCLA hyper-graph consensus.
+- **`HBGF`**: Hybrid Bipartite Graph Formulation over objects and
   clusters.
-- **`ClusteringAggregation`** — aggregate many partitions by a distance
+- **`ClusteringAggregation`**: aggregate many partitions by a distance
   between clusterings.
 
 ``` r
@@ -283,19 +283,18 @@ ClusteringAggregation(L, type = "data", distmeasure = DM, normalize = NM,
 Many partitions “vote” on whether each pair of objects belongs together;
 a consensus co-membership is then clustered.
 
-- **`CEC`** — (Consensus) Ensemble Clustering by incidence accumulation
+- **`CEC`**: (Consensus) Ensemble Clustering by incidence accumulation
   across sources and cut points; weight-aware.
-- **`CVAA`** — Cumulative Voting Adjusted Aggregation, aligning
+- **`CVAA`**: Cumulative Voting Adjusted Aggregation, aligning
   partitions to a reference before merging.
-- **`ConsensusClustering`** — iterative (probabilistic) voting
-  consensus.
-- **`EvidenceAccumulation`** — co-association matrix across partitions.
-- **`LinkBasedClustering`** — refines the co-association with link-based
+- **`ConsensusClustering`**: iterative (probabilistic) voting consensus.
+- **`EvidenceAccumulation`**: co-association matrix across partitions.
+- **`LinkBasedClustering`**: refines the co-association with link-based
   similarity (CTS / SRS / ASRS).
-- **The ABC family** — `M_ABC`, `M_ABCdist` and the deep-learning
-  variant `M_ABCdeep` build a consensus by repeatedly bootstrapping
-  objects and feature bundles per source; `M_ABCdist.WC` fuses
-  per-source distances with an optimally weighted combination.
+- **The ABC family**: `M_ABC`, `M_ABCdist` and the deep-learning variant
+  `M_ABCdeep` build a consensus by repeatedly bootstrapping objects and
+  feature bundles per source; `M_ABCdist.WC` fuses per-source distances
+  with an optimally weighted combination.
 
 ``` r
 
@@ -317,9 +316,9 @@ M_ABCdeep(L, numsim = 200, NC = 3, ae_epochs = 60)   # autoencoder embedding
 
 Per-source hierarchies are merged into a single dendrogram.
 
-- **`HierarchicalEnsembleClustering`** — combine per-source hierarchical
+- **`HierarchicalEnsembleClustering`**: combine per-source hierarchical
   clusterings into a consensus hierarchy.
-- **`EHC`** — Ensemble Hierarchical Clustering (uses an external
+- **`EHC`**: Ensemble Hierarchical Clustering (uses an external
   partitioner).
 
 ``` r
@@ -332,16 +331,16 @@ HierarchicalEnsembleClustering(L, type = "data", distmeasure = DM,
 
 Cluster a shared latent representation of the sources.
 
-- **`intNMF`** — integrative non-negative matrix factorisation: a shared
+- **`intNMF`**: integrative non-negative matrix factorisation: a shared
   basis plus per-source coefficients; cluster the shared factors.
-- **`spectral_clustering`** — spectral clustering of an affinity matrix
+- **`spectral_clustering`**: spectral clustering of an affinity matrix
   (build one from a fused similarity, e.g. via
   [`SimilarityMeasure()`](https://lucp12891.github.io/MosaiClusteR/reference/SimilarityMeasure.md)
   or
   [`SNF()`](https://lucp12891.github.io/MosaiClusteR/reference/SNF.md)).
-- **`LUCID`** — a wrapper for latent-cluster models that *use an
-  outcome* (supervised integration); supply exposures `G`, omics `Z` and
-  outcome `Y`.
+- **`LUCID`**: a wrapper for latent-cluster models that *use an outcome*
+  (supervised integration); supply exposures `G`, omics `Z` and outcome
+  `Y`.
 
 ``` r
 
@@ -353,8 +352,8 @@ LUCID(G = exposures, Z = L, Y = outcome, K = 3)   # supervised; needs 'LUCIDus'
 ## Feature weighting and data nuggets
 
 Not all features are equally informative. Several methods can weight
-features by their importance, and MosaiClusteR provides a robust,
-big-data-friendly weighting based on **data nuggets** — a compression of
+features by their importance, and MosaiClusteR provides a stable,
+big-data-friendly weighting based on **data nuggets**: a compression of
 the objects into weighted representatives that resists outliers and
 scales to large `n`.
 

@@ -21,9 +21,15 @@ adapt:
   a complete analysis, from preprocessing to characterisation.
 - [compare-methods.R](https://lucp12891.github.io/MosaiClusteR/scripts/compare-methods.R):
   run one method per paradigm and compare them by ARI.
+- [weighting-and-nuggets.R](https://lucp12891.github.io/MosaiClusteR/scripts/weighting-and-nuggets.R):
+  feature-weighting schemes, data-nugget compression and nugget
+  clustering.
+- [biological-interpretation.R](https://lucp12891.github.io/MosaiClusteR/scripts/biological-interpretation.R):
+  a template for differential genes and pathway enrichment (needs your
+  own expression data and Bioconductor).
 
-Each script runs on the bundled `mosaic_toy` data; swap in your own list
-of matrices (objects in rows) to use it on real data.
+The first four scripts run on the bundled `mosaic_toy` data; swap in
+your own list of matrices (objects in rows) to use them on real data.
 
 ## How to cite
 
