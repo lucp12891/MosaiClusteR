@@ -42,17 +42,35 @@ mosaic_labels <- function(object, k, linkage = "ward") {
 #' Computes the adjusted Rand index (ARI), normalised mutual information (NMI)
 #' and pairwise Jaccard between two label vectors of equal length.
 #'
-#' @param a,b Integer/character/factor label vectors of equal length.
+#' @param a,b Integer/character/factor label vectors of equal length, without
+#'   missing values.
 #' @return A named numeric vector \code{c(ARI, NMI, Jaccard)}.
 #' @details ARI rule of thumb: \code{>0.90} excellent; \code{0.75-0.90} good;
 #'   \code{0.50-0.75} moderate; \code{<0.50} weak.
+#'
+#'   Edge cases: identical partitions (up to relabelling) return 1 for all three
+#'   measures, including the degenerate single-cluster and all-singleton cases
+#'   where the ARI and NMI formulae are otherwise undefined (0/0). \code{NA}
+#'   labels are not allowed and raise a clear error rather than propagating.
 #' @examples
 #' cluster_agreement(c(1, 1, 2, 2), c(2, 2, 1, 1))   # identical up to relabel
+#' cluster_agreement(rep(1, 5), rep(1, 5))           # identical, single cluster -> 1
 #' @export
 cluster_agreement <- function(a, b) {
-  a <- as.integer(as.factor(a)); b <- as.integer(as.factor(b))
   if (length(a) != length(b)) stop("'a' and 'b' must have equal length.")
-  n  <- length(a)
+  if (anyNA(a) || anyNA(b))
+    stop("'a' and 'b' must not contain NA (missing labels).")
+  n <- length(a)
+  if (n < 1L) stop("'a' and 'b' must have at least one element.")
+  a <- as.integer(as.factor(a)); b <- as.integer(as.factor(b))
+
+  # Co-membership structure. Identical partitions (up to relabelling) agree
+  # perfectly; returning here also covers the degenerate single-cluster and
+  # all-singleton cases, where the ARI/NMI formulae below would give 0/0.
+  same1 <- outer(a, a, "=="); same2 <- outer(b, b, "==")
+  lt <- lower.tri(same1)
+  if (all(same1[lt] == same2[lt])) return(c(ARI = 1, NMI = 1, Jaccard = 1))
+
   ct <- table(a, b)
   rs <- rowSums(ct); cs <- colSums(ct)
 
@@ -69,8 +87,6 @@ cluster_agreement <- function(a, b) {
   MI <- sum(p[mask] * log(p[mask] / pm[mask]))
   nmi <- if (H1 + H2 == 0) 0 else 2 * MI / (H1 + H2)
 
-  same1 <- outer(a, a, "=="); same2 <- outer(b, b, "==")
-  lt <- lower.tri(same1)
   A  <- sum(same1[lt] & same2[lt]); B <- sum(same1[lt] & !same2[lt])
   C  <- sum(!same1[lt] & same2[lt])
   jac <- if (A + B + C == 0) 1 else A / (A + B + C)

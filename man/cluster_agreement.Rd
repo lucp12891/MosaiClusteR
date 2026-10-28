@@ -7,7 +7,8 @@
 cluster_agreement(a, b)
 }
 \arguments{
-\item{a, b}{Integer/character/factor label vectors of equal length.}
+\item{a, b}{Integer/character/factor label vectors of equal length, without
+missing values.}
 }
 \value{
 A named numeric vector \code{c(ARI, NMI, Jaccard)}.
@@ -19,7 +20,13 @@ and pairwise Jaccard between two label vectors of equal length.
 \details{
 ARI rule of thumb: \code{>0.90} excellent; \code{0.75-0.90} good;
 \code{0.50-0.75} moderate; \code{<0.50} weak.
+
+Edge cases: identical partitions (up to relabelling) return 1 for all three
+measures, including the degenerate single-cluster and all-singleton cases
+where the ARI and NMI formulae are otherwise undefined (0/0). \code{NA}
+labels are not allowed and raise a clear error rather than propagating.
 }
 \examples{
 cluster_agreement(c(1, 1, 2, 2), c(2, 2, 1, 1))   # identical up to relabel
+cluster_agreement(rep(1, 5), rep(1, 5))           # identical, single cluster -> 1
 }

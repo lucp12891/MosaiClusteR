@@ -12,6 +12,10 @@ collects changes since 0.1.4.
   the method when `normalize = TRUE`.
 * Documentation examples now use the objects-in-rows orientation consistently
   (the `Cluster()` example no longer transposes the bundled `mosaic_toy` data).
+* `cluster_agreement()` edge cases. Identical partitions (up to relabelling) now
+  return 1 for ARI, NMI and Jaccard, including the degenerate single-cluster and
+  all-singleton cases that previously returned 0. Missing (`NA`) labels now raise
+  a clear error instead of a cryptic "missing value where TRUE/FALSE needed".
 
 ## Documentation and examples
 
