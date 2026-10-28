@@ -1,30 +1,29 @@
-## Submission — MosaiClusteR 0.1.4
+## Submission: MosaiClusteR 1.0.0
 
 ### R CMD check results
 
 0 errors | 0 warnings | 0 notes
 
-* Checked locally with `R CMD check --as-cran` on Windows 11, R 4.6.0: Status OK.
+Checked locally with `R CMD check --as-cran` on Windows 11, R 4.6.0: Status OK.
 
 ### Changes in this version
 
-* Fixed a bug in `CharacteristicFeatures()`: when called with `binData` (as in
-  the documented example) an inner loop index overwrote the cluster index, so
-  only the first cluster's characteristic features were returned, and a
-  `datanames` indexing error left the per-source result list unnamed. Features
-  are now computed and named for every cluster.
-* Added `enriched_features()`, a helper that turns `CharacteristicFeatures()`
-  output into per-cluster tables ready for `plot_pathways()`.
-* Added `plot_pathways(style = "circular")` (radial enrichment plot) with new
-  `cluster_cols` and `wrap` arguments.
-* Added `cexB`/`cexR`/`cexN` label-size arguments to `FeaturesOfCluster()` and
-  `BinFeaturesPlot_SingleData()`; `Cyclogram()` now uses a larger default
-  `cex.labels`.
+This is the first stable (1.0.0) release. It is a correctness release: there are
+no new exported functions and no change to the package interface or to the
+declared dependencies.
 
-### Maintainer note
-
-* The maintainer email address has been updated to b.osangir@gmail.com. The
-  confirmation request for this submission will be sent to that address.
+* `Cluster()` now forwards its normalisation method to `Distance()`. Previously
+  the `method` argument was accepted but had no effect.
+* `cluster_agreement()` returns 1 for identical partitions (including the
+  single-cluster and all-singleton cases) and raises a clear error when labels
+  contain `NA`.
+* `ADC()`, `ADEC()`, `M_ABC()` and `CEC()` validate and align their multi-source
+  inputs by object identifier, with clear errors for mismatched, reordered or
+  duplicated objects, and accept sources without row names (combined
+  positionally).
+* `mosaic_labels()` validates the number of clusters `k`.
+* `M_ABC()` and `ADEC()` gained a `seed` argument for reproducible results.
+* Vignette and documentation examples were corrected to match the above.
 
 ### Reverse dependencies
 

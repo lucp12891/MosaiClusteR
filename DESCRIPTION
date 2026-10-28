@@ -1,7 +1,7 @@
 Package: MosaiClusteR
 Type: Package
 Title: An Umbrella Framework for Multi-Source and Multi-Omics Clustering
-Version: 1.0.0.9000
+Version: 1.0.0
 Authors@R: c(
     person("Bernard Isekah", "Osang'ir", email = "b.osangir@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5557-3602")),

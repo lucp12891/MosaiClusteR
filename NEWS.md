@@ -1,7 +1,9 @@
-# MosaiClusteR 1.0.0 (development)
+# MosaiClusteR 1.0.0
 
-Work toward the first stable release, on branch `dev-1.0.0`. This section
-collects changes since 0.1.4.
+First stable release. This version focuses on correctness: several functions
+that silently ignored an argument, mishandled an edge case, or failed to align
+multi-source inputs are fixed, and the documentation and vignette examples are
+corrected to match. Changes since 0.1.4:
 
 ## Correctness fixes
 
