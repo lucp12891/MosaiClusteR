@@ -484,7 +484,7 @@ ChooseCluster=function(Interactive=TRUE,leadCpds=NULL,clusterResult=NULL,colorLa
 
 
 					if (!requireNamespace("a4Base", quietly = TRUE)) {
-						stop("a4Base needed for this function to work. Please install it.",
+						stop("a4Base is a Bioconductor package required here; install it with BiocManager::install(\"a4Base\").",
 								call. = FALSE)
 					}
 

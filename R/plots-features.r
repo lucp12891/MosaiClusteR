@@ -655,17 +655,17 @@ ContFeaturesPlot<-function(leadCpds,data,nrclusters=NULL,orderLab=NULL,colorLab=
 PlotPathways<-function(Pathways,nRow=5,main=NULL,plottype="new",location=NULL){
 
 	if (!requireNamespace("MLP", quietly = TRUE)) {
-		stop("MLP needed for this function to work. Please install it.",
+		stop("MLP is a Bioconductor package required here; install it with BiocManager::install(\"MLP\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("biomaRt", quietly = TRUE)) {
-		stop("biomaRt needed for this function to work. Please install it.",
+		stop("biomaRt is a Bioconductor package required here; install it with BiocManager::install(\"biomaRt\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("org.Hs.eg.db", quietly = TRUE)) {
-		stop("org.Hs.eg.db needed for this function to work. Please install it.",
+		stop("org.Hs.eg.db is a Bioconductor package required here; install it with BiocManager::install(\"org.Hs.eg.db\").",
 				call. = FALSE)
 	}
 

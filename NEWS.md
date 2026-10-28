@@ -34,6 +34,10 @@ collects changes since 0.1.4.
   RNG cannot offset the internal random stream. `CEC()` uses the same alignment
   and now accepts sources without row names (combined positionally) instead of
   failing with "need at least two non-NA values to interpolate".
+* Error messages for missing optional Bioconductor packages (used by the pathway
+  and gene-set functions) now give the exact installation command, for example
+  `BiocManager::install("MLP")`, instead of only "needed for this function to
+  work". The CRAN-package messages already named `install.packages()`.
 
 ## Documentation and examples
 

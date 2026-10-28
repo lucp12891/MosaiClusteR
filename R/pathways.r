@@ -45,7 +45,7 @@
 #' topG=10,fusionsLog=TRUE,weightclust=TRUE,names=names)
 #' }
 DiffGenes=function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,method="limma",sign=0.05,topG=NULL,fusionsLog=TRUE,weightclust=TRUE,names=NULL){
-	if (!requireNamespace("limma", quietly = TRUE)) stop("DiffGenes() requires the suggested package 'limma' (Bioconductor).")
+	if (!requireNamespace("limma", quietly = TRUE)) stop("DiffGenes() requires the Bioconductor package 'limma'; install it with BiocManager::install(\"limma\").")
 	if(method != "limma"){
 		stop("Only the limma method is implemented to find differentially expressed genes")
 	}
@@ -150,7 +150,7 @@ DiffGenes=function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,method="lim
 				if(class(GeneExpr.2)[1]=="ExpressionSet"){
 
 					if (!requireNamespace("a4Base", quietly = TRUE)) {
-						stop("a4Base needed for this function to work. Please install it.",
+						stop("a4Base is a Bioconductor package required here; install it with BiocManager::install(\"a4Base\").",
 								call. = FALSE)
 					}
 
@@ -269,7 +269,7 @@ DiffGenes=function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,method="lim
 #' MCF7_FT_DE = DiffGenes(List=L,Selection=c("Cpd1","Cpd2"),geneExpr=geneMat,method="limma")
 #' }
 DiffGenesSelection=function(List,Selection,geneExpr=NULL,nrclusters=NULL,method="limma",sign=0.05,topG=NULL,fusionsLog=TRUE,weightclust=TRUE,names=NULL){
-	if (!requireNamespace("limma", quietly = TRUE)) stop("DiffGenesSelection() requires the suggested package 'limma' (Bioconductor).")
+	if (!requireNamespace("limma", quietly = TRUE)) stop("DiffGenesSelection() requires the Bioconductor package 'limma'; install it with BiocManager::install(\"limma\").")
 	if(method != "limma"){
 		stop("Only the limma method is implemented to find differentially expressed genes")
 	}
@@ -299,7 +299,7 @@ DiffGenesSelection=function(List,Selection,geneExpr=NULL,nrclusters=NULL,method=
 		if(class(geneExpr)[1]=="ExpressionSet"){
 
 			if (!requireNamespace("a4Base", quietly = TRUE)) {
-				stop("a4Base needed for this function to work. Please install it.",
+				stop("a4Base is a Bioconductor package required here; install it with BiocManager::install(\"a4Base\").",
 						call. = FALSE)
 			}
 
@@ -443,7 +443,7 @@ DiffGenesSelection=function(List,Selection,geneExpr=NULL,nrclusters=NULL,method=
 			if(class(GeneExpr.2)[1]=="ExpressionSet"){
 
 				if (!requireNamespace("a4Base", quietly = TRUE)) {
-					stop("a4Base needed for this function to work. Please install it.",
+					stop("a4Base is a Bioconductor package required here; install it with BiocManager::install(\"a4Base\").",
 							call. = FALSE)
 				}
 
@@ -949,17 +949,17 @@ Geneset.intersectSelection<-function(list.output,sign=0.05,names=NULL,seperateta
 #' }
 PathwayAnalysis<-function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,method=c("limma", "MLP"),geneInfo=NULL,geneSetSource = "GOBP",topP=NULL,topG=NULL,GENESET=NULL,sign=0.05,niter=10,fusionsLog=TRUE,weightclust=TRUE,names=NULL,seperatetables=FALSE,separatepvals=FALSE){
 	if (!requireNamespace("MLP", quietly = TRUE)) {
-		stop("MLP needed for this function to work. Please install it.",
+		stop("MLP is a Bioconductor package required here; install it with BiocManager::install(\"MLP\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("biomaRt", quietly = TRUE)) {
-		stop("biomaRt needed for this function to work. Please install it.",
+		stop("biomaRt is a Bioconductor package required here; install it with BiocManager::install(\"biomaRt\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("org.Hs.eg.db", quietly = TRUE)) {
-		stop("org.Hs.eg.db needed for this function to work. Please install it.",
+		stop("org.Hs.eg.db is a Bioconductor package required here; install it with BiocManager::install(\"org.Hs.eg.db\").",
 				call. = FALSE)
 	}
 
@@ -1061,17 +1061,17 @@ PathwayAnalysis<-function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,meth
 Pathways<-function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,method=c("limma", "MLP"),geneInfo=NULL,geneSetSource = "GOBP",topP=NULL,topG=NULL,GENESET=NULL,sign=0.05,fusionsLog=TRUE,weightclust=TRUE,names=NULL){
 
 	if (!requireNamespace("MLP", quietly = TRUE)) {
-		stop("MLP needed for this function to work. Please install it.",
+		stop("MLP is a Bioconductor package required here; install it with BiocManager::install(\"MLP\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("biomaRt", quietly = TRUE)) {
-		stop("biomaRt needed for this function to work. Please install it.",
+		stop("biomaRt is a Bioconductor package required here; install it with BiocManager::install(\"biomaRt\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("org.Hs.eg.db", quietly = TRUE)) {
-		stop("org.Hs.eg.db needed for this function to work. Please install it.",
+		stop("org.Hs.eg.db is a Bioconductor package required here; install it with BiocManager::install(\"org.Hs.eg.db\").",
 				call. = FALSE)
 	}
 
@@ -1406,17 +1406,17 @@ Pathways<-function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,method=c("l
 #' }
 PathwaysIter<-function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,method=c("limma", "MLP"),geneInfo=NULL,geneSetSource = "GOBP",topP=NULL,topG=NULL,GENESET=NULL,sign=0.05,niter=10,fusionsLog=TRUE,weightclust=TRUE,names=NULL){
 	if (!requireNamespace("MLP", quietly = TRUE)) {
-		stop("MLP needed for this function to work. Please install it.",
+		stop("MLP is a Bioconductor package required here; install it with BiocManager::install(\"MLP\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("biomaRt", quietly = TRUE)) {
-		stop("biomaRt needed for this function to work. Please install it.",
+		stop("biomaRt is a Bioconductor package required here; install it with BiocManager::install(\"biomaRt\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("org.Hs.eg.db", quietly = TRUE)) {
-		stop("org.Hs.eg.db needed for this function to work. Please install it.",
+		stop("org.Hs.eg.db is a Bioconductor package required here; install it with BiocManager::install(\"org.Hs.eg.db\").",
 				call. = FALSE)
 	}
 
@@ -1475,17 +1475,17 @@ PathwaysIter<-function(List,Selection=NULL,geneExpr=NULL,nrclusters=NULL,method=
 #' }
 PathwaysSelection<-function(List=NULL,Selection,geneExpr=NULL,nrclusters=NULL,method=c("limma", "MLP"),geneInfo=NULL,geneSetSource = "GOBP",topP=NULL,topG=NULL,GENESET=NULL,sign=0.05,fusionsLog=TRUE,weightclust=TRUE,names=NULL){
 	if (!requireNamespace("MLP", quietly = TRUE)) {
-		stop("MLP needed for this function to work. Please install it.",
+		stop("MLP is a Bioconductor package required here; install it with BiocManager::install(\"MLP\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("biomaRt", quietly = TRUE)) {
-		stop("biomaRt needed for this function to work. Please install it.",
+		stop("biomaRt is a Bioconductor package required here; install it with BiocManager::install(\"biomaRt\").",
 				call. = FALSE)
 	}
 
 	if (!requireNamespace("org.Hs.eg.db", quietly = TRUE)) {
-		stop("org.Hs.eg.db needed for this function to work. Please install it.",
+		stop("org.Hs.eg.db is a Bioconductor package required here; install it with BiocManager::install(\"org.Hs.eg.db\").",
 				call. = FALSE)
 	}
 
@@ -1831,7 +1831,7 @@ PreparePathway<-function(Object,geneExpr,topG,sign){
 			if(class(geneExpr)[1]=="ExpressionSet"){
 				geneExpr$LeadCmpds<-group
 				if (!requireNamespace("a4Base", quietly = TRUE)) {
-					stop("a4Base needed for this function to work. Please install it.",
+					stop("a4Base is a Bioconductor package required here; install it with BiocManager::install(\"a4Base\").",
 							call. = FALSE)
 				}
 
