@@ -78,21 +78,13 @@
   margin: 1.2rem 0 2rem;
 }
 .mc-card {
-  border: 1px solid #e7e1d2;
-  border-top: 4px solid var(--mc-teal);
-  border-radius: 14px;
+  border: 1px solid #e3ddce;
+  border-radius: 12px;
   padding: 1.15rem 1.2rem;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(21,41,61,0.05);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
 }
-.mc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(21,41,61,0.12); }
-.mc-card:nth-child(1) { border-top-color: var(--mc-blue); }
-.mc-card:nth-child(2) { border-top-color: var(--mc-teal); }
-.mc-card:nth-child(3) { border-top-color: var(--mc-amber); }
-.mc-card:nth-child(4) { border-top-color: var(--mc-green-mid); }
-.mc-card:nth-child(5) { border-top-color: var(--mc-blue); }
-.mc-card:nth-child(6) { border-top-color: var(--mc-amber); }
+.mc-card:hover { border-color: var(--mc-green); }
 .mc-card h3 { color: var(--mc-green); font-size: 1.08rem; font-weight: 700; margin: 0 0 0.4rem; }
 .mc-card p { color: #4a4a46; font-size: 0.93rem; margin: 0; }
 .mc-card code { background: #f2efe6; color: var(--mc-green); padding: 0.05rem 0.3rem; border-radius: 4px; }
